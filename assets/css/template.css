@@ -1,0 +1,18 @@
+header {
+  background-image: url("../img/banner-1200.png");
+  padding: .5rem 1rem;
+  height: 218px;
+  display: flex;
+  align-items: center;
+}
+header h1 {
+  margin-bottom: 0;
+  color: white;
+  font-size: 1.3rem;
+}
+main {
+  padding: .5rem 1rem;
+}
+footer {
+  padding: .5rem 1rem;
+}
