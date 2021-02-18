@@ -1,16 +1,4 @@
 <?php require_once '../../config.php'; ?>
-<?php
-
-use BookWorms\Model\User;
-
-if (!$request->is_logged_in()) {
-  $request->redirect("/views/auth/login-form.php");
-}
-$role = $request->session()->get("role");
-if ($role !== "admin") {
-  $request->redirect("/actions/logout.php");
-}
-?>
 <!doctype html>
 <html lang="en">
 
@@ -43,7 +31,7 @@ if ($role !== "admin") {
 
         <div class="row justify-content-center pt-4">
           <div class="col-lg-10">
-            <form method="post" action="<?= APP_URL ?>/timber-store.php" enctype="multipart/form-data">
+            <form name='timber-create' action="<?= APP_URL . '/actions/timber-store.php' ?>" method="post" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="ticketPrice">Title</label>
                 <input placeholder="Title" name="title" type="text" id="title" class="form-control" value="<?= old("title") ?>" />
@@ -60,8 +48,8 @@ if ($role !== "admin") {
                 <label for="location">Category</label>
                 <select class="form-control" name="category" id="category">
                   <!--Check to see if the data in our form value was this location.-->
-                  <option value="Hardwood" <?= chosen("category", "hardwood") ? "selected" : "" ?>>Hardwood</option>
-                  <option value="Softwood" <?= chosen("category", "softwood") ? "selected" : "" ?>>Softwood</option>
+                  <option value="Hardwood" <?= chosen("category", "Hardwood") ? "selected" : "" ?>>Hardwood</option>
+                  <option value="Softwood" <?= chosen("category", "Softwood") ? "selected" : "" ?>>Softwood</option>
                 </select>
                 <span class="error"><?= error("category") ?></span>
               </div>
