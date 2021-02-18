@@ -5,6 +5,7 @@ require_once '../../config.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use BookWorms\Model\FileUpload;
 
 // Load Composer's autoloader
 require 'vendor/autoload.php';
@@ -56,7 +57,7 @@ try {
     require "include/flash.php";
 
     if ($mail->send()) {
-        try{
+        try {
             $request->session()->set("flash_message", "Your message has been sent!");
             $request->session()->set("flash_message_class", "alert-info");
             $request->session()->forget("flash_data");
@@ -70,8 +71,7 @@ try {
                 in F:\XAMPP\htdocs\awdd\login-start\classes\BookWorms\Http\HttpRequest.php on line 117'
             */
             $request->redirect("/views/contact.php");
-        }
-        catch(Exception $ex){
+        } catch (Exception $ex) {
             $request->session()->set("flash_message", "Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
             $request->session()->set("flash_message_class", "alert-warning");
             $request->session()->set("flash_data", $request->all());

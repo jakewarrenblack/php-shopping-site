@@ -73,7 +73,7 @@
               </div>
 
               <div class="form-group">
-                <a class="btn btn-default" href="<?= APP_URL ?>/home.php">Cancel</a>
+                <a class="btn btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
                 <button type="submit" class="btn btn-primary">Store</button>
               </div>
             </form>
@@ -85,7 +85,6 @@
   </div>
   <script src="<?= APP_URL ?>/assets/js/jquery-3.5.1.min.js"></script>
   <script src="<?= APP_URL ?>/assets/js/bootstrap.bundle.min.js"></script>
-  <script src="<?= APP_URL ?>/assets/js/festival.js"></script>
 
   <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 

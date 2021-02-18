@@ -59,7 +59,7 @@ $timbers = Timber::findAll();
                 $timber_image = Image::findById($timber->image_id);
                 if ($timber_image !== null) {
                 ?>
-                  <img src="<?= APP_URL . "/actions/" . $timber_image->filename ?>" class="card-img-top" alt="...">
+                  <img src="<?= APP_URL . "/actions/" . $timber_image->filename ?>" class="card-img-top" alt="Timber image">
                 <?php
                 }
                 ?>
@@ -67,7 +67,8 @@ $timbers = Timber::findAll();
                   <h5 class="card-title t-deca myTitle"><?= $timber->title ?></h5>
                   <p class="card-text"><?= $timber->description ?></p>
                   <div>
-                    <a href="#" target="_new" class="findTickets">More Info</a>
+                    <!-- Pass timber ID in here for viewing -->
+                    <a href="views/timber-view.php?id=<?php echo $timber->id; ?>" target="_new" class="findTickets">More Info</a>
                   </div>
                 </div>
               </div>
