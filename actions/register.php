@@ -1,8 +1,11 @@
-<?php require_once '../config.php'; ?>
 <?php
+require_once '../config.php';
 
 use BookWorms\Model\User;
 use BookWorms\Model\Role;
+use BookWorms\Model\Customer;
+use BookWorms\Model\Image;
+use BookWorms\Model\FileUpload;
 
 try {
   $role = [
@@ -18,6 +21,13 @@ try {
   $request->validate($rules);
 
   if ($request->is_valid()) {
+    if (FileUpload::exists('profile')) {
+      $file = new FileUpload("profile");
+    }
+    $filename = $file->get();
+    $image = new Image();
+    $image->filename = $filename;
+    $image->save();
     $email = $request->input("email");
     $password = $request->input("password");
     $name = $request->input("name");
@@ -33,13 +43,32 @@ try {
       $user->role_id = $role_id;
       $user->save();
     }
+    // if the user has selected 'customer' as their role, we'll create a new customer object
+    if ($role_id == 4) {
+      $address = $request->input("address");
+      $phone = $request->input("phone");
+      // user_id will be id of the user we just created 
+      $user_id = $user::findByEmail($email)->id;
+      // retrieve the id of the image we just stored
+      $image_id = Image::findById($image->id)->id;
+      $customer = Customer::findByPhone($phone);
+      if ($customer !== null) {
+        $request->set_error("phone", "Phone number is already registered.");
+      } else {
+        $customer = new Customer();
+        $customer->address = $address;
+        $customer->phone = $phone;
+        $customer->user_id = $user_id;
+        $customer->image_id = $image->id;
+        $customer->save();
+      }
+    }
   }
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
   $request->session()->set("flash_data", $request->all());
   $request->session()->set("flash_errors", $request->errors());
-
   $request->redirect("/views/auth/register-form.php");
 }
 
@@ -61,4 +90,3 @@ if ($request->is_valid()) {
 
   $request->redirect("/views/auth/register-form.php");
 }
-?>

@@ -1,5 +1,5 @@
 <?php
-define('APP_URL', 'http://localhost/awdd/login-start');
+define('APP_URL', 'http://localhost/awdd/SWP-CA2');
 define("UPLOAD_DIR", "uploads");
 
 define('DB_SERVER', 'localhost');

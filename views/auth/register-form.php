@@ -23,7 +23,7 @@
       </div>
       <div class="row d-flex justify-content-center pt-4">
         <div class="col-lg-10">
-          <form name='register' action="<?= APP_URL . '/actions/register.php' ?>" method="post">
+          <form name='register' action="<?= APP_URL . '/actions/register.php' ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label class="labelHidden" for="email">Email:</label>
               <input placeholder="Email" class="form-control" type="text" name="email" id="email" value="<?= old("email") ?>" />
@@ -42,6 +42,16 @@
               <span class="error"><?= error("name") ?></span>
             </div>
             <div class="form-group">
+              <label class="labelHidden" for="address">Address:</label>
+              <textarea placeholder="Address" class="form-control" type="text" name="address" id="address" value=""><?= old("address") ?></textarea>
+              <span class="error"><?= error("address") ?></span>
+            </div>
+            <div class="form-group">
+              <label class="labelHidden" for="phone">Phone:</label>
+              <input placeholder="Phone" class="form-control" type="text" name="phone" id="phone" value="<?= old("phone") ?>" />
+              <span class="error"><?= error("phone") ?></span>
+            </div>
+            <div class="form-group">
               <label for="role">Role:</label>
               <select name="role" id="role">
                 <option value="1">Admin</option>
@@ -49,6 +59,12 @@
                 <option value="3">Employee</option>
                 <option value="2">Manager</option>
               </select>
+            </div>
+            <div class="form-group">
+              <!--An uploaded file is moved into a temporary directory-->
+              <label for="profile">Profile image:</label>
+              <input type="file" name="profile" id="profile">
+              <span class="error"><?= error("profile") ?></span>
             </div>
             <button type="submit" class="btn myBtn btn-primary" name="submit" value="Submit">Submit</button>
           </form>

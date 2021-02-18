@@ -1,5 +1,11 @@
 <?php
 
+namespace BookWorms\Model;
+
+use Exception;
+use PDO;
+
+
 class FileUpload
 {
 

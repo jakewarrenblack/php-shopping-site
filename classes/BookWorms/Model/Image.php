@@ -1,4 +1,10 @@
 <?php
+
+namespace BookWorms\Model;
+
+use Exception;
+use PDO;
+
 class Image
 {
   public $id;
