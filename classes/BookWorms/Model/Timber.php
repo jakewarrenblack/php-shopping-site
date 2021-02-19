@@ -11,7 +11,7 @@ class Timber
     public $title;
     public $description;
     public $price;
-    public $category;
+    public $category_id;
     public $minimum_order;
     public $image_id;
 
@@ -31,14 +31,14 @@ class Timber
                 ":title" => $this->title,
                 ":description" => $this->description,
                 ":price" => $this->price,
-                ":category" => $this->category,
+                ":category_id" => $this->category_id,
                 ":minimum_order" => $this->minimum_order,
                 ":image_id" => $this->image_id
             ];
             if ($this->id === null) {
-                $sql = "INSERT INTO timbers (title, description, price, category, minimum_order, image_id) VALUES (:title, :description, :price, :category, :minimum_order, :image_id)";
+                $sql = "INSERT INTO timbers (title, description, price, category_id, minimum_order, image_id) VALUES (:title, :description, :price, :category_id, :minimum_order, :image_id)";
             } else {
-                $sql = "UPDATE timbers SET title = :title, description = :description, price = :price, category = :category, minimum_order = :minimum_order, image_id = :image_id WHERE id = :id";
+                $sql = "UPDATE timbers SET title = :title, description = :description, price = :price, category_id = :category_id, minimum_order = :minimum_order, image_id = :image_id WHERE id = :id";
                 $params[":id"] = $this->id;
             }
             $stmt = $conn->prepare($sql);
@@ -124,7 +124,7 @@ class Timber
                     $timber->title = $row['title'];
                     $timber->description = $row['description'];
                     $timber->price = $row['price'];
-                    $timber->category = $row['category'];
+                    $timber->category_id = $row['category_id'];
                     $timber->minimum_order = $row['minimum_order'];
                     $timber->image_id = $row['image_id'];
                     $timbers[] = $timber;
@@ -170,7 +170,7 @@ class Timber
                 $timber->title = $row['title'];
                 $timber->description = $row['description'];
                 $timber->price = $row['price'];
-                $timber->category = $row['category'];
+                $timber->category_id = $row['category_id'];
                 $timber->minimum_order = $row['minimum_order'];
                 $timber->image_id = $row['image_id'];
             }

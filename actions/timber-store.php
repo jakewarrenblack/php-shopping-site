@@ -13,16 +13,12 @@ if ($request->is_logged_in()) {
 
 
 try {
-  $category = [
-    "Hardwood", "Softwood"
-  ];
-
   $rules = [
     "title" => "present|minlength:2|maxlength:64",
-    "description" => "present|minlength:20|maxlength:2000",
-    "category" => "present|in:" . implode(',', $category),
-    "price" => "present",
-    "minimum_order" => "present"
+    "description" => "present|minlength:10|maxlength:2000",
+    "price" => "present|minlength:1|maxlength:2000",
+    "category_id" => "present|minlength:1|maxlength:1000",
+    "minimum_order" => "present|minlength:1|maxlength:2000"
   ];
 
   $request->validate($rules);
@@ -36,7 +32,7 @@ try {
     $timber = new Timber();
     $timber->title = $request->input("title");
     $timber->description = $request->input("description");
-    $timber->category = $request->input("category");
+    $timber->category_id = $request->input("category_id");
     $timber->price = $request->input("price");
     $timber->minimum_order = $request->input("minimum_order");
     $timber->image_id = $request->input("image_id");

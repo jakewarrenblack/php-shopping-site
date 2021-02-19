@@ -19,9 +19,9 @@
     <?php require 'include/flash.php'; ?>
     <main role="main">
       <div class="row d-flex justify-content-center">
-        <h1 class="t-peta engie-head mt-5 pt-5 pb-5">Register</h1>
+        <h1 class="t-peta engie-head pb-5">Register</h1>
       </div>
-      <div class="row d-flex justify-content-center pt-4">
+      <div class="row d-flex justify-content-center">
         <div class="col-lg-10">
           <form name='register' action="<?= APP_URL . '/actions/register.php' ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -52,21 +52,13 @@
               <span class="error"><?= error("phone") ?></span>
             </div>
             <div class="form-group">
-              <label for="role">Role:</label>
-              <select name="role" id="role">
-                <option value="1">Admin</option>
-                <option value="4" selected>Customer</option>
-                <option value="3">Employee</option>
-                <option value="2">Manager</option>
-              </select>
-            </div>
-            <div class="form-group">
               <!--An uploaded file is moved into a temporary directory-->
               <label for="profile">Profile image:</label>
               <input type="file" name="profile" id="profile">
               <span class="error"><?= error("profile") ?></span>
             </div>
             <button type="submit" class="btn myBtn btn-primary" name="submit" value="Submit">Submit</button>
+            <a class="btn btn-light" href="<?= APP_URL . "/" ?>">Cancel</a>
           </form>
         </div>
       </div>

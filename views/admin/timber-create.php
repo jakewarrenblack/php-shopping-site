@@ -46,23 +46,22 @@
 
               <div class="form-group">
                 <label for="location">Category</label>
-                <select class="form-control" name="category" id="category">
-                  <!--Check to see if the data in our form value was this location.-->
-                  <option value="Hardwood" <?= chosen("category", "Hardwood") ? "selected" : "" ?>>Hardwood</option>
-                  <option value="Softwood" <?= chosen("category", "Softwood") ? "selected" : "" ?>>Softwood</option>
+                <select class="form-control" name="category_id" id="category_id">
+                  <option value="1" <?= chosen("category", "1") ? "selected" : "" ?>>Hardwood</option>
+                  <option value="2" <?= chosen("category", "2") ? "selected" : "" ?>>Softwood</option>
                 </select>
                 <span class="error"><?= error("category") ?></span>
               </div>
 
               <div class="form-group">
                 <label class="labelHidden" for="price">Price</label>
-                <input placeholder="Price" type="number" name="price" class="form-control" id="price" value="<?= old("price") ?>" />
+                <input placeholder="Price" type="number" step="0.01" name="price" class="form-control" id="price" value="<?= old("price") ?>" />
                 <span class="error"><?= error("price") ?></span>
               </div>
 
               <div class="form-group">
                 <label class="labelHidden" for="minimum_order">Minimum Order</label>
-                <input placeholder="Minimum Order" type="number" name="minimum_order" class="form-control" id="minimum_order" value="<?= old("minimum_order") ?>" />
+                <input placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form-control" id="minimum_order" value="<?= old("minimum_order") ?>" />
                 <span class="error"><?= error("minimum_order") ?></span>
               </div>
 

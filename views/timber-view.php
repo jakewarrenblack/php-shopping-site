@@ -3,9 +3,9 @@
 
 use BookWorms\Model\Timber;
 use BookWorms\Model\Image;
+use BookWorms\Model\Category;
 
 try {
-  $festival_id = $request->input('festival_id');
   $timber_id = $_GET['id'];
 
   $timber = Timber::findById($timber_id);
@@ -18,13 +18,6 @@ try {
 
   $request->redirect("/index.php");
 }
-
-
-
-
-
-
-
 ?>
 
 <!doctype html>
@@ -74,18 +67,32 @@ try {
               </div>
 
               <div class="form-group">
+                <label class="labelHidden" for="ticketPrice">Category</label>
+                <input placeholder="category" type="text" id="category" class="form-control" value="<?php
+                                                                                                    try {
+                                                                                                      $category = Category::findById($timber->category_id);
+                                                                                                    } catch (Exception $e) {
+                                                                                                    }
+                                                                                                    if ($category !== null) {
+                                                                                                      $title = $category->title;
+                                                                                                      echo trim($category->title);
+                                                                                                    }
+                                                                                                    ?>" disabled />
+              </div>
+
+              <div class="form-group">
                 <label class="labelHidden" for="date">Description</label>
                 <textarea name="description" rows="3" id="description" class="form-control" disabled><?= $timber->description ?></textarea>
               </div>
 
               <div class="form-group">
                 <label class="labelHidden" for="venueCapacity">Price</label>
-                <input placeholder="Start Date" type="number" class="form-control" id="startDate" value="<?= $timber->price ?>" disabled />
+                <input placeholder="Start Date" type="number" step="0.01" class="form-control" id="startDate" value="<?= $timber->price ?>" disabled />
               </div>
 
               <div class="form-group">
                 <label class="labelHidden" for="venueCapacity">Minimum Order</label>
-                <input placeholder="End Date" type="number" class="form-control" id="endDate" value="<?= $timber->minimum_order ?>" disabled />
+                <input placeholder="End Date" type="number" step="0.01" class="form-control" id="endDate" value="<?= $timber->minimum_order ?>" disabled />
               </div>
               <div class="form-group">
                 <a class="btn btn-primary" href="<?= APP_URL ?>/home.php">Add to Cart</a>
