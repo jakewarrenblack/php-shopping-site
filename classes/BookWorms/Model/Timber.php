@@ -99,7 +99,7 @@ class Timber
 
     public static function findAll()
     {
-        $users = array();
+        $timbers = array();
 
         try {
             $db = new DB();
@@ -143,7 +143,7 @@ class Timber
 
     public static function findById($id)
     {
-        $customer = null;
+        $timber = null;
 
         try {
             $db = new DB();
@@ -181,5 +181,51 @@ class Timber
         }
 
         return $timber;
+    }
+
+    public static function findWhereIdIn($ids, $params)
+    {
+        $timbers = array();
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            $select_sql = "SELECT * FROM timbers WHERE id IN ($ids)";
+
+            $select_stmt = $conn->prepare($select_sql);
+            // change our '?'s to the actual id values
+            $select_status = $select_stmt->execute(array_keys($params));
+
+            if (!$select_status) {
+                $error_info = $select_stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            if ($select_stmt->rowCount() !== 0) {
+                $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                while ($row !== FALSE) {
+                    $timber = new Timber();
+                    $timber->id = $row['id'];
+                    $timber->title = $row['title'];
+                    $timber->description = $row['description'];
+                    $timber->price = $row['price'];
+                    $timber->category_id = $row['category_id'];
+                    $timber->minimum_order = $row['minimum_order'];
+                    $timber->image_id = $row['image_id'];
+                    $timbers[] = $timber;
+
+                    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
+
+        return $timbers;
     }
 }

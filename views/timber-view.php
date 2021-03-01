@@ -87,17 +87,16 @@ try {
 
               <div class="form-group">
                 <label class="labelHidden" for="venueCapacity">Price</label>
-                <input placeholder="Start Date" type="number" step="0.01" class="form-control" id="startDate" value="<?= $timber->price ?>" disabled />
+                <input placeholder="" type="number" step="0.01" class="form-control" id="startDate" value="<?= $request->session()->get("id") ?>" disabled />
               </div>
-
-              <div class="form-group">
-                <label class="labelHidden" for="venueCapacity">Minimum Order</label>
-                <input placeholder="End Date" type="number" step="0.01" class="form-control" id="endDate" value="<?= $timber->minimum_order ?>" disabled />
-              </div>
-              <div class="form-group">
-                <a class="btn btn-primary" href="<?= APP_URL ?>/home.php">Add to Cart</a>
-                <a class="btn btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
-              </div>
+            </form>
+            <form action="basket.php" class="form-group" method="post">
+              <label class="labelHidden" for="venueCapacity">Quantity (Minimum Order <?= $timber->minimum_order ?>)
+              </label>
+              <input placeholder="Quantity" type="number" name="quantity" step="1" class="form-control" id="endDate" value="<?= $timber->minimum_order ?>" />
+              <input type="hidden" name="timber_id" value="<?= $timber_id ?>">
+              <input class="btn btn-primary mt-4" type="submit" value="Add to Basket"></a>
+              <a class="btn btn-default mt-4" href="<?= APP_URL ?>/index.php">Cancel</a>
             </form>
           </div>
         </div>

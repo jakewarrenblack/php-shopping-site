@@ -1,3 +1,13 @@
+<?php
+
+// if session variable exists for 'cart'
+if (isset($_SESSION['cart'])) {
+  $num_items_in_cart = (count($_SESSION['cart']) - 1);
+} else {
+  $num_items_in_cart = 0;
+}
+?>
+
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#div-navbar-items" aria-controls="div-navbar-items" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -23,7 +33,9 @@
         <li class="nav-item">
           <a class="nav-link" href="<?= APP_URL ?>/views/auth/register-form.php">Register</a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link" href="<?= APP_URL ?>/views/basket.php"><i class="fas fa-shopping-cart"></i><span><?= $num_items_in_cart ?></span></a>
+        </li>
       <?php } else { ?>
         <li class="nav-item">
           <a class="nav-link" href="<?= APP_URL ?>/actions/logout.php">Logout</a>

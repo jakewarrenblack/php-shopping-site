@@ -17,6 +17,7 @@ $timbers = Timber::findAll();
 
   <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -66,6 +67,7 @@ $timbers = Timber::findAll();
                 <div class="card-body underline myCardBody">
                   <h5 class="card-title t-deca myTitle"><?= $timber->title ?></h5>
                   <p class="card-text"><?= $timber->description ?></p>
+                  <p class="card-text">From €<?= $timber->price ?></p>
                   <div>
                     <!-- Pass timber ID in here for viewing -->
                     <a href="views/timber-view.php?id=<?php echo $timber->id; ?>" target="_new" class="findTickets">More Info</a>
