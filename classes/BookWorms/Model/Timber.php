@@ -97,7 +97,7 @@ class Timber
         }
     }
 
-    public static function findAll()
+    public static function findAll($start = null, $limit = null)
     {
         $timbers = array();
 
@@ -106,9 +106,19 @@ class Timber
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM timbers";
+            $select_sql = null;
+            $params = null;
+
+            if ($start === null || $limit === null) {
+                $select_sql = "SELECT * FROM timbers";
+            } else {
+                $select_sql = "SELECT * FROM timbers limit $start, $limit";
+            }
+
             $select_stmt = $conn->prepare($select_sql);
             $select_status = $select_stmt->execute();
+
+
 
             if (!$select_status) {
                 $error_info = $select_stmt->errorInfo();

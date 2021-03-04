@@ -1,56 +1,47 @@
 <?php
 
-// if session variable exists for 'cart'
-if (isset($_SESSION['cart'])) {
-  $num_items_in_cart = (count($_SESSION['cart']) - 1);
+// if session variable exists for 'basket'
+if (isset($_SESSION['basket'])) {
+  $num_items_in_basket = (count($_SESSION['basket']) - 1);
 } else {
-  $num_items_in_cart = 0;
+  $num_items_in_basket = 0;
 }
 ?>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#div-navbar-items" aria-controls="div-navbar-items" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="div-navbar-items">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="<?= APP_URL ?>/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?= APP_URL ?>/views/about.php">About us</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?= APP_URL ?>/views/contact.php">Contact us</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <?php if (!$request->session()->has("email")) {
-      ?>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= APP_URL ?>/views/auth/login-form.php">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= APP_URL ?>/views/auth/register-form.php">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= APP_URL ?>/views/basket.php"><i class="fas fa-shopping-cart"></i><span><?= $num_items_in_cart ?></span></a>
-        </li>
-      <?php } else { ?>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= APP_URL ?>/actions/logout.php">Logout</a>
-        </li>
 
-        <?php
-
-        // If the logged in user is an admin, show the button to add a new product
-        $role = $request->session()->get("role");
-        if ($role == "admin") { ?>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= APP_URL ?>/views/admin/timber-create.php">Add Product</a>
-          </li>
-        <?php } ?>
-      <?php } ?>
-    </ul>
+<nav class="nav" id="nav">
+  <div class="logo__burger__contain">
+    <i class="logo"><img src="<?= APP_URL ?>../assets/img/itc-logo-01.png"></i>
+    <span class="navbar-toggle" id="js-navbar-toggle">
+      <i class="fas fa-bars"></i>
+    </span>
   </div>
+  <ul class="nav__links" id="js-menu">
+    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/">Home<span class="sr-only">(current)</span></a>
+    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/about.php">About</a>
+    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/contact.php">Contact</a>
+    <a id="nav__link" class="nav__link">Shop</a>
+    <a id="nav__link" class="nav__link">Sustainability</a>
+    <?php if (!$request->session()->has("email")) {
+    ?>
+      <a class="register" href="<?= APP_URL ?>/views/auth/register-login-form.php">Login/Register</a>
+    <?php } else { ?>
+      <li class="nav-item">
+        <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/actions/logout.php">Logout</a>
+      </li>
+
+      <?php
+
+      // If the logged in user is an admin, show the button to add a new product
+      $role = $request->session()->get("role");
+      if ($role == "admin") { ?>
+        <a class="nav-item">
+          <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/admin/timber-create.php">Add Product</a>
+        </a>
+      <?php } ?>
+    <?php } ?>
+    <li class="nav-item">
+      <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/basket.php"><i class="fas fa-shopping-basket"></i><span><?= $num_items_in_basket ?></span></a>
+    </li>
+  </ul>
 </nav>

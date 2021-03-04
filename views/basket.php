@@ -8,66 +8,58 @@ require_once '../config.php'; ?>
 use Exception;
 use BookWorms\Model\Image;
 use BookWorms\Model\Timber;
-use Bookworms\Model\DB;
 
 try {
-    $db = new DB();
-    $db->open();
-    $conn = $db->get_connection();
-
+    //We've passed these from the timber view page
     $timber_id = $request->input("timber_id");
     $quantity = $request->input("quantity");
 
-
-    if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+    if (isset($_SESSION['basket']) && is_array($_SESSION['basket'])) {
         //if key for timber_id already exists, just increase quantity
-        if (array_key_exists($timber_id, $_SESSION['cart'])) {
-            $_SESSION['cart'][$timber_id] += $quantity;
+        if (array_key_exists($timber_id, $_SESSION['basket'])) {
+            $_SESSION['basket'][$timber_id] += $quantity;
             //if not exists, set quantity
         } else {
             //value for index 'timber_id' is quantity
-            $_SESSION['cart'][$timber_id] = $quantity;
+            $_SESSION['basket'][$timber_id] = $quantity;
         }
-        //if cart session variable not set, set it
+        //else if basket session variable not set, set it to quantity when quantity > 0
     } else {
         if ($quantity > 0) {
-            $_SESSION['cart'] = array($timber_id => $quantity);
+            $_SESSION['basket'] = array($timber_id => $quantity);
         }
     }
 
-
-
-    if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['cart']) && isset($_SESSION['cart'][$_GET['remove']])) {
-        // Remove the product from the shopping cart
-        unset($_SESSION['cart'][$_GET['remove']]);
+    if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['basket']) && isset($_SESSION['basket'][$_GET['remove']])) {
+        // Remove the product from the shopping basket
+        unset($_SESSION['basket'][$_GET['remove']]);
     }
-
 
     //ternary operator ? to shorten if/else statement
     //this is the same as saying:
 
     /*
-    if(isset($_SESSION['cart])){
-        $products_in_cart = $_SESSION['cart];
+    if(isset($_SESSION['basket])){
+        $products_in_basket = $_SESSION['basket];
     }else{
-        $products_in_cart = array();
+        $products_in_basket = array();
     }
     */
 
-    $products_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
+    $products_in_basket = isset($_SESSION['basket']) ? $_SESSION['basket'] : array();
     // initialise $products to empty array, it will then be populated by our foreach
     $products = array();
     $subtotal = 0.00;
 
-    if ($products_in_cart) {
-        // repeat the given string '?,' up to the length of the count of the array keys in $products_in_cart - 1
+    if ($products_in_basket) {
+        // repeat the given string '?,' up to the length of the count of the array keys in $products_in_basket - 1
         //if we didn't use -1 at the end and append a final '?', we'd end up with '?, ' at the end, which would break our sql statement
-        $question_marks = str_repeat("?, ", count(array_keys($products_in_cart)) - 1) . "?";
+        $question_marks = str_repeat("?, ", count(array_keys($products_in_basket)) - 1) . "?";
         // question marks will be passed to be used in prepared statement, we'll also pass IDs to replace them with
-        $products = Timber::findWhereIdIn($question_marks, $products_in_cart);
+        $products = Timber::findWhereIdIn($question_marks, $products_in_basket);
         //loop through the results of our findWhereIdIn function
         foreach ($products as $product) {
-            $subtotal += (float)$product->price * (int)$products_in_cart[$product->id];
+            $subtotal += (float)$product->price * (int)$products_in_basket[$product->id];
         }
     }
 } catch (exception $ex) {
@@ -86,7 +78,7 @@ try {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Your Basket</title>
-
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
     <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
@@ -114,10 +106,12 @@ try {
                         </tr>
                     </thead>
                     <tbody>
+                        <!--if there are no products, just display this message-->
                         <?php if (empty($products)) { ?>
                             <tr>
                                 <td colspan="5" style="text-align:center;">Your basket is empty.</td>
                             </tr>
+                            <!--if there are products, loop through and display them-->
                         <?php } else { ?>
                             <?php foreach ($products as $product) { ?>
                                 <tr>
@@ -139,9 +133,9 @@ try {
                                     </td>
                                     <td class="price">&euro;<?= $product->price ?></td>
                                     <td class="quantity">
-                                        <input type="number" value="<?= $products_in_cart[$product->id] ?>" min="1" placeholder="Quantity" required>
+                                        <input type="number" value="<?= $products_in_basket[$product->id] ?>" min="1" placeholder="Quantity" required>
                                     </td>
-                                    <td class="price">&euro;<?= $product->price * $products_in_cart[$product->id] ?></td>
+                                    <td class="price">&euro;<?= $product->price * $products_in_basket[$product->id] ?></td>
                                     <td>
                                         <a href="basket.php?remove=<?= $product->id ?>" class="remove"><i class="fas fa-trash"></i></a>
                                     </td>

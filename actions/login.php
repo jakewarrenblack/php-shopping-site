@@ -6,7 +6,7 @@ use BookWorms\Model\Role;
 
 if ($request->is_logged_in()) {
   $role = $request->session()->get("role");
-  $request->redirect("/views"."/".$role."/home.php");
+  $request->redirect("/views" . "/" . $role . "/home.php");
 }
 try {
   $rules = [
@@ -22,8 +22,7 @@ try {
   $user = User::findByEmail($email);
   if ($user === null) {
     throw new Exception("Email/password invalid");
-  }
-  else if ($user !== null) {
+  } else if ($user !== null) {
     if (!password_verify($password, $user->password)) {
       throw new Exception("Email/password invalid");
     }
@@ -37,14 +36,13 @@ try {
   $request->session()->forget("flash_errors");
 
 
-  $request->redirect("/views"."/".$role->title."/home.php");  
-}
-catch (Exception $ex) {
+  $request->redirect("/views" . "/" . $role->title . "/home.php");
+} catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
   $request->session()->set("flash_data", $request->all());
   $request->session()->set("flash_errors", $request->errors());
 
-  $request->redirect("/views/auth/login-form.php");  
+  $request->redirect("/views/auth/register-login-form.php");
 }
 ?>

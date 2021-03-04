@@ -23,6 +23,7 @@ if ($role !== "customer") {
 
   <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
 </head>
 
 <body>

@@ -26,88 +26,112 @@ try {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>View Customer</title>
+  <title>Welcome to Book Worms</title>
 
-  <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
-  <link href="<?= APP_URL ?>/assets/css/style.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/flickity.css" media="screen">
+  <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 
 </head>
 
-<body>
-  <div class="container-fluid p-0">
-    <?php require 'include/navbar.php'; ?>
-    <main role="main">
-      <div>
-        <div class="row d-flex justify-content-center">
-          <h1 class="t-peta engie-head pt-5 pb-5">View Timber</h1>
+<body class="body">
+  <?php require 'include/navbar.php'; ?>
+  <?php require 'include/flash.php'; ?>
+  <div class="container">
+    <div class="container__inner">
+      <aside class="img__left">
+        <?php
+        try {
+          $image = Image::findById($timber->image_id);
+        } catch (Exception $e) {
+        }
+        if ($image !== null) {
+        ?>
+          <img src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" alt="Timber image">
+        <?php
+        }
+        ?>
+      </aside>
+      <article class="main__body">
+        <div class="main__header">
+          <h1 class="main__title"><?= $timber->title ?></h1>
+          <h2 class="main__subtitle">Minimum Order: <?= $timber->minimum_order ?></h2>
+          <br>
         </div>
-
-        <div class="row pt-2">
-          <div class="col-lg-6">
-            <?php
-            try {
-              $image = Image::findById($timber->image_id);
-            } catch (Exception $e) {
-            }
-            if ($image !== null) {
-            ?>
-              <img class="w-100" src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" alt="Timber image">
-            <?php
-            }
-            ?>
-          </div>
-          <div class="col-lg-6">
-            <form method="get">
-              <div class="form-group">
-                <label class="labelHidden" for="ticketPrice">Title</label>
-                <input placeholder="Title" type="text" id="title" class="form-control" value="<?= $timber->title ?>" disabled />
-              </div>
-
-              <div class="form-group">
-                <label class="labelHidden" for="ticketPrice">Category</label>
-                <input placeholder="category" type="text" id="category" class="form-control" value="<?php
-                                                                                                    try {
-                                                                                                      $category = Category::findById($timber->category_id);
-                                                                                                    } catch (Exception $e) {
-                                                                                                    }
-                                                                                                    if ($category !== null) {
-                                                                                                      $title = $category->title;
-                                                                                                      echo trim($category->title);
-                                                                                                    }
-                                                                                                    ?>" disabled />
-              </div>
-
-              <div class="form-group">
-                <label class="labelHidden" for="date">Description</label>
-                <textarea name="description" rows="3" id="description" class="form-control" disabled><?= $timber->description ?></textarea>
-              </div>
-
-              <div class="form-group">
-                <label class="labelHidden" for="venueCapacity">Price</label>
-                <input placeholder="" type="number" step="0.01" class="form-control" id="startDate" value="<?= $request->session()->get("id") ?>" disabled />
-              </div>
-            </form>
-            <form action="basket.php" class="form-group" method="post">
-              <label class="labelHidden" for="venueCapacity">Quantity (Minimum Order <?= $timber->minimum_order ?>)
-              </label>
-              <input placeholder="Quantity" type="number" name="quantity" step="1" class="form-control" id="endDate" value="<?= $timber->minimum_order ?>" />
-              <input type="hidden" name="timber_id" value="<?= $timber_id ?>">
-              <input class="btn btn-primary mt-4" type="submit" value="Add to Basket"></a>
-              <a class="btn btn-default mt-4" href="<?= APP_URL ?>/index.php">Cancel</a>
-            </form>
-          </div>
+        <div class="main__copy">
+          <p>
+            <?= $timber->description ?>
+          </p>
         </div>
+        <form action="basket.php" class="product__view__form" method="post">
+          <div class="main__profiling">
+            <label class="main__label">Profiling</label>
+            <select select class="main__input" name="Profiling">
+              <option default value="Straight cut">Straight cut</option>
+            </select>
+          </div>
+          <div class="main__footage">
+            <label class="main__label">Square Footage</label>
+            <input class="main__input" type="number" placeholder="Dimensions"></input>
+          </div>
+          <div class="main__footage">
+            <label class="main__label" for="">Quantity (Minimum Order <?= $timber->minimum_order ?>)
+            </label>
+            <input placeholder="Quantity" type="number" name="quantity" step="1" class="main__input" id="endDate" value="<?= $timber->minimum_order ?>" />
+          </div>
+          <div class="main__fireRated">
+            <label class="main__fireRated__label">Fire Rated
+              <input type="checkbox" checked="checked">
+              <span class="main__fireRated__label_span"></span>
+            </label>
+          </div>
+
+          <input type="hidden" name="timber_id" value="<?= $timber_id ?>">
+
+          <div class="buttons__contain">
+            <a class="btn btn-cart" href="<?= APP_URL ?>/index.php">Cancel</a>
+            <input class="btn btn-cart" type="submit" value="Add to Basket"></input>
+
+          </div>
+
+        </form>
+
+      </article>
+      <div class="carousel js-flickity" data-flickity='{ "setGallerySize": false }'>
+        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
+        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+
       </div>
-    </main>
-    <?php require 'include/footer.php'; ?>
-  </div>
-  <script src="<?= APP_URL ?>/assets/js/jquery-3.5.1.min.js"></script>
-  <script src="<?= APP_URL ?>/assets/js/bootstrap.bundle.min.js"></script>
 
-  <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
+      <div class="related__info">
+        <ul>
+          <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta numquam voluptates dolorum enim neque cumque fugit reiciendis maxime pariatur optio aut minima, corrupti deserunt architecto adipisci. Non molestiae laborum qui.</li>
+          <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta numquam voluptates dolorum enim neque cumque fugit reiciendis maxime pariatur optio aut minima, corrupti deserunt architecto adipisci. Non molestiae laborum qui.</li>
+          <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta numquam voluptates dolorum enim neque cumque fugit reiciendis maxime pariatur optio aut minima, corrupti deserunt architecto adipisci. Non molestiae laborum qui.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <?php require 'include/footer.php'; ?>
+  <script src="<?= APP_URL ?>/assets/js/flickity.pkgd.min.js"></script>
+  <script>
+    var flkty = new Flickity('.carousel', {
+      // options
+      cellAlign: 'left',
+      contain: true,
+      cellSelector: '.carousel-cell',
+      wrapAround: true,
+      pageDots: false,
+      groupCells: true
+    });
+  </script>
+  <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 
 </body>
 

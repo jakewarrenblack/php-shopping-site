@@ -71,5 +71,5 @@ try {
   $request->session()->set("flash_message_class", "alert-warning");
   $request->session()->set("flash_data", $request->all());
   $request->session()->set("flash_errors", $request->errors());
-  $request->redirect("/views/auth/register-form.php");
+  $request->redirect("/views/auth/register-login-form.php");
 }
