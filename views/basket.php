@@ -8,67 +8,12 @@ require_once '../config.php'; ?>
 use Exception;
 use BookWorms\Model\Image;
 use BookWorms\Model\Timber;
+use BookWorms\Model\Cart;
 
-try {
-    //We've passed these from the timber view page
-    $timber_id = $request->input("timber_id");
-    $quantity = $request->input("quantity");
+$cart = Cart::get($request);
+$subtotal = 0;
 
-    if (isset($_SESSION['basket']) && is_array($_SESSION['basket'])) {
-        //if key for timber_id already exists, just increase quantity
-        if (array_key_exists($timber_id, $_SESSION['basket'])) {
-            $_SESSION['basket'][$timber_id] += $quantity;
-            //if not exists, set quantity
-        } else {
-            //value for index 'timber_id' is quantity
-            $_SESSION['basket'][$timber_id] = $quantity;
-        }
-        //else if basket session variable not set, set it to quantity when quantity > 0
-    } else {
-        if ($quantity > 0) {
-            $_SESSION['basket'] = array($timber_id => $quantity);
-        }
-    }
 
-    if (isset($_GET['remove']) && is_numeric($_GET['remove']) && isset($_SESSION['basket']) && isset($_SESSION['basket'][$_GET['remove']])) {
-        // Remove the product from the shopping basket
-        unset($_SESSION['basket'][$_GET['remove']]);
-    }
-
-    //ternary operator ? to shorten if/else statement
-    //this is the same as saying:
-
-    /*
-    if(isset($_SESSION['basket])){
-        $products_in_basket = $_SESSION['basket];
-    }else{
-        $products_in_basket = array();
-    }
-    */
-
-    $products_in_basket = isset($_SESSION['basket']) ? $_SESSION['basket'] : array();
-    // initialise $products to empty array, it will then be populated by our foreach
-    $products = array();
-    $subtotal = 0.00;
-
-    if ($products_in_basket) {
-        // repeat the given string '?,' up to the length of the count of the array keys in $products_in_basket - 1
-        //if we didn't use -1 at the end and append a final '?', we'd end up with '?, ' at the end, which would break our sql statement
-        $question_marks = str_repeat("?, ", count(array_keys($products_in_basket)) - 1) . "?";
-        // question marks will be passed to be used in prepared statement, we'll also pass IDs to replace them with
-        $products = Timber::findWhereIdIn($question_marks, $products_in_basket);
-        //loop through the results of our findWhereIdIn function
-        foreach ($products as $product) {
-            $subtotal += (float)$product->price * (int)$products_in_basket[$product->id];
-        }
-    }
-} catch (exception $ex) {
-    $request->session()->set("flash_message", $ex->getMessage());
-    $request->session()->set("flash_message_class", "alert-warning");
-    $request->session()->set("flash_data", $request->all());
-    $request->session()->set("flash_errors", $request->errors());
-    $request->redirect("/index.php");
-}
 ?>
 
 <!doctype html>
@@ -107,18 +52,22 @@ try {
                     </thead>
                     <tbody>
                         <!--if there are no products, just display this message-->
-                        <?php if (empty($products)) { ?>
+                        <?php if ($cart->empty()) { ?>
                             <tr>
                                 <td colspan="5" style="text-align:center;">Your basket is empty.</td>
                             </tr>
                             <!--if there are products, loop through and display them-->
                         <?php } else { ?>
-                            <?php foreach ($products as $product) { ?>
+                            <?php foreach ($cart->items as $item) {
+                                $total = $item->timber->price * $item->quantity;
+                                $subtotal += $total;
+                            ?>
+
                                 <tr>
                                     <td class="img">
                                         <?php
                                         try {
-                                            $image = Image::findById($product->image_id);
+                                            $image = Image::findById($item->timber->image_id);
                                         } catch (Exception $e) {
                                         }
                                         if ($image !== null) {
@@ -129,15 +78,21 @@ try {
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="timber-view.php?id=<?= $product->id ?>"><?= $product->title ?></a>
+                                        <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
                                     </td>
-                                    <td class="price">&euro;<?= $product->price ?></td>
+                                    <td class="price">&euro;<?= $item->timber->price ?></td>
                                     <td class="quantity">
-                                        <input type="number" value="<?= $products_in_basket[$product->id] ?>" min="1" placeholder="Quantity" required>
+                                        <input type="number" value="<?= $item->quantity ?>" min="1" placeholder="Quantity" required>
                                     </td>
-                                    <td class="price">&euro;<?= $product->price * $products_in_basket[$product->id] ?></td>
+                                    <td class="price">&euro;<?= $item->timber->price * $item->quantity ?></td>
+
                                     <td>
-                                        <a href="basket.php?remove=<?= $product->id ?>" class="remove"><i class="fas fa-trash"></i></a>
+                                        <form method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
+                                            <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
+                                            <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
+                                            <button><i class="fas fa-trash"></i></button>
+                                        </form>
+
                                     </td>
                                 </tr>
                             <?php }; ?>

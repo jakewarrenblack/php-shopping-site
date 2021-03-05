@@ -65,7 +65,7 @@ try {
             <?= $timber->description ?>
           </p>
         </div>
-        <form action="basket.php" class="product__view__form" method="post">
+        <form action="<?= APP_URL . '/actions/cart-add.php' ?>" class="product__view__form" method="post">
           <div class="main__profiling">
             <label class="main__label">Profiling</label>
             <select select class="main__input" name="Profiling">
