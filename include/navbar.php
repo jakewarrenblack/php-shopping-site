@@ -1,11 +1,11 @@
 <?php
 
-// if session variable exists for 'basket'
-if (isset($_SESSION['basket'])) {
-  $num_items_in_basket = (count($_SESSION['basket']) - 1);
-} else {
-  $num_items_in_basket = 0;
-}
+use BookWorms\Model\Cart;
+$cart = Cart::get($request);
+
+$num_items_in_basket = count($cart->items);
+
+
 ?>
 
 
