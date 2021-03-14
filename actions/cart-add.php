@@ -21,6 +21,8 @@ try {
     //We've passed these from the timber view page
     $timber_id = $request->input("timber_id");
     $quantity = $request->input("quantity");
+    $profiling = $request->input("profiling");
+    $sqfootage = $request->input("sqfootage");
 
     if ($timber_id === null || $quantity === null) {
         throw new Exception("Invalid argument!");
@@ -29,7 +31,7 @@ try {
     $timber = Timber::findById($timber_id);
 
     $cart = Cart::get($request);
-    $cart->add($timber, $quantity);
+    $cart->add($timber, $quantity, $profiling, $sqfootage);
 
     $request->redirect("/views/basket.php");
 } catch (exception $ex) {

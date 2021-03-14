@@ -28,7 +28,7 @@ class Cart
         $this->items = array();
     }
 
-    public function add($timber, $quantity)
+    public function add($timber, $quantity, $profiling, $sqfootage)
     {
         if (!$timber instanceof Timber || $quantity <= 0) {
             throw new Exception("Illegal argument");
@@ -36,8 +36,10 @@ class Cart
         if (array_key_exists($timber->id, $this->items)) {
             $item = $this->items[$timber->id];
             $item->quantity = ($item->quantity + $quantity);
+            $item->profiling = $profiling;
+            $item->sqfootage = $sqfootage;
         } else {
-            $item = new CartItem($timber, $quantity);
+            $item = new CartItem($timber, $quantity,$profiling,$sqfootage);
             $this->items[$timber->id] = $item;
         }
     }

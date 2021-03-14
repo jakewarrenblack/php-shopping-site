@@ -1,34 +1,4 @@
 <?php require_once 'config.php'; ?>
-<?php
-
-use BookWorms\Model\Image;
-use BookWorms\Model\Timber;
-
-$per_page = 6;
-$page_counter = 0;
-$timber_count = count(Timber::findAll());
-
-if (!isset($_POST['start'])) {
-  $_POST['start'] = 0;
-}
-
-$start = $_POST['start'];
-
-//if previous page not already received from form, set it to page_counter
-$previous = isset($_POST['previous']) ? $_POST['previous'] : $page_counter;
-//if next page not already received from form, set to start + 1
-$next = isset($_POST['next']) ? $_POST['next'] : $start + 1;
-
-$page_counter =  $start;
-$start = $start *  $per_page;
-
-// select timbers, start at $start, limit to $per_page;
-$timbers = Timber::findAll($start, $per_page);
-
-// we calculate our page number by dividing the total number of timbers by the number we want on the page
-// ceil rounds up fractions, we only want whole numbers
-$paginations = ceil($timber_count / $per_page);
-?>
 <!doctype html>
 <html lang="en">
 
@@ -45,93 +15,91 @@ $paginations = ceil($timber_count / $per_page);
 
 </head>
 
-<body class="body shop__body">
+<body class="body">
   <?php require 'include/navbar.php'; ?>
-  <?php require 'include/header.php'; ?>
   <?php require 'include/flash.php'; ?>
+  <div class="hero__contain landing__hero">
+        <div class="hero__img landing__hero__img">
+            <h1 class="hero__img__title">
+                Softwood & Hardwood
+            </h1>
+            <h3 class="hero__img__subtitle">
+                Machined to <span class="underline">your</span> needs
+            </h3>
+            <button class="btn shop__now">Shop Now</button>
+        </div>
+    </div>
+    <div class="container landing__container">
+      <div class="landing__title__contain">
+        <h1>Our partners</h1>
+      </div>
+      <div id="landing__carousel" class="carousel js-flickity landing__carousel" data-flickity='{ "setGallerySize": false }'>
+          <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="<?= APP_URL ?>/assets/img/partners/1x/Asset 1.png"></div>
+          <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="<?= APP_URL ?>/assets/img/partners/1x/Asset 3.png"></div>
+          <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="<?= APP_URL ?>/assets/img/partners/1x/Asset 4.png"></div>
+          <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="<?= APP_URL ?>/assets/img/partners/1x/Asset 5.png"></div>
+          <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="<?= APP_URL ?>/assets/img/partners/1x/Asset 6.png"></div>
+      </div>
 
-  <div class="container">
-    <div class="container__categories">
-      <h2 class="container__categories__title">Our Products</h2>
-      <br>
-      <div class="container__categories__row">
-        <div class="container__categories__row__category">
-          <h3>European</h3>
+
+      <div class="landing__cards">
+        <div class="landing__card">
+          <div class="hero__contain landing__image">
+            <div class="hero__img landing__card__hero__img">
+                <h1 class="landing__img__title">
+                    Wide Range of Softwoods
+                </h1>
+            </div>
+            <div class="hero__img landing__hero__img__top">
+              <h1 class="landing__img__title">
+                  Wide Range of Softwoods
+              </h1>
+          </div>
         </div>
-        <div class="container__categories__row__category">
-          <h3>African</h3>
+        <p class="landing__card__text">We have a substantial stock of
+          American popler, cherry, elm, ash, maple, and walnut.
+          As well as a wide range of African and Caribbean species
+          including sapele, iroko, framier, and utile.</p>
+      </div>
+      <div class="landing__card hardwoods__card">
+        <div class="hero__contain landing__image">
+          <div class="hero__img landing__card__hero__img hardwoods">
+              <h1 class="landing__img__title">
+                  High Quality Hardwoods
+              </h1>
+          </div>
+          <div class="hero__img landing__hero__img__top">
+            <h1 class="landing__img__title">
+                Wide Range of Softwoods
+            </h1>
         </div>
-        <div class="container__categories__row__category">
-          <h3>Carribbean</h3>
+      </div>
+      <p class="landing__card__text">We have a substantial stock of
+        American popler, cherry, elm, ash, maple, and walnut.
+        As well as a wide range of African and Caribbean species
+        including sapele, iroko, framier, and utile.</p>
+      </div>
+
+      <div class="landing__card">
+        <div class="hero__contain landing__image">
+          <div class="hero__img landing__card__hero__img sustainability">
+              <h1 class="landing__img__title">
+                Our sustainability promise
+              </h1>
+          </div>
+          <div class="hero__img landing__hero__img__top">
+            <h1 class="landing__img__title">
+                Wide Range of Softwoods
+            </h1>
         </div>
-        <div class="container__categories__row__category">
-          <h3>American</h3>
-        </div>
+      </div>
+      <p class="landing__card__text">We have a substantial stock of
+        American popler, cherry, elm, ash, maple, and walnut.
+        As well as a wide range of African and Caribbean species
+        including sapele, iroko, framier, and utile.</p>
       </div>
     </div>
-    <div class="container__inner__shop">
-      <div class="container__inner__shop__sorting">
-        <div class="page__list">
-          <p>Showing Page <?= ($_POST['start'] + 1) ?> of <?= $paginations ?></p>
-        </div>
-        <div class="sorting__dropdown">
-          <label for="sort">Sort By</label>
-          <select name="sort" id="sort">
-            <option value="Default">Default</option>
-            <option value="Price">Price</option>
-            <option value="Popularity">Popularity</option>
-          </select>
-        </div>
-      </div>
-      <?php foreach ($timbers as $timber) { ?>
-        <div class="container__inner__shop__product">
-          <a class="container__inner__shop__link" href="views/timber-view.php?id=<?php echo $timber->id; ?>" target="_new">
-            <?php
-            $timber_image = Image::findById($timber->image_id);
-            if ($timber_image !== null) {
-            ?>
-              <img src="<?= APP_URL . "/actions/" . $timber_image->filename ?>" alt="Timber image">
-            <?php
-            }
-            ?>
-            <h3 class="container__inner__shop__product__title"><?= $timber->title ?></h3>
-          </a>
-        </div>
-      <?php } ?>
-      <div class="pagination__contain">
-        <ul class="pagination">
-          <?php
-          for ($j = 1; $j < $paginations; $j++) {
-          ?>
-            <form method="post" action="index.php">
-              <input type="hidden" name="start" value="<?= $previous ?>" />
-              <button><i class=" fas fa-caret-left"></i></button>
-            </form>
-
-            <form method="post" action="index.php">
-              <input type="hidden" name="start" value="0" />
-              <button>1</button>
-            </form>
-
-            <form method="post" action="index.php">
-              <input type="hidden" name="start" value="<?= $j ?>" />
-              <button><?= ($j + 1) ?></button>
-            </form>
-            <?php
-            if ($j != $page_counter) {
-            ?>
-              <form method="post" action="index.php">
-                <input type="hidden" name="start" value="<?= $next ?>" />
-                <button><i class=" fas fa-caret-right"></i></button>
-              </form>
-          <?php
-            }
-          }
-          ?>
-        </ul>
-      </div>
     </div>
-  </div>
   <?php require 'include/footer.php'; ?>
   <script src="<?= APP_URL ?>/assets/js/flickity.pkgd.min.js"></script>
   <script>
@@ -146,6 +114,7 @@ $paginations = ceil($timber_count / $per_page);
     });
   </script>
   <script src="<?= APP_URL ?>/assets/js/script.js"></script>
+
 </body>
 
 </html>
