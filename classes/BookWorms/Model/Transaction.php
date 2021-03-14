@@ -11,6 +11,7 @@ class Transaction
     public $customer_id;
     public $status;
     public $date;
+    public $total;
 
     function __construct()
     {
@@ -29,10 +30,11 @@ class Transaction
                 ":id" => $this->id,
                 ":customer_id" => $this->customer_id,
                 ":status" => $this->status,
-                ":date" => $this->date
+                ":date" => $this->date,
+                ":total" => $this->total
             ];
  
-            $sql = "INSERT INTO transactions (id, customer_id, status, date) VALUES (:id, :customer_id, :status, :date)";
+            $sql = "INSERT INTO transactions (id, customer_id, status, date, total) VALUES (:id, :customer_id, :status, :date, :total)";
             
             $stmt = $conn->prepare($sql);
             $status = $stmt->execute($params);
