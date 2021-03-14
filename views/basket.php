@@ -44,6 +44,7 @@ $subtotal = 0;
                     // $total = $item->timber->price * $item->quantity;
                     $total = CartItem::getTotal($item->timber->price, $item->quantity);
                     $subtotal += $total;
+                    $request->session()->set('subtotal', $subtotal);
                 ?>
                     <div class="basket__item__contain">
                     <div class="product__contain">
@@ -97,13 +98,12 @@ $subtotal = 0;
             <div class="basket__bottom">
                 <?php if(!$cart->empty()){ ?>
                     <div class="basket__bottom__info">
-                        <p class="subtotal"><strong>Subtotal: </strong>&euro;<?= $subtotal ?></p>
+                        <p class="subtotal"><strong>Subtotal: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
                         <p class="shipping"><strong>Shipping: </strong>Enter address to calculate shipping</p>
-                        <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $subtotal ?></p>
+                        <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
                     </div>
                     <div class="basket__order__btn__contain">
                         <form method="post" name="basket_submit" action="<?= APP_URL ?>/views/checkout.php">
-                            <input name="subtotal" type="hidden" value="<?= $subtotal ?>">
                             <button type="submit" class="btn form_btn_active place__order">Checkout</button>
                         </form>
                     </div>

@@ -193,6 +193,50 @@ class Timber
         return $timber;
     }
 
+    public static function findByTitle($title)
+    {
+        $timber = null;
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            $select_sql = "SELECT * FROM timbers WHERE title = :title";
+            $select_params = [
+                ":title" => $title
+            ];
+            $select_stmt = $conn->prepare($select_sql);
+            $select_status = $select_stmt->execute($select_params);
+
+            if (!$select_status) {
+                $error_info = $select_stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            if ($select_stmt->rowCount() !== 0) {
+                $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                $timber = new Timber();
+                $timber->id = $row['id'];
+                $timber->title = $row['title'];
+                $timber->description = $row['description'];
+                $timber->price = $row['price'];
+                $timber->category_id = $row['category_id'];
+                $timber->minimum_order = $row['minimum_order'];
+                $timber->image_id = $row['image_id'];
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
+
+        return $timber;
+    }
+
+
+
     public static function findWhereIdIn($ids, $params)
     {
         $timbers = array();

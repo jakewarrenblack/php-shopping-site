@@ -2,6 +2,7 @@
 <?php
 
 use BookWorms\Model\Timber;
+use BookWorms\Model\CartItem;
 use BookWorms\Model\Cart;
 
 
@@ -31,6 +32,11 @@ try {
 
     $cart = Cart::get($request);
     $cart->remove($timber, $quantity);
+    $subtotal = intval($request->session()->get("subtotal")."00");
+
+    $total = CartItem::getTotal($timber->price, $quantity);
+    $subtotal -= $total;
+    $request->session()->set('subtotal', $subtotal);
 
     $request->redirect("/views/basket.php");
 } catch (exception $ex) {

@@ -527,6 +527,10 @@ body {
   display: none;
 }
 
+.passwordCreate{
+  display:none;
+}
+
 .visible {
   display: block;
 }
