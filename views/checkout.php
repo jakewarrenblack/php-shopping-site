@@ -12,16 +12,23 @@ use BookWorms\Model\Timber;
 use BookWorms\Model\Cart;
 
 $cart = Cart::get($request);
-$subtotal = intval($request->input("subtotal")."00");
+$subtotal = intval($request->session()->get("subtotal")."00");
 
 $email = null;
 $name = null;
 $address = null;
+$phone = null;
 
 if($request->is_logged_in()){
   $email = $request->session()->get("email");
   $name = $request->session()->get("name");
   $address = $request->session()->get("address");
+  $phone = $request->session()->get("phone");
+}else{
+  $request->session()->set("flash_message", "Please login to check out.");
+  $request->session()->set("flash_message_class", "alert-warning");
+  $request->redirect("/index.php");
+  
 }
 
 
@@ -46,31 +53,6 @@ if($request->is_logged_in()){
 
     <body class="body shop__body">
       <div class="basket__contain checkout__contain">
-      <?php
-      if (!$request->is_logged_in()) { ?>
-        <div class="checkout__title">
-          <h1>Checkout</h1>
-          <p>Existing customers login to speed up your order process. New customers please proceed to billing and registration section.</p>
-        </div>
-        <!--FORM-->
-        <div class="form__contain checkout__form__contain__login checkout__form__contain">
-          <div class="container">
-            <form id="signin_register_form" name="register" action="#" method="post" enctype="multipart/form-data" class="form">
-              <div class="form-group">
-                <label class="main__label" for="email">Email:</label>
-                <input placeholder="Email" class="form__input" type="text" name="email" id="email" value="" />
-              </div>
-              <div class="form-group">
-                <label class="main__label" for="password">Password:</label>
-                <input placeholder="Password" class="form__input" type="password" name="password" id="password" />
-              </div>
-              <button type="submit" class="btn form__btn myBtn btn-primary" name="submit" value="Submit">Submit</button>
-            </form>
-          </div>
-        </div>
-        <?php
-        } 
-        ?>
         <!--FORM END-->
         <!--another form-->
         <div class="form__contain checkout__form__contain checkout__product__mobile checkout__form__contain">
@@ -80,39 +62,18 @@ if($request->is_logged_in()){
                   <label class="main__label" for="email">Email:</label>
                   <input placeholder="name@example.com" class="form__input StripeElement StripeElement--empty" type="email" name="email" id="email" value="<?= $email ?>" />
                 </div>
-
-              <div class="form-group">
-              <label class="main__fireRated__label">Create an account
-                <input type="checkbox" checked="checked">
-                <span class="main__fireRated__label_span"></span>
-              </label>
-              </div>
               <div class="form-group">
                 <label class="main__label" for="email">Full name</label>
                 <input placeholder="Full name" class="form__input StripeElement StripeElement--empty" type="text" name="name" id="name" value="<?= $name ?>" />
               </div>
               <div class="form-group">
-                <label class="main__label" for="country">Country:</label>
-                <select name="country" id="country">
-                  <option value="Ireland">Ireland</option>
-                  <option value="France">France</option>
-                  <option value="Germany">Germany</option>
-                  <option value="Spain">Spain</option>
-                </select>
+                <label class="main__label" for="phone">Phone</label>
+                <input placeholder="Phone number" class="form__input StripeElement StripeElement--empty" type="text" name="phone" id="phone" value="<?= $phone ?>" />
               </div>
               <div class="form-group">
                 <label class="main__label" for="">Street Address:</label>
                 <div class="form-group">
                   <input placeholder="Address" class="form__input StripeElement StripeElement--empty" type="text" name="address" id="address" value="<?= $address ?>"/>
-                </div>
-                <select name="county" id="county">
-                  <option value="Dublin">Dublin</option>
-                  <option value="Meath">Meath</option>
-                  <option value="Kildare">Kildare</option>
-                  <option value="Leitrim">Leitrim</option>
-                </select>
-                <div class="form-row">
-                  <input placeholder="Eircode/ZIP" class="form__input StripeElement StripeElement--empty" type="text" name="zip" id="zip" />
                 </div>
               </div>
               <div class="form-row">
@@ -265,7 +226,7 @@ if($request->is_logged_in()){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="<?= APP_URL ?>/assets/js/charge.js"></script>
-
+    <script src="<?= APP_URL ?>/assets/js/accountCheckbox.js"></script>
 
 </body>
 </html>

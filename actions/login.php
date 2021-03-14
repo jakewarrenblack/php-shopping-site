@@ -44,6 +44,7 @@ try {
   $request->session()->set('role', $role->title);
   if($customer !=null){
     $request->session()->set('address', $customer->address);
+    $request->session()->set('phone', $customer->phone);
   }
 
   $request->session()->forget("flash_data");

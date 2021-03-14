@@ -5,19 +5,18 @@ namespace BookWorms\Model;
 use Exception;
 use PDO;
 
-class Transaction
+class Transaction_Timber
 {
     public $id;
-    public $customer_id;
-    public $status;
-    public $date;
+    public $quantity;
+    public $transaction_id;
+    public $timber_id;
 
     function __construct()
     {
         $this->id = null;
     }
 
-    //we set an ID on this. Transaction's id will be our Stripe transaction id, so not auto incremented.
     public function save()
     {
         try {
@@ -26,14 +25,16 @@ class Transaction
             $conn = $db->get_connection();
 
             $params = [
-                ":id" => $this->id,
-                ":customer_id" => $this->customer_id,
-                ":status" => $this->status,
-                ":date" => $this->date
+                ":quantity" => $this->quantity,
+                ":transaction_id" => $this->transaction_id,
+                ":timber_id" => $this->timber_id
             ];
- 
-            $sql = "INSERT INTO transactions (id, customer_id, status, date) VALUES (:id, :customer_id, :status, :date)";
-            
+            if ($this->id === null) {
+                $sql = "INSERT INTO transaction_timber (quantity, transaction_id, timber_id) VALUES (:quantity, :transaction_id, :timber_id)";
+            } else {
+                $sql = "UPDATE transaction_timber SET quantity = :quantity, transaction_id = :transaction_id, timber_id = :timber_id WHERE id = :id";
+                $params[":id"] = $this->id;
+            }
             $stmt = $conn->prepare($sql);
             $status = $stmt->execute($params);
 
@@ -44,7 +45,7 @@ class Transaction
             }
 
             if ($stmt->rowCount() !== 1) {
-                throw new Exception("Failed to save transaction.");
+                throw new Exception("Failed to save transaction_timber record.");
             }
 
             if ($this->id === null) {
