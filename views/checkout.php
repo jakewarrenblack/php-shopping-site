@@ -12,7 +12,8 @@ use BookWorms\Model\Timber;
 use BookWorms\Model\Cart;
 
 $cart = Cart::get($request);
-$subtotal = 0;
+$subtotal = intval($request->input("subtotal")."00");
+
 ?>
 
 <!DOCTYPE html>
@@ -48,22 +49,6 @@ $subtotal = 0;
               <div class="form-group">
                 <label class="main__label" for="password">Password:</label>
                 <input placeholder="Password" class="form__input" type="password" name="password" id="password" />
-              </div>
-              <div class="form-group register__element">
-                <label class="main__label" for="name">Name:</label>
-                <input placeholder="Name" class="form__input" type="text" name="name" id="name" value="" />
-              </div>
-              <div class="form-group register__element">
-                <label class="main__label" for="address">Address:</label>
-                <textarea placeholder="Address" class="form__input" type="text" name="address" id="address" value=""></textarea>
-              </div>
-              <div class="form-group register__element">
-                <label class="main__label" for="phone">Phone:</label>
-                <input placeholder="Phone" class="form__input" type="text" name="phone" id="phone" value="" />
-              </div>
-              <div class="form-group register__element">
-                <label for="profile">Profile image:</label>
-                <input type="file" name="profile" id="profile">
               </div>
               <button type="submit" class="btn form__btn myBtn btn-primary" name="submit" value="Submit">Submit</button>
             </form>
@@ -130,6 +115,8 @@ $subtotal = 0;
                 <!-- Used to display Element errors. -->
                 <div id="card-errors" role="alert"></div>
               </div>
+              <input name="subtotal" type="hidden" value="<?= intval($subtotal) ?>">
+
               <button type="submit"  value="Submit">Submit Payment</button>
             </form>
           </div>

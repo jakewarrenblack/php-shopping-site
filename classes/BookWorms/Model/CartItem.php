@@ -16,4 +16,9 @@ class CartItem
         $this->profiling = $pro;
         $this->sqfootage = $sq;
     }
+
+    public static function getTotal($price, $quantity){
+        $total = $price * $quantity;
+        return $total;
+    }
 }
