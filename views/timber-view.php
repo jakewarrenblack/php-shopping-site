@@ -68,13 +68,13 @@ try {
         <form action="<?= APP_URL . '/actions/cart-add.php' ?>" class="product__view__form" method="post">
           <div class="main__profiling">
             <label class="main__label">Profiling</label>
-            <select select class="main__input" name="Profiling">
+            <select select class="main__input" name="profiling">
               <option default value="Straight cut">Straight cut</option>
             </select>
           </div>
           <div class="main__footage">
             <label class="main__label">Square Footage</label>
-            <input class="main__input" type="number" placeholder="Dimensions"></input>
+            <input class="main__input" name="sqfootage" type="number" placeholder="Square Footage" required></input>
           </div>
           <div class="main__footage">
             <label class="main__label" for="">Quantity (Minimum Order <?= $timber->minimum_order ?>)
@@ -100,12 +100,12 @@ try {
 
       </article>
       <div class="carousel js-flickity" data-flickity='{ "setGallerySize": false }'>
-        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
-        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
-        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
-        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
-        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
-        <div class="carousel-cell"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
+        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
 
       </div>
 

@@ -17,10 +17,10 @@ if (isset($_SESSION['basket'])) {
     </span>
   </div>
   <ul class="nav__links" id="js-menu">
-    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/">Home<span class="sr-only">(current)</span></a>
+    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/index.php">Home</a>
     <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/about.php">About</a>
     <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/contact.php">Contact</a>
-    <a id="nav__link" class="nav__link">Shop</a>
+    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/shop.php">Shop</a>
     <a id="nav__link" class="nav__link">Sustainability</a>
     <?php if (!$request->session()->has("email")) {
     ?>
