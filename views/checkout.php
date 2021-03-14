@@ -14,6 +14,18 @@ use BookWorms\Model\Cart;
 $cart = Cart::get($request);
 $subtotal = intval($request->input("subtotal")."00");
 
+$email = null;
+$name = null;
+$address = null;
+
+if($request->is_logged_in()){
+  $email = $request->session()->get("email");
+  $name = $request->session()->get("name");
+  $address = $request->session()->get("address");
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +46,8 @@ $subtotal = intval($request->input("subtotal")."00");
 
     <body class="body shop__body">
       <div class="basket__contain checkout__contain">
+      <?php
+      if (!$request->is_logged_in()) { ?>
         <div class="checkout__title">
           <h1>Checkout</h1>
           <p>Existing customers login to speed up your order process. New customers please proceed to billing and registration section.</p>
@@ -54,6 +68,9 @@ $subtotal = intval($request->input("subtotal")."00");
             </form>
           </div>
         </div>
+        <?php
+        } 
+        ?>
         <!--FORM END-->
         <!--another form-->
         <div class="form__contain checkout__form__contain checkout__product__mobile checkout__form__contain">
@@ -61,8 +78,7 @@ $subtotal = intval($request->input("subtotal")."00");
             <form id="payment-form" name="paymentform" action="<?= APP_URL . '/actions/charge.php' ?>" method="post">
                 <div class="form-group">
                   <label class="main__label" for="email">Email:</label>
-                  <input placeholder="name@example.com" class="form__input StripeElement StripeElement--empty" type="email" name="email" id="email" value="" />
-
+                  <input placeholder="name@example.com" class="form__input StripeElement StripeElement--empty" type="email" name="email" id="email" value="<?= $email ?>" />
                 </div>
 
               <div class="form-group">
@@ -72,12 +88,8 @@ $subtotal = intval($request->input("subtotal")."00");
               </label>
               </div>
               <div class="form-group">
-                <label class="main__label" for="email">First name</label>
-                <input placeholder="First Name" class="form__input StripeElement StripeElement--empty" type="text" name="firstname" id="firstname" value="" />
-              </div>
-              <div class="form-group">
-                <label class="main__label" for="surname">Surname:</label>
-                <input placeholder="Surname" class="form__input StripeElement StripeElement--empty" type="text" name="surname" id="firstname" />
+                <label class="main__label" for="email">Full name</label>
+                <input placeholder="Full name" class="form__input StripeElement StripeElement--empty" type="text" name="name" id="name" value="<?= $name ?>" />
               </div>
               <div class="form-group">
                 <label class="main__label" for="country">Country:</label>
@@ -91,10 +103,7 @@ $subtotal = intval($request->input("subtotal")."00");
               <div class="form-group">
                 <label class="main__label" for="">Street Address:</label>
                 <div class="form-group">
-                  <input placeholder="Address 1" class="form__input StripeElement StripeElement--empty" type="text" name="address1" id="address1" />
-                </div>
-                <div class="form-group">
-                  <input placeholder="Address 2" class="form__input StripeElement StripeElement--empty" type="text" name="address2" id="address2" />
+                  <input placeholder="Address" class="form__input StripeElement StripeElement--empty" type="text" name="address" id="address" value="<?= $address ?>"/>
                 </div>
                 <select name="county" id="county">
                   <option value="Dublin">Dublin</option>

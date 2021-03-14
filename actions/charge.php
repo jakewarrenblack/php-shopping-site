@@ -2,20 +2,19 @@
 require_once '../config.php';
 require_once('vendor/autoload.php');
 
+
 use Stripe\Stripe\StripeClient;
-use Stripe\Customer;
 use Stripe\Stripe\Charge;
 use BookWorms\Model\Cart;
+use BookWorms\Model\Customer;
 $cart = Cart::get($request);
 
 $stripe = new \Stripe\StripeClient('sk_test_51IUfgkLBrNI420twkT9IILtHne9NDCKgXikENZHVRaBfp7nfV7zgNyJKUUh0rB7B8RLAdJqVmpOriEOe5gK6Ggoc000g422Jhc');
 
 $email = $request->input("email");
-$firstname = $request->input("firstname");
-$surname = $request->input("surname");
+$fullname = $request->input("fullname");
 $country = $request->input("country");
-$address1 = $request->input("address1");
-$address2 = $request->input("address2");
+$address1 = $request->input("address");
 $county = $request->input("county");
 $zip = $request->input("zip");
 $subtotal = intval($request->input("subtotal"));
@@ -40,6 +39,10 @@ $charge = $stripe->charges->create([
     'description' =>$description_result,
     'customer' => $customer->id
   ]);
+
+//Instantiate customer
+
+
 
 
 //Redirect to success page
