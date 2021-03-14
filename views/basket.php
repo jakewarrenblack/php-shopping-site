@@ -9,6 +9,7 @@ use Exception;
 use BookWorms\Model\Image;
 use BookWorms\Model\Timber;
 use BookWorms\Model\Cart;
+use BookWorms\Model\CartItem;
 
 $cart = Cart::get($request);
 $subtotal = 0;
@@ -40,7 +41,8 @@ $subtotal = 0;
                 <h2>Your basket is empty.</h2>
             <?php } else { ?>
                 <?php foreach ($cart->items as $item){
-                    $total = $item->timber->price * $item->quantity;
+                    // $total = $item->timber->price * $item->quantity;
+                    $total = CartItem::getTotal($item->timber->price, $item->quantity);
                     $subtotal += $total;
                 ?>
                     <div class="basket__item__contain">
@@ -100,7 +102,10 @@ $subtotal = 0;
                         <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $subtotal ?></p>
                     </div>
                     <div class="basket__order__btn__contain">
-                        <a href="<?= APP_URL ?>/views/checkout.php"><button class="btn form_btn_active place__order">Checkout</button></a>
+                        <form method="post" name="basket_submit" action="<?= APP_URL ?>/views/checkout.php">
+                            <input name="subtotal" type="hidden" value="<?= $subtotal ?>">
+                            <button type="submit" class="btn form_btn_active place__order">Checkout</button>
+                        </form>
                     </div>
                 <?php } ?>
 

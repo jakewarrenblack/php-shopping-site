@@ -5,6 +5,8 @@ require_once('vendor/autoload.php');
 use Stripe\Stripe\StripeClient;
 use Stripe\Customer;
 use Stripe\Stripe\Charge;
+use BookWorms\Model\Cart;
+$cart = Cart::get($request);
 
 $stripe = new \Stripe\StripeClient('***REMOVED***');
 
@@ -16,7 +18,14 @@ $address1 = $request->input("address1");
 $address2 = $request->input("address2");
 $county = $request->input("county");
 $zip = $request->input("zip");
+$subtotal = intval($request->input("subtotal"));
 $token = $request->input("stripeToken");
+
+$description = [];
+foreach ($cart->items as $item){
+    array_push($description,$item->timber->title);
+}
+$description_result = implode(", ", $description);
 
 //Create a Stripe customer
 $customer = $stripe->customers->create([
@@ -26,15 +35,15 @@ $customer = $stripe->customers->create([
 
 //Charge the customer
 $charge = $stripe->charges->create([
-    'amount' => 2000,
+    'amount' => $subtotal,
     'currency' => 'eur',
-    'description' => 'Customer bought timber',
+    'description' =>$description_result,
     'customer' => $customer->id
   ]);
 
 
-  //Print human-readable info about our $charge variable
-  print_r($charge)
+//Redirect to success page
+$request->redirect("/views/success.php?tid=".$charge->id."&product=".$charge->description);
 
 ?>
 <!DOCTYPE html>
