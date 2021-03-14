@@ -62,6 +62,7 @@ if($request->is_logged_in()){
             $transaction->customer_id = $customer->id;
             $transaction->status = $charge->status;
             $transaction->date = date("Y-m-d H:i:s");
+            $transaction->total = intval($request->session()->get("subtotal"));
             $transaction->save();
 
             //create transaction_timber record
