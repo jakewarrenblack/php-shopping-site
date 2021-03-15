@@ -95,7 +95,7 @@ class Customer
 
     public static function findAll()
     {
-        $users = array();
+        $customers = array();
 
         try {
             $db = new DB();
@@ -132,7 +132,7 @@ class Customer
             }
         }
 
-        return $users;
+        return $customers;
     }
 
     public static function findById($id)
