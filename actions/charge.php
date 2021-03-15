@@ -73,6 +73,10 @@ if($request->is_logged_in()){
                 $transaction_timber->timber_id = (Timber::findByTitle($item->timber->title))->id;
                 $transaction_timber->save();
             }
+        }else{
+            $request->session()->set("flash_message", "Only customers may place orders. You are logged in as an administrator.");
+            $request->session()->set("flash_message_class", "alert-warning");
+            $request->redirect("/index.php");
         }
     }
 }else{
