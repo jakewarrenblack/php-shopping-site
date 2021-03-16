@@ -135,10 +135,10 @@ if ($request->is_logged_in()) {
               </div>
               <div class="product__info__contain">
                 <div class="product_info">
-                  <p class="product__profile"><strong>Price:</strong>&euro;<?= $item->timber->price ?></p>
-                  <p class="product__profile"><strong>Quantity:</strong>
-                    <input name="quantity" type="number" value="<?= $item->quantity ?>" min="1" placeholder="Quantity" required>
-                  <p class="product__subtotal"><strong>Subtotal:</strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
+                  <p class="product__profile checkout__profile"><strong>Price: </strong>&euro;<?= $item->timber->price ?></p>
+                  <p class="product__profile checkout__profile"><strong>Quantity: </strong>
+                    <input class="checkout__quantity" name="quantity" type="number" value="<?= $item->quantity ?>" min="1" placeholder="Quantity" required>
+                  <p class="product__subtotal"><strong>Subtotal: </strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
                   <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
                     <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
@@ -148,7 +148,7 @@ if ($request->is_logged_in()) {
               </div>
             </div>
           <?php }; ?>
-          <p class="grand-total"><strong>Grand total: </strong>€8400</p>
+          <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
         </div>
       </div>
 
