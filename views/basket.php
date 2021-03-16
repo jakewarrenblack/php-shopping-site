@@ -30,8 +30,8 @@ $subtotal = 0;
 </head>
 
 <body class="body shop__body">
-<?php require 'include/navbar.php'; ?>
-  <?php require 'include/flash.php'; ?>
+    <?php require 'include/navbar.php'; ?>
+    <?php require 'include/flash.php'; ?>
     <div class="basket__contain">
         <div class="basket__title">
             <h1>Your Basket</h1>
@@ -40,71 +40,68 @@ $subtotal = 0;
             <?php if ($cart->empty()) { ?>
                 <h2>Your basket is empty.</h2>
             <?php } else { ?>
-                <?php foreach ($cart->items as $item){
+                <?php foreach ($cart->items as $item) {
                     // $total = $item->timber->price * $item->quantity;
                     $total = CartItem::getTotal($item->timber->price, $item->quantity);
                     $subtotal += $total;
                     $request->session()->set('subtotal', $subtotal);
                 ?>
                     <div class="basket__item__contain">
-                    <div class="product__contain">
-                        <div class="basket__product__img">
-                        <?php
-                            try {
-                                $image = Image::findById($item->timber->image_id);
-                            } 
-                            catch (Exception $e) {
-                            }
-                            if ($image !== null) {
-                        ?>
-                        <img class="" width="40" src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" alt="Timber image">
-                        <?php
-                            }
-                        ?>
+                        <div class="product__contain">
+                            <div class="basket__product__img">
+                                <?php
+                                try {
+                                    $image = Image::findById($item->timber->image_id);
+                                } catch (Exception $e) {
+                                }
+                                if ($image !== null) {
+                                ?>
+                                    <img class="" width="40" src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" alt="Timber image">
+                                <?php
+                                }
+                                ?>
+                            </div>
+                            <div class="product_info">
+                                <h1 class="product_title">
+                                    <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
+                                </h1>
+                                <p class="product__profile"><strong>Profile:</strong><?= $item->profiling ?></p>
+                                <p class="product__dimensions"><strong>Sq Footage:</strong><?= $item->sqfootage ?></p>
+                            </div>
                         </div>
-                        <div class="product_info">
-                            <h1 class="product_title">
-                            <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
-                            </h1>
-                            <p class="product__profile"><strong>Profile:</strong><?= $item->profiling ?></p>
-                            <p class="product__dimensions"><strong>Sq Footage:</strong><?= $item->sqfootage ?></p>
+                        <div class="product__info__contain">
+                            <div class="product_info">
+                                <p class="product__profile"><strong>Price:</strong>&euro;<?= $item->timber->price ?></p>
+                                <p class="product__profile"><strong>Quantity:</strong>
+                                    <input name="quantity" type="number" value="<?= $item->quantity ?>" min="1" placeholder="Quantity" required>
+                                <p class="product__subtotal"><strong>Subtotal:</strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
+                                <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
+                                    <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
+                                    <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
+                                    <button><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="product__info__contain">
-                        <div class="product_info">
-                            <p class="product__profile"><strong>Price:</strong>&euro;<?= $item->timber->price ?></p>
-                            <p class="product__profile"><strong>Quantity:</strong>
-                            <input name="quantity" type="number" value="<?= $item->quantity ?>" min="1" placeholder="Quantity" required>
-                            <p class="product__subtotal"><strong>Subtotal:</strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
-                            <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
-                                <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
-                                <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
-                                <button><i class="fas fa-trash"></i></button>
-                            </form>
-                        </div>
-                    </div>
                     </div>
 
                 <?php }; ?>
             <?php }; ?>
             <?php if (!$cart->empty()) { ?>
                 <div class="basket__button__contain">
-                <button class="btn">Update</button>
-            </div>
+                    <button class="btn">Update</button>
+                </div>
             <?php } ?>
 
         </div>
         <div class="basket__bottom__contain">
             <div class="basket__bottom">
-                <?php if(!$cart->empty()){ ?>
+                <?php if (!$cart->empty()) { ?>
                     <div class="basket__bottom__info">
-                        <p class="subtotal"><strong>Subtotal: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
-                        <p class="shipping"><strong>Shipping: </strong>Enter address to calculate shipping</p>
                         <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
                     </div>
                     <div class="basket__order__btn__contain">
                         <form method="post" name="basket_submit" action="<?= APP_URL ?>/views/checkout.php">
-                            <button type="submit" class="btn form_btn_active place__order">Checkout</button>
+                            <button type="submit" class="btn checkout form_btn_active place__order">Checkout</button>
                         </form>
                     </div>
                 <?php } ?>

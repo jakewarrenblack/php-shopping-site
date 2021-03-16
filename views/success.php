@@ -1,18 +1,19 @@
 <?php require_once '../config.php'; ?>
 <?php
 
-if(!empty($_GET['tid'] && !empty($_GET['product']))){
+if (!empty($_GET['tid'] && !empty($_GET['product']))) {
     $GET = filter_var_array($_GET, FILTER_SANITIZE_STRING);
 
     $tid = $_GET['tid'];
     $product = $_GET['product'];
-}else{
+} else {
     $request->redirect("/index.php");
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,13 +23,15 @@ if(!empty($_GET['tid'] && !empty($_GET['product']))){
     <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
     <title>Success</title>
 </head>
+
 <body class="body">
     <div class="container">
-        <h2>Thank you for your purchase of:  <?php echo $product; ?></h2>
+        <h2>Thank you for your purchase of: <?php echo $product; ?></h2>
         <hr>
         <p>Your transaction ID is <?php echo $tid; ?></p>
         <p>Check your email for further information.</p>
-        <p><a href="/index.php">Go home</a></p>
-    </div>    
+        <p><a href="<?= APP_URL ?>/index.php">Go home</a></p>
+    </div>
 </body>
+
 </html>

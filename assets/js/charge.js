@@ -15,7 +15,8 @@ var style = {
   };
 
 //add my custom styling
-document.querySelector('#payment-form button').classList = 'btn';
+document.querySelector('#payment-form button').classList.add('btn');
+document.querySelector('#payment-form button').classList.add('checkout');
 document.querySelector('#payment-form button').style.marginTop = '1rem';
   
   // Create an instance of the card Element.

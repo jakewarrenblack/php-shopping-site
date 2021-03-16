@@ -18,6 +18,9 @@ spl_autoload_register(function ($class_name) {
 require_once 'vendor/autoload.php';
 require_once "lib/global.php";
 
+//We need this for setting the transaction datetime in charge.php
+date_default_timezone_set("Europe/Lisbon");
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
