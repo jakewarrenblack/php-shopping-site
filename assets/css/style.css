@@ -886,12 +886,20 @@ div.product_info:nth-child(1) {
   display:none;
 }
 
+.checkout__quantity{
+  width:3.5rem;
+}
+
 .checkout__desktop{
   display:flex;
 }
 
 .checkout_product_title{
   font-size:1rem;
+}
+
+.checkout_product_title a{
+  color:black;
 }
 
 .basket__bottom__contain {
@@ -1310,6 +1318,10 @@ div.basket__top:nth-child(7) {
       .product__profile{
         display:flex;
         flex-direction:column;
+      }
+
+      .checkout__profile{
+        flex-direction:row;
       }
 
       .basket__item__contain{
