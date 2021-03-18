@@ -24,7 +24,7 @@
   </div>
 
 
-  <div class="form__contain">
+  <div class="form__contain form__alt">
     <div class="container">
       <form id="signin_register_form" name="register" action="<?= APP_URL . '/actions/email/email.php' ?>" method="post" method="post" enctype="multipart/form-data" class="form">
 
