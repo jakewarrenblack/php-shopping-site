@@ -25,7 +25,7 @@ if ($request->is_logged_in()) {
   <?php require 'include/navbar.php'; ?>
   <?php require 'include/flash.php'; ?>
 
-  <div class="form__contain">
+  <div class="form__contain form__alt">
     <div class="btn__contain">
       <div id="sign_in" class="btn btn form_btn form_btn_active">Sign In</div>
       <div id="register" class="btn btn form_btn">Register</div>

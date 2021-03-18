@@ -1,19 +1,5 @@
+<?php require_once '../config.php'; ?>
 <?php
-
-namespace views\Checkout;
-
-require_once '../config.php'; ?>
-
-<?php
-
-use Exception;
-use BookWorms\Model\Image;
-use BookWorms\Model\Timber;
-use BookWorms\Model\Cart;
-
-$cart = Cart::get($request);
-$subtotal = intval($request->session()->get("subtotal") . "00");
-
 $email = null;
 $name = null;
 $address = null;
@@ -27,11 +13,15 @@ if ($request->is_logged_in()) {
 } else {
   $request->session()->set("flash_message", "Please login to check out.");
   $request->session()->set("flash_message_class", "alert-warning");
-  $request->redirect("/index.php");
+  $request->redirect("/views/auth/register-login-form.php");
 }
 
+use BookWorms\Model\Image;
+use BookWorms\Model\Timber;
+use BookWorms\Model\Cart;
 
-
+$cart = Cart::get($request);
+$subtotal = intval($request->session()->get("subtotal") . "00");
 ?>
 
 <!DOCTYPE html>
