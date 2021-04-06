@@ -9,6 +9,7 @@ body {
   box-sizing: border-box;
 }
 
+
 .mb-20 {
   margin-bottom: 20rem;
 }
@@ -376,6 +377,7 @@ body {
 
 .active {
   display: flex !important;
+  flex-direction: column;
 }
 
 #js-navbar-toggle {
@@ -1115,6 +1117,15 @@ div.basket__top:nth-child(7) {
 
 .deleteBtn button:hover {
   cursor: pointer;
+}
+
+
+.home-btn{
+  width:8rem;
+}
+
+.d-contents{
+  display:contents;
 }
 
 @media all and (max-width: 1000px) {

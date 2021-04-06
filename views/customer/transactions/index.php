@@ -12,27 +12,28 @@
         $request->session()->set("flash_message", "No previous transactions.");
     }
 ?>
-<table class="table" id="table-transactions">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Species</th>
-            <th>description</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($transactions as $transaction) { ?>
-            <tr class="d-none">
-                <td><?= $transaction->id ?></td>
-                <td><?= $transaction->customer_id ?></td>
-                <td><?= $transaction->status ?></td>
-                <td><?= $transaction->date ?></td>
-                <td><?= $transaction->total ?></td>
+    <table class="table" id="table-transactions">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Species</th>
+                <th>description</th>
+                <th>Price</th>
             </tr>
-        <?php } ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($transactions as $transaction) { ?>
+                <tr class="d-none">
+                    <td><?= $transaction->id ?></td>
+                    <td><?= $transaction->customer_id ?></td>
+                    <td><?= $transaction->status ?></td>
+                    <td><?= $transaction->date ?></td>
+                    <td><?= $transaction->total ?></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+
 <nav id="nav-transactions">
     <ul class="pagination justify-content-center">
         <li class="page-item">

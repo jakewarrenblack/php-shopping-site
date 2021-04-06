@@ -67,7 +67,7 @@ class Transaction_Timber
                 $db->open();
                 $conn = $db->get_connection();
 
-                $sql = "DELETE FROM transactions WHERE id = :id";
+                $sql = "DELETE FROM transaction_timber WHERE id = :id";
                 $params = [
                     ":id" => $this->id
                 ];
@@ -81,7 +81,7 @@ class Transaction_Timber
                 }
 
                 if ($stmt->rowCount() !== 1) {
-                    throw new Exception("Failed to delete transaction.");
+                    throw new Exception("Failed to delete transaction_timber.");
                 }
             }
         } finally {
@@ -171,18 +171,18 @@ class Transaction_Timber
         return $transaction;
     }
 
-    public static function findByCustomerId($customer_id)
+    public static function findByTransactionId($transaction_id)
     {
-        $transaction = null;
+        $transaction_timber = null;
 
         try {
             $db = new DB();
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM transactions WHERE customer_id = :customer_id";
+            $select_sql = "SELECT * FROM transaction_timber WHERE transaction_id = :transaction_id";
             $select_params = [
-                ":customer_id" => $customer_id
+                ":transaction_id" => $transaction_id
             ];
             $select_stmt = $conn->prepare($select_sql);
             $select_status = $select_stmt->execute($select_params);
@@ -195,11 +195,11 @@ class Transaction_Timber
 
             if ($select_stmt->rowCount() !== 0) {
                 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-                $transaction = new Transaction();
-                $transaction->id = $row['id'];
-                $transaction->customer_id = $row['customer_id'];
-                $transaction->status = $row['status'];
-                $transaction->date = $row['date'];
+                $transaction_timber = new Transaction_Timber();
+                $transaction_timber->id = $row['id'];
+                $transaction_timber->customer_id = $row['quantity'];
+                $transaction_timber->status = $row['transaction_id'];
+                $transaction_timber->date = $row['timber_id'];
             }
         } finally {
             if ($db !== null && $db->is_open()) {
@@ -207,6 +207,6 @@ class Transaction_Timber
             }
         }
 
-        return $transaction;
+        return $transaction_timber;
     }
 }
