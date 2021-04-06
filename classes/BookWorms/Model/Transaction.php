@@ -174,7 +174,7 @@ class Transaction
 
     public static function findByCustomerId($customer_id)
     {
-        $transaction = null;
+        $transactions = array();
 
         try {
             $db = new DB();
@@ -196,11 +196,16 @@ class Transaction
 
             if ($select_stmt->rowCount() !== 0) {
                 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-                $transaction = new Transaction();
-                $transaction->id = $row['id'];
-                $transaction->customer_id = $row['customer_id'];
-                $transaction->status = $row['status'];
-                $transaction->date = $row['date'];
+                while ($row !== FALSE) {
+                    $transaction = new Transaction();
+                    $transaction->id = $row['id'];
+                    $transaction->customer_id = $row['customer_id'];
+                    $transaction->status = $row['status'];
+                    $transaction->date = $row['date'];
+                    $transactions[] = $transaction;
+
+                    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                }
             }
         } finally {
             if ($db !== null && $db->is_open()) {
@@ -208,6 +213,6 @@ class Transaction
             }
         }
 
-        return $transaction;
+        return $transactions;
     }
 }

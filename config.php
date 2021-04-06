@@ -29,3 +29,5 @@ use BookWorms\Http\HttpRequest;
 if (!isset($request)) {
   $request = new HttpRequest();
 }
+
+//to do : strip out .php endings in url

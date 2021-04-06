@@ -1,14 +1,14 @@
 $(document).ready(function() {
     let currentPage = 1;
     const pageSize = 10;
-    const productsTable = $('#table-products');
+    const productsTable = $('#table-customers');
     const rows = productsTable.find('tbody tr');
     const numProducts = rows.length;
     const numPages = Math.ceil(numProducts / pageSize);
 
     rows.removeClass('d-none');
 
-    $('#nav-products .page-link').on("click", function (e) {
+    $('#nav-customers .page-link').on("click", function (e) {
         e.preventDefault();
         let page = $(this).data('page');
         if (page === "previous") {
@@ -36,4 +36,3 @@ $(document).ready(function() {
 
     showPage(currentPage);
 })
-
