@@ -6,27 +6,34 @@ $numProducts = count($transactions);
 $pageSize = 10;
 $numPages = ceil($numProducts / $pageSize);
 ?>
-<table class="table" id="table-transactions">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Species</th>
-            <th>description</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($transactions as $transaction) { ?>
-            <tr class="d-none">
-                <td><?= $transaction->id ?></td>
-                <td><?= $transaction->customer_id ?></td>
-                <td><?= $transaction->status ?></td>
-                <td><?= $transaction->date ?></td>
-                <td><?= $transaction->total ?></td>
+<form class="d-contents" method="get">
+    <table class="table" id="table-transactions">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Species</th>
+                <th>description</th>
+                <th>Price</th>
             </tr>
-        <?php } ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <?php foreach ($transactions as $transaction) { ?>
+                <tr class="d-none">
+                    <td><input type="radio" name="transaction_id" value="<?= $transaction->id ?>" /></td>
+                    <td><?= $transaction->id ?></td>
+                    <td><?= $transaction->customer_id ?></td>
+                    <td><?= $transaction->status ?></td>
+                    <td><?= $transaction->date ?></td>
+                    <td><?= $transaction->total ?></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    <div class="row d-flex p-0 m-0 ml-2 mb-2">
+            <button class="btn home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/actions/edit/transaction-edit.php">Edit</button>
+            <button class="btn home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php">Delete</button>
+    </div>
+</form>
 <nav id="nav-transactions">
     <ul class="pagination justify-content-center">
         <li class="page-item">
