@@ -1,22 +1,20 @@
 <?php
 require_once '../config.php';
-use BookWorms\Model\Timber;
+use BookWorms\Model\Customer;
+use BookWorms\Model\User;
+use BookWorms\Model\Role;
 use BookWorms\Model\Image;
 use BookWorms\Model\FileUpload;
 
 try {
-    $categories = [
-        "1", "2"
-    ];
-
     $rules = [
-        "title" => "present|minlength:2|maxlength:64",
-        "description" => "present|minlength:10|maxlength:2000",
-        "price" => "present|minlength:1|maxlength:2000",
-        "category_id" => "present|minlength:1|maxlength:1000",
-        "minimum_order" => "present|minlength:1|maxlength:2000"
+        "customer_id" => "present|integer|minlength:1",
+        "email" => "present|email|minlength:7|maxlength:64",
+        "name" => "present|minlength:4|maxlength:64",
+        "address" => "present|minlength:8|maxlength:64",
+        /*Needs 2-3 digits, followed by a heifen, followed by 5-7 more digits.*/
+        "phone" => "present|match:/\A[0-9]{2,3}[-][0-9]{5,7}\Z/"
     ];
-
     $request->validate($rules);
     if ($request->is_valid()) {
         $image = null;
@@ -27,18 +25,28 @@ try {
             $image->filename = $filename;
             $image->save();
         }
-        $timber = Timber::findById($request->input("timber_id"));
-        $timber->title = $request->input("title");
-        $timber->description = $request->input("description");
-        $timber->category_id = $request->input("category_id");
-        $timber->price = $request->input("price");
-        $timber->minimum_order = $request->input("minimum_order");
+
+        $customer = Customer::findById($request->input("customer_id"));
+
+        $role = Role::findByTitle("customer");
+        $user = User::findById($customer->user_id);
+        $user->email = $request->input("email");
+        $user->name = $request->input("name");
+        $user->role_id = $role->id;
+
+
+        $customer->address = $request->input("address");
+        $customer->phone = $request->input("phone");
+        $customer->user_id = $user->id;
         /*If not null, the user must have uploaded an image, so reset the image id to that of the one we've just uploaded.*/
         if ($image !== null) {
-            $timber->image_id = $image->id;
+            $customer->image_id = $image->id;
         }
-        $timber->save();
-        $request->session()->set("flash_message", "The timber product was successfully updated in the database");
+
+        $user->save();
+        $customer->save();
+
+        $request->session()->set("flash_message", "The customer/user was successfully updated in the database");
         $request->session()->set("flash_message_class", "alert-info");
         /*Forget any data that's already been stored in the session.*/
         $request->session()->forget("flash_data");
@@ -46,10 +54,10 @@ try {
         $request->redirect("/index.php");
     } 
     else {
-        $timber_id = $request->input("timber_id");
+        $customer_id = $request->input("customer_id");
         $request->session()->set("flash_data", $request->all());
         $request->session()->set("flash_errors", $request->errors());
-        $request->redirect("../views/admin/products/timber-edit.php?timber_id=" . $timber_id);
+        $request->redirect("../views/admin/customers/customer-edit.php?customer_id=" . $customer_id);
         
     }
 } catch (Exception $ex) {
