@@ -10,17 +10,17 @@ $numPages = ceil($numProducts / $pageSize);
     <table class="table" id="table-transactions">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Species</th>
-                <th>description</th>
-                <th>Price</th>
+                <th>ID</th>
+                <th>Customer ID</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($transactions as $transaction) { ?>
                 <tr class="d-none">
                     <td><input type="radio" name="transaction_id" value="<?= $transaction->id ?>" /></td>
-                    <td><?= $transaction->id ?></td>
                     <td><?= $transaction->customer_id ?></td>
                     <td><?= $transaction->status ?></td>
                     <td><?= $transaction->date ?></td>
@@ -30,7 +30,7 @@ $numPages = ceil($numProducts / $pageSize);
         </tbody>
     </table>
     <div class="row d-flex p-0 m-0 ml-2 mb-2">
-            <button class="btn home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/actions/transaction-edit.php">Edit</button>
+            <button class="btn home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php">Edit</button>
             <button class="btn home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php">Delete</button>
     </div>
 </form>

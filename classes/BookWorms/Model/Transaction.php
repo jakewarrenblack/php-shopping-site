@@ -27,14 +27,20 @@ class Transaction
             $conn = $db->get_connection();
 
             $params = [
-                ":id" => $this->id,
                 ":customer_id" => $this->customer_id,
                 ":status" => $this->status,
                 ":date" => $this->date,
                 ":total" => $this->total
             ];
+
+            if($this->id === null){
+                $sql = "INSERT INTO transactions (customer_id, status, date, total) VALUES (:customer_id, :status, :date, :total)";
+            }else{
+                $sql = "UPDATE transactions SET customer_id = :customer_id, status = :status, date = :date, total = :total WHERE id = :id";
+                $params[":id"] = $this->id;
+            }
  
-            $sql = "INSERT INTO transactions (id, customer_id, status, date, total) VALUES (:id, :customer_id, :status, :date, :total)";
+            
             
             $stmt = $conn->prepare($sql);
             $status = $stmt->execute($params);
@@ -119,6 +125,7 @@ class Transaction
                     $transaction->customer_id = $row['customer_id'];
                     $transaction->status = $row['status'];
                     $transaction->date = $row['date'];
+                    $transaction->total = $row['total'];
                     $transactions[] = $transaction;
 
                     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
@@ -162,6 +169,7 @@ class Transaction
                 $transaction->customer_id = $row['customer_id'];
                 $transaction->status = $row['status'];
                 $transaction->date = $row['date'];
+                $transaction->total = $row['total'];
             }
         } finally {
             if ($db !== null && $db->is_open()) {
@@ -202,6 +210,7 @@ class Transaction
                     $transaction->customer_id = $row['customer_id'];
                     $transaction->status = $row['status'];
                     $transaction->date = $row['date'];
+                    $transaction->total = $row['total'];
                     $transactions[] = $transaction;
 
                     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
