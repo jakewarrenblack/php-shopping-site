@@ -29,7 +29,7 @@ $numPages = ceil($numProducts / $pageSize);
         </tbody>
     </table>
     <div class="row d-flex p-0 m-0 ml-2 mb-2">
-        <button class="btn home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/actions/edit/timber-edit.php">Edit</button>
+        <button class="btn home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/products/timber-edit.php">Edit</button>
         <button class="btn home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/timber-delete.php">Delete</button>
     </div>
 </form>
