@@ -54,7 +54,7 @@ try {
                 </div>
                 <div class="row justify-content-center pt-4">
                     <div class="col-lg-10">
-                        <form name='timber-create' action="<?= APP_URL . '/actions/timber-update.php' ?>" method="post" enctype="multipart/form-data">
+                        <form name='timber-create' action="<?= APP_URL . '/actions/customer-update.php' ?>" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="customer_id" value="<?= $customer->id ?>" />
                             <div class="form-group">
                                 <label class="main__label" for="email">Email:</label>
