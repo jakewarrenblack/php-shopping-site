@@ -5,6 +5,14 @@ $cart = Cart::get($request);
 
 $num_items_in_basket = count($cart->items);
 
+$role= null;
+
+if($request->session()->has("email")){
+  $role = $request->session()->get("role");
+}
+else{
+  $role = null;
+}
 
 ?>
 
@@ -20,12 +28,14 @@ $num_items_in_basket = count($cart->items);
     <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/index.php">Home</a>
     <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/about.php">About</a>
     <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/contact.php">Contact</a>
-    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/shop.php">Shop</a>
-    <a id="nav__link" class="nav__link">Sustainability</a>
+    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/shop.php">Shop</a>    
     <?php if (!$request->session()->has("email")) {
     ?>
       <a class="register" href="<?= APP_URL ?>/views/auth/register-login-form.php">Login/Register</a>
     <?php } else { ?>
+    <li class="nav-item">
+      <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/<?= $role ?>/home.php">Profile</a>  
+    </li>
       <li class="nav-item">
         <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/actions/logout.php">Logout</a>
       </li>
@@ -33,11 +43,11 @@ $num_items_in_basket = count($cart->items);
       <?php
 
       // If the logged in user is an admin, show the button to add a new product
-      $role = $request->session()->get("role");
+      
       if ($role == "admin") { ?>
-        <a class="nav-item">
+        <li class="nav-item">
           <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/admin/timber-create.php">Add Product</a>
-        </a>
+        </li>
       <?php } ?>
     <?php } ?>
     <li class="nav-item">

@@ -1,5 +1,5 @@
 <?php
-require_once '../../config.php';
+require_once '../config.php';
 use BookWorms\Model\Timber;
 use BookWorms\Model\Image;
 use BookWorms\Model\FileUpload;
