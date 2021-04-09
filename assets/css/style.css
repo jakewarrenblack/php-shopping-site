@@ -1128,6 +1128,28 @@ div.basket__top:nth-child(7) {
   display:contents;
 }
 
+.d-flex{
+  display:flex;
+}
+
+.spanpad{
+  margin-left:0.5rem;
+  margin-right:0.5rem;
+}
+
+.d-column{
+  flex-direction:column;
+}
+
+.d-row{
+  flex-direction:row;
+}
+
+
+.align-items-center{
+  align-items:center;
+}
+
 @media all and (max-width: 1000px) {
   .body {
     display: flex !important;

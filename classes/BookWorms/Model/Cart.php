@@ -39,10 +39,11 @@ class Cart
             $item->profiling = $profiling;
             $item->sqfootage = $sqfootage;
         } else {
-            $item = new CartItem($timber, $quantity,$profiling,$sqfootage);
+            $item = new CartItem($timber, $quantity, $profiling, $sqfootage);
             $this->items[$timber->id] = $item;
         }
     }
+
 
     public function remove($timber, $quantity)
     {

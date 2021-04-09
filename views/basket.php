@@ -72,8 +72,17 @@ $subtotal = 0;
                         <div class="product__info__contain">
                             <div class="product_info">
                                 <p class="product__profile"><strong>Price:</strong>&euro;<?= $item->timber->price ?></p>
-                                <p class="product__profile"><strong>Quantity:</strong>
-                                    <input name="quantity" type="number" value="<?= $item->quantity ?>" min="1" placeholder="Quantity" required>
+
+                                <form class="d-flex align-items-center d-column" method="post">
+                                    <p class="product__profile"><strong>Quantity:</strong></p>
+                                    <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <div class="quantity-contain d-flex d-row">
+                                        <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-remove.php">&lt;</button>
+                                        <span class="spanpad"><?= $item->quantity ?></span>
+                                        <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-add.php">&gt;</button>
+                                    </div>
+                                </form>
                                 <p class="product__subtotal"><strong>Subtotal:</strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
                                 <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
                                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
@@ -86,12 +95,6 @@ $subtotal = 0;
 
                 <?php }; ?>
             <?php }; ?>
-            <?php if (!$cart->empty()) { ?>
-                <div class="basket__button__contain">
-                    <button class="btn">Update</button>
-                </div>
-            <?php } ?>
-
         </div>
         <div class="basket__bottom__contain">
             <div class="basket__bottom">
