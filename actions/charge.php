@@ -102,6 +102,7 @@ $request->redirect("/views/success.php?tid=" . $charge->id . "&product=" . $char
 ?>
 <!DOCTYPE html>
 <html lang="en">
+<!-- Was just using this as my success page before adding the redirect to success.php -->
 
 <head>
     <meta charset="UTF-8">

@@ -1,5 +1,6 @@
 <?php
 require_once '../config.php';
+
 use BookWorms\Model\Transaction;
 use BookWorms\Model\Customer;
 
@@ -31,13 +32,11 @@ try {
         $request->session()->forget("flash_data");
         $request->session()->forget("flash_errors");
         $request->redirect("/index.php");
-    } 
-    else {
-        $transaction = $request->input("transaction_id");
+    } else {
+        $transaction_id = $request->input("transaction_id");
         $request->session()->set("flash_data", $request->all());
         $request->session()->set("flash_errors", $request->errors());
         $request->redirect("../views/admin/transactions/transaction-edit.php?transaction_id=" . $transaction_id);
-        
     }
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());
