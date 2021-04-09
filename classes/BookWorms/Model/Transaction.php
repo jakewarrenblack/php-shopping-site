@@ -27,21 +27,22 @@ class Transaction
             $conn = $db->get_connection();
 
             $params = [
+                ":id" => $this->id,
                 ":customer_id" => $this->customer_id,
                 ":status" => $this->status,
                 ":date" => $this->date,
                 ":total" => $this->total
             ];
 
-            if($this->id === null){
-                $sql = "INSERT INTO transactions (customer_id, status, date, total) VALUES (:customer_id, :status, :date, :total)";
-            }else{
+            // this function returns true if this id does not exist in the db
+            if ($this->checkExists($this->id)) {
+                $sql = "INSERT INTO transactions (id, customer_id, status, date, total) VALUES (:id, :customer_id, :status, :date, :total)";
+            } else {
                 $sql = "UPDATE transactions SET customer_id = :customer_id, status = :status, date = :date, total = :total WHERE id = :id";
                 $params[":id"] = $this->id;
             }
- 
-            
-            
+
+
             $stmt = $conn->prepare($sql);
             $status = $stmt->execute($params);
 
@@ -57,6 +58,42 @@ class Transaction
 
             if ($this->id === null) {
                 $this->id = $conn->lastInsertId();
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
+    }
+
+    public function checkExists($id)
+    {
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            $params = [
+                ":id" => $this->id
+            ];
+
+            $sql = "SELECT * FROM transactions WHERE id = :id";
+
+            $stmt = $conn->prepare($sql);
+            $status = $stmt->execute($params);
+
+            if (!$status) {
+                $error_info = $stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            // if this id isn't in the db
+            if ($stmt->rowCount() !== 1) {
+                return true;
+            } else {
+                return false;
             }
         } finally {
             if ($db !== null && $db->is_open()) {
