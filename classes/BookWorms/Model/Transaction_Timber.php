@@ -173,7 +173,7 @@ class Transaction_Timber
 
     public static function findByTransactionId($transaction_id)
     {
-        $transaction_timber = null;
+        $transaction_timbers = array();;
 
         try {
             $db = new DB();
@@ -195,11 +195,16 @@ class Transaction_Timber
 
             if ($select_stmt->rowCount() !== 0) {
                 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-                $transaction_timber = new Transaction_Timber();
-                $transaction_timber->id = $row['id'];
-                $transaction_timber->customer_id = $row['quantity'];
-                $transaction_timber->status = $row['transaction_id'];
-                $transaction_timber->date = $row['timber_id'];
+                while ($row != FALSE) {
+                    $transaction_timber = new Transaction_Timber();
+                    $transaction_timber->id = $row['id'];
+                    $transaction_timber->quantity = $row['quantity'];
+                    $transaction_timber->transaction_id = $row['transaction_id'];
+                    $transaction_timber->timber_id = $row['timber_id'];
+                    $transaction_timbers[] = $transaction_timber;
+
+                    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                }
             }
         } finally {
             if ($db !== null && $db->is_open()) {
@@ -207,6 +212,6 @@ class Transaction_Timber
             }
         }
 
-        return $transaction_timber;
+        return $transaction_timbers;
     }
 }
