@@ -85,6 +85,7 @@ if ($request->is_logged_in()) {
             // if no customer exists for this user->id, this must be an admin. only customers can make purchases.
             $request->session()->set("flash_message", "Only customers may place orders. You are logged in as an administrator.");
             $request->session()->set("flash_message_class", "alert-warning");
+            $cart->empty();
             $request->redirect("/index.php");
         }
     }

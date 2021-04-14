@@ -36,13 +36,17 @@ try {
     throw new Exception("Phone number is already registered.");
   }
 
+
+  $image = null;
+
   if (FileUpload::exists('profile')) {
     $file = new FileUpload("profile");
+    $filename = $file->get();
+    $image = new Image();
+    $image->filename = $filename;
+    $image->save();
   }
-  $filename = $file->get();
-  $image = new Image();
-  $image->filename = $filename;
-  $image->save();
+
 
   $role = Role::findByTitle("customer");
   $user = new User();
@@ -56,7 +60,9 @@ try {
   $customer->address = $address;
   $customer->phone = $phone;
   $customer->user_id = $user->id;
-  $customer->image_id = $image->id;
+  if ($image != null) {
+    $customer->image_id = $image->id;
+  }
   $customer->save();
 
   $request->session()->set('email', $user->email);
