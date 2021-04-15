@@ -1,32 +1,30 @@
 <?php require_once '../../../config.php'; ?>
 <?php
-  use BookWorms\Model\Transaction;
-  use BookWorms\Model\Customer;
-  use BookWorms\Model\User;
 
-  try {
-    $rules = [
-      'transaction_id' => 'present'
-    ];
-    $request->validate($rules);
-    if (!$request->is_valid()) {
-      throw new Exception("Illegal request");
-    }
-    $transaction_id = $request->input('transaction_id');
-    $transaction = Transaction::findById($transaction_id);
-    if ($transaction === null) {
-      throw new Exception("Illegal request parameter");
-    }
+use BookWorms\Model\Transaction;
+use BookWorms\Model\Customer;
+use BookWorms\Model\User;
 
-
-    
-  } catch (Exception $ex) {
-    $request->session()->set("flash_message", $ex->getMessage());
-    $request->session()->set("flash_message_class", "alert-warning");
-  
-    $request->redirect("/index.php");
+try {
+  $rules = [
+    'transaction_id' => 'present'
+  ];
+  $request->validate($rules);
+  if (!$request->is_valid()) {
+    throw new Exception("Illegal request");
   }
-  
+  $transaction_id = $request->input('transaction_id');
+  $transaction = Transaction::findById($transaction_id);
+  if ($transaction === null) {
+    throw new Exception("Illegal request parameter");
+  }
+} catch (Exception $ex) {
+  $request->session()->set("flash_message", $ex->getMessage());
+  $request->session()->set("flash_message_class", "alert-warning");
+
+  $request->redirect("/index.php");
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -37,12 +35,13 @@
   <title>Edit Transaction</title>
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
   <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
   <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
 
 </head>
 
 <body>
-<?php require 'include/navbar.php'; ?>
+  <?php require 'include/navbar.php'; ?>
   <div class="container-fluid p-0">
 
     <?php require 'include/flash.php'; ?>
@@ -66,15 +65,15 @@
               <div class="form-group">
                 <label for="location">Customer</label>
                 <select class="form-control" name="customer_id" id="customer_id">
-                <?php
-                    $customers = Customer::findAll();
-                    foreach($customers as $customer){
+                  <?php
+                  $customers = Customer::findAll();
+                  foreach ($customers as $customer) {
                     $user = User::findById($customer->user_id);
-                ?>
-                    <option value="<?= $customer->id ?>" <?= chosen("customer","<?= $customer->id ?>") ? "selected" : "" ?>><?= $user->name ?></option>
-                <?php
-                    }
-                ?>
+                  ?>
+                    <option value="<?= $customer->id ?>" <?= chosen("customer", "<?= $customer->id ?>") ? "selected" : "" ?>><?= $user->name ?></option>
+                  <?php
+                  }
+                  ?>
                 </select>
                 <span class="error"><?= error("customer_id") ?></span>
               </div>

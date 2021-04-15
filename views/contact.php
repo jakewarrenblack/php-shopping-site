@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/flickity.css" media="screen">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
   <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 </head>
 
