@@ -22,8 +22,19 @@ $next = isset($_POST['next']) ? $_POST['next'] : $start + 1;
 $page_counter =  $start;
 $start = $start *  $per_page;
 
+$sort = null;
+$order = null;
+
+if (isset($_POST['sort'])) {
+  $sort = $_POST['sort'];
+  $timbers = Timber::findAll($start, $per_page, $sort);
+} else {
+  $timbers = Timber::findAll($start, $per_page);
+}
+
+
 // select timbers, start at $start, limit to $per_page;
-$timbers = Timber::findAll($start, $per_page);
+
 
 // we calculate our page number by dividing the total number of timbers by the number we want on the page
 // ceil rounds up fractions, we only want whole numbers
@@ -60,12 +71,19 @@ $paginations = ceil($timber_count / $per_page);
         </div>
         <div class="sorting__dropdown">
           <label for="sort">Sort By</label>
-          <select name="sort" id="sort">
-            <option value="Default">Default</option>
-            <option value="Price">Price</option>
-            <option value="Popularity">Popularity</option>
-          </select>
+          <form id="sortingForm" name="sort" action="" method="post">
+            <select name="sort" id="sort" onchange='submitForm();'>
+              <option value="null">Default</option>
+              <option value="price">Price (Low to high)</option>
+              <option value="minimum_order">Minimum Order (Low to high)</option>
+            </select>
+          </form>
         </div>
+        <script type='text/javascript'>
+          function submitForm() {
+            document.getElementById('sortingForm').submit();
+          }
+        </script>
       </div>
       <?php foreach ($timbers as $timber) { ?>
         <div class="container__inner__shop__product">
@@ -79,6 +97,8 @@ $paginations = ceil($timber_count / $per_page);
             }
             ?>
             <h3 class="container__inner__shop__product__title"><?= $timber->title ?></h3>
+            <h3 class="container__inner__shop__product__title">&euro;<?= $timber->price ?></h3>
+            <h3 class="container__inner__shop__product__title">Minimum order: <?= $timber->minimum_order ?></h3>
           </a>
         </div>
       <?php } ?>
