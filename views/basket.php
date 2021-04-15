@@ -24,8 +24,11 @@ $subtotal = 0;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Your Basket</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/flickity.css" media="screen">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
     <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 </head>
 
@@ -36,19 +39,28 @@ $subtotal = 0;
         <div class="basket__title">
             <h1>Your Basket</h1>
         </div>
-        <div class="basket__top">
-            <?php if ($cart->empty()) { ?>
-                <h2>Your basket is empty.</h2>
-            <?php } else { ?>
-                <?php foreach ($cart->items as $item) {
-                    // $total = $item->timber->price * $item->quantity;
-                    $total = CartItem::getTotal($item->timber->price, $item->quantity);
-                    $subtotal += $total;
-                    $request->session()->set('subtotal', $subtotal);
-                ?>
-                    <div class="basket__item__contain">
-                        <div class="product__contain">
-                            <div class="basket__product__img">
+
+        <div class="table-contain">
+            <table class="table">
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price (Per Unit)</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Delete</th>
+                </tr>
+                <?php if ($cart->empty()) { ?>
+                    <h2>Your basket is empty.</h2>
+                <?php } else { ?>
+                    <?php foreach ($cart->items as $item) {
+                        // $total = $item->timber->price * $item->quantity;
+                        $total = CartItem::getTotal($item->timber->price, $item->quantity);
+                        $subtotal += $total;
+                        $request->session()->set('subtotal', $subtotal);
+                    ?>
+                        <tr>
+                            <td>
                                 <?php
                                 try {
                                     $image = Image::findById($item->timber->image_id);
@@ -60,41 +72,42 @@ $subtotal = 0;
                                 <?php
                                 }
                                 ?>
-                            </div>
-                            <div class="product_info">
-                                <h1 class="product_title">
-                                    <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
-                                </h1>
-                                <p class="product__profile"><strong>Profile:</strong><?= $item->profiling ?></p>
-                                <p class="product__dimensions"><strong>Sq Footage:</strong><?= $item->sqfootage ?></p>
-                            </div>
-                        </div>
-                        <div class="product__info__contain">
-                            <div class="product_info">
-                                <p class="product__profile"><strong>Price:</strong>&euro;<?= $item->timber->price ?></p>
-
-                                <form class="d-flex align-items-center d-column" method="post">
-                                    <p class="product__profile"><strong>Quantity:</strong></p>
+                            </td>
+                            <td>
+                                <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
+                                <br>
+                                <?= $item->profiling; ?>
+                                <br>
+                                <?= $item->sqfootage; ?> square feet
+                            </td>
+                            <td>
+                                &euro;<?= $item->timber->price; ?>
+                            </td>
+                            <td>
+                                <form class="d-flex align-items-center" method="post">
                                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
                                     <input type="hidden" name="quantity" value="1" />
-                                    <div class="quantity-contain d-flex d-row">
+                                    <div class="quantity-contain d-flex d-row align-items-center">
                                         <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-remove.php">&lt;</button>
                                         <span class="spanpad"><?= $item->quantity ?></span>
                                         <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-add.php">&gt;</button>
                                     </div>
                                 </form>
-                                <p class="product__subtotal"><strong>Subtotal:</strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
+                            </td>
+                            <td>
+                                &euro;<?= $item->timber->price * $item->quantity ?>
+                            </td>
+                            <td>
                                 <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
                                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
                                     <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
                                     <button><i class="fas fa-trash"></i></button>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-
+                            </td>
+                        </tr>
+                    <?php }; ?>
                 <?php }; ?>
-            <?php }; ?>
+            </table>
         </div>
         <div class="basket__bottom__contain">
             <div class="basket__bottom">
@@ -115,6 +128,7 @@ $subtotal = 0;
     <?php require 'include/footer.php'; ?>
     <script src="<?= APP_URL ?>/assets/js/jquery-3.5.1.min.js"></script>
     <script src="<?= APP_URL ?>/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 </body>
 
 </html>

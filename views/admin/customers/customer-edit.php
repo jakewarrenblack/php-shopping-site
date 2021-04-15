@@ -1,5 +1,6 @@
 <?php require_once '../../../config.php'; ?>
 <?php
+
 use BookWorms\Model\Customer;
 use BookWorms\Model\User;
 
@@ -18,10 +19,9 @@ try {
     }
 
     $user = User::findById($customer->user_id);
-    if($user === null){
+    if ($user === null) {
         throw new Exception("Illegal request parameter!");
     }
-
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());
     $request->session()->set("flash_message_class", "alert-warning");
@@ -30,6 +30,7 @@ try {
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,7 +38,9 @@ try {
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
     <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
 </head>
+
 <body>
     <?php require 'include/navbar.php'; ?>
     <div class="container-fluid p-0">
@@ -97,4 +100,5 @@ try {
     <script src="<?= APP_URL ?>/assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

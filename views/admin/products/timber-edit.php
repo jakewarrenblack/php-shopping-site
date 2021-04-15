@@ -1,27 +1,28 @@
 <?php require_once '../../../config.php'; ?>
 <?php
-  use BookWorms\Model\Timber;
 
-  try {
-    $rules = [
-      'timber_id' => 'present|integer|min:1'
-    ];
-    $request->validate($rules);
-    if (!$request->is_valid()) {
-      throw new Exception("Illegal request");
-    }
-    $timber_id = $request->input('timber_id');
-    $timber = Timber::findById($timber_id);
-    if ($timber === null) {
-      throw new Exception("Illegal request parameter");
-    }
-  } catch (Exception $ex) {
-    $request->session()->set("flash_message", $ex->getMessage());
-    $request->session()->set("flash_message_class", "alert-warning");
-  
-    $request->redirect("/index.php");
+use BookWorms\Model\Timber;
+
+try {
+  $rules = [
+    'timber_id' => 'present|integer|min:1'
+  ];
+  $request->validate($rules);
+  if (!$request->is_valid()) {
+    throw new Exception("Illegal request");
   }
-  
+  $timber_id = $request->input('timber_id');
+  $timber = Timber::findById($timber_id);
+  if ($timber === null) {
+    throw new Exception("Illegal request parameter");
+  }
+} catch (Exception $ex) {
+  $request->session()->set("flash_message", $ex->getMessage());
+  $request->session()->set("flash_message_class", "alert-warning");
+
+  $request->redirect("/index.php");
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -31,13 +32,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Create Timber</title>
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
   <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
 
 </head>
 
 <body>
-<?php require 'include/navbar.php'; ?>
+  <?php require 'include/navbar.php'; ?>
   <div class="container-fluid p-0">
 
     <?php require 'include/flash.php'; ?>
