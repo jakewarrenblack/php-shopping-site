@@ -52,24 +52,7 @@ $paginations = ceil($timber_count / $per_page);
   <?php require 'include/flash.php'; ?>
 
   <div class="container">
-    <div class="container__categories">
-      <h2 class="container__categories__title">Our Products</h2>
-      <br>
-      <div class="container__categories__row">
-        <div class="container__categories__row__category">
-          <h3>European</h3>
-        </div>
-        <div class="container__categories__row__category">
-          <h3>African</h3>
-        </div>
-        <div class="container__categories__row__category">
-          <h3>Carribbean</h3>
-        </div>
-        <div class="container__categories__row__category">
-          <h3>American</h3>
-        </div>
-      </div>
-    </div>
+
     <div class="container__inner__shop">
       <div class="container__inner__shop__sorting">
         <div class="page__list">

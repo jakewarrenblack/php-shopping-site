@@ -18,10 +18,11 @@ try {
 <table class="table" id="table-transactions">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Transaction ID</th>
             <th>Species</th>
-            <th>description</th>
-            <th>Price</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Total Paid</th>
         </tr>
     </thead>
     <tbody>
@@ -47,7 +48,7 @@ try {
                 </td>
                 <td><?= $transaction->status ?></td>
                 <td><?= $transaction->date ?></td>
-                <td><?= $transaction->total ?></td>
+                <td>&euro;<?= $transaction->total ?></td>
             </tr>
         <?php } ?>
     </tbody>

@@ -46,62 +46,6 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
     <div class="basket__contain checkout__contain">
       <!--flickity product list, used for mobile-->
       <div class="top__bottom__contain">
-        <div class="basket__top checkout__mobile">
-          <div class="carousel js-flickity" data-flickity='{ "setGallerySize": false }'>
-            <?php foreach ($cart->items as $item) {
-              $total = $item->timber->price * $item->quantity;
-              $subtotal += $total;
-            ?>
-              <div class="carousel-cell">
-                <div class="basket__top">
-                  <div class="product__contain">
-                    <div class="basket__product__img">
-                      <?php
-                      try {
-                        $image = Image::findById($item->timber->image_id);
-                      } catch (Exception $e) {
-                      }
-                      if ($image !== null) {
-                      ?>
-                        <img class="" width="40" src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" alt="Timber image">
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="product_info">
-                      <h1 class="checkout_product_title">
-                        <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
-                      </h1>
-                      <p class="product__profile"><strong>Profile:</strong><?= $item->profiling ?></p>
-                      <p class="product__dimensions"><strong>Sq Footage:</strong><?= $item->sqfootage ?></p>
-                    </div>
-                  </div>
-                  <div class="product__info__contain">
-                    <div class="product_info">
-                      <p class="product__profile"><strong>Price:</strong>&euro;<?= $item->timber->price ?></p>
-                      <form class="d-flex align-items-center d-column" method="post">
-                        <p class="product__profile"><strong>Quantity:</strong></p>
-                        <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
-                        <input type="hidden" name="quantity" value="1" />
-                        <div class="quantity-contain d-flex d-row">
-                          <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-remove.php">&lt;</button>
-                          <span class="spanpad"><?= $item->quantity ?></span>
-                          <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-add.php">&gt;</button>
-                        </div>
-                      </form>
-                      <p class="product__subtotal"><strong>Subtotal:</strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
-                      <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
-                        <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
-                        <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
-                        <button><i class="fas fa-trash"></i></button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <?php }; ?>
-          </div>
-        </div>
 
         <!--used on desktop, no flickity-->
         <div class="basket__top checkout__desktop">
@@ -135,27 +79,25 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
               <div class="product__info__contain">
                 <div class="product_info">
                   <p class="product__profile checkout__profile"><strong>Price: </strong>&euro;<?= $item->timber->price ?></p>
-                  <form class="d-flex align-items-center d-column" method="post">
-                    <p class="product__profile"><strong>Quantity:</strong></p>
-                    <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
-                    <input type="hidden" name="quantity" value="1" />
-                    <div class="quantity-contain d-flex d-row">
-                      <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-remove.php">&lt;</button>
-                      <span class="spanpad"><?= $item->quantity ?></span>
-                      <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-add.php">&gt;</button>
-                    </div>
-                  </form>
+
+                  <p class="product__profile"><strong>Quantity:<span class="spanpad"></strong><?= $item->quantity ?></span></p>
+
+
+
                   <p class="product__subtotal"><strong>Subtotal: </strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
                   <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
                     <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
                     <button><i class="fas fa-trash"></i></button>
                   </form>
+
                 </div>
               </div>
             </div>
           <?php }; ?>
+          <hr class="w-100">
           <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
+          <a href="<?= APP_URL ?>/views/basket.php"><button class="btn w-100">Back to basket</button></a>
         </div>
       </div>
 

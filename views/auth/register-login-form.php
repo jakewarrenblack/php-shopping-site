@@ -27,7 +27,7 @@ if ($request->is_logged_in()) {
   <?php require 'include/flash.php'; ?>
 
   <div class="form__contain form__alt">
-    <div class="btn__contain">
+    <div class="btn__contain underline">
       <div id="sign_in" class="btn btn form_btn form_btn_active">Sign In</div>
       <div id="register" class="btn btn form_btn">Register</div>
     </div>
@@ -58,7 +58,7 @@ if ($request->is_logged_in()) {
         </div>
         <div class="form-group register__element">
           <label class="main__label" for="phone">Phone:</label>
-          <input placeholder="Phone" class="form__input" type="text" name="phone" id="phone" value="<?= old("phone") ?>" />
+          <input placeholder="Format xxx-xxxxx" class="form__input" type="text" name="phone" id="phone" value="<?= old("phone") ?>" />
           <span class="error"><?= error("phone") ?></span>
         </div>
         <div class="form-group register__element">
