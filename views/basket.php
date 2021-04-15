@@ -42,17 +42,17 @@ $subtotal = 0;
 
         <div class="table-contain">
             <table class="table">
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                    <th>Price (Per Unit)</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th>Delete</th>
-                </tr>
                 <?php if ($cart->empty()) { ?>
                     <h2>Your basket is empty.</h2>
                 <?php } else { ?>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price (Per Unit)</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Delete</th>
+                    </tr>
                     <?php foreach ($cart->items as $item) {
                         // $total = $item->timber->price * $item->quantity;
                         $total = CartItem::getTotal($item->timber->price, $item->quantity);
@@ -86,6 +86,8 @@ $subtotal = 0;
                             <td>
                                 <form class="d-flex align-items-center" method="post">
                                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
+                                    <input type="hidden" name="profiling" value="<?= $item->profiling ?>" />
+                                    <input type="hidden" name="sqfootage" value="<?= $item->sqfootage ?>" />
                                     <input type="hidden" name="quantity" value="1" />
                                     <div class="quantity-contain d-flex d-row align-items-center">
                                         <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-remove.php">&lt;</button>
