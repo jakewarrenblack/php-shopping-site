@@ -97,7 +97,7 @@ class Timber
         }
     }
 
-    public static function findAll($start = null, $limit = null)
+    public static function findAll($start = null, $limit = null, $order = null)
     {
         $timbers = array();
 
@@ -112,7 +112,11 @@ class Timber
             if ($start === null || $limit === null) {
                 $select_sql = "SELECT * FROM timbers";
             } else {
-                $select_sql = "SELECT * FROM timbers limit $start, $limit";
+                if ($order === null) {
+                    $select_sql = "SELECT * FROM timbers limit $start, $limit";
+                } else {
+                    $select_sql = "SELECT * FROM timbers ORDER BY $order ASC limit $start, $limit";
+                }
             }
 
             $select_stmt = $conn->prepare($select_sql);
