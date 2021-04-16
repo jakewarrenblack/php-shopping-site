@@ -69,7 +69,7 @@ $paginations = ceil($timber_count / $per_page);
   <?php require 'include/flash.php'; ?>
 
   <div class="container">
-
+    <h1 class="d-flex justify-content-center step-3">Our products</h1>
     <div class="container__inner__shop">
       <div class="container__inner__shop__sorting">
         <div class="page__list">
@@ -95,7 +95,7 @@ $paginations = ceil($timber_count / $per_page);
       </div>
       <?php foreach ($timbers as $timber) { ?>
         <div class="container__inner__shop__product">
-          <a class="container__inner__shop__link" href="timber-view.php?id=<?php echo $timber->id; ?>" target="_new">
+          <div class="container__inner__shop__link">
             <?php
             $timber_image = Image::findById($timber->image_id);
             if ($timber_image !== null) {
@@ -104,10 +104,13 @@ $paginations = ceil($timber_count / $per_page);
             <?php
             }
             ?>
+          </div>
+          <div class="container__product__banner d-flex align-items-center flex-column p-1em">
             <h3 class="container__inner__shop__product__title"><?= $timber->title ?></h3>
-            <h3 class="container__inner__shop__product__title step--0">&euro;<?= $timber->price ?></h3>
+            <h3 class="container__inner__shop__product__title step--0">&euro;<?= $timber->price ?> per unit</h3>
             <h3 class="container__inner__shop__product__title step--0">Minimum order: <?= $timber->minimum_order ?></h3>
-          </a>
+            <a href="timber-view.php?id=<?php echo $timber->id; ?>" target="_new" class="w-50 mt-05"><button class="btn w-100">VIEW</button></a>
+          </div>
         </div>
       <?php } ?>
       <div class="pagination__contain">
