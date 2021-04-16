@@ -1508,6 +1508,8 @@ div.basket__top:nth-child(7) {
 .container__inner__shop__product__title {
   align-self: center;
   font-size: var(--step-1);
+  margin:0;
+  margin-top:0.5rem;
 }
 
 /*pagination*/
@@ -2331,6 +2333,11 @@ div.basket__top:nth-child(7) {
 
 .table-contain{
   overflow-x: auto;
+}
+
+.step--0{
+  font-size:var(--step--0);
+  margin:0;
 }
 
 

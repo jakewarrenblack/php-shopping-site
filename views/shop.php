@@ -26,8 +26,14 @@ $sort = null;
 $order = null;
 
 if (isset($_POST['sort'])) {
+  $request->session()->set("flash_data", $request->all());
   $sort = $_POST['sort'];
-  $timbers = Timber::findAll($start, $per_page, $sort);
+  // check if default is selected
+  if ($sort != "null") {
+    $timbers = Timber::findAll($start, $per_page, $sort);
+  } else {
+    $timbers = Timber::findAll($start, $per_page);
+  }
 } else {
   $timbers = Timber::findAll($start, $per_page);
 }
@@ -73,9 +79,11 @@ $paginations = ceil($timber_count / $per_page);
           <label for="sort">Sort By</label>
           <form id="sortingForm" name="sort" action="" method="post">
             <select name="sort" id="sort" onchange='submitForm();'>
-              <option value="null">Default</option>
-              <option value="price">Price (Low to high)</option>
-              <option value="minimum_order">Minimum Order (Low to high)</option>
+              <option value="null" <?= chosen("sort", "null") ? "selected" : "" ?>>Default</option>
+              <option value="price ASC" <?= chosen("sort", "price ASC") ? "selected" : "" ?>>Price (Low to high)</option>
+              <option value="price DESC" <?= chosen("sort", "price DESC") ? "selected" : "" ?>>Price (High to low)</option>
+              <option value="minimum_order ASC" <?= chosen("sort", "minimum_order ASC") ? "selected" : "" ?>>Minimum Order (Low to high)</option>
+              <option value="minimum_order DESC" <?= chosen("sort", "minimum_order DESC") ? "selected" : "" ?>>Minimum Order (High to low)</option>
             </select>
           </form>
         </div>
@@ -97,8 +105,8 @@ $paginations = ceil($timber_count / $per_page);
             }
             ?>
             <h3 class="container__inner__shop__product__title"><?= $timber->title ?></h3>
-            <h3 class="container__inner__shop__product__title">&euro;<?= $timber->price ?></h3>
-            <h3 class="container__inner__shop__product__title">Minimum order: <?= $timber->minimum_order ?></h3>
+            <h3 class="container__inner__shop__product__title step--0">&euro;<?= $timber->price ?></h3>
+            <h3 class="container__inner__shop__product__title step--0">Minimum order: <?= $timber->minimum_order ?></h3>
           </a>
         </div>
       <?php } ?>
