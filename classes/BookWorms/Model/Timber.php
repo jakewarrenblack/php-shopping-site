@@ -115,7 +115,7 @@ class Timber
                 if ($order === null) {
                     $select_sql = "SELECT * FROM timbers limit $start, $limit";
                 } else {
-                    $select_sql = "SELECT * FROM timbers ORDER BY $order ASC limit $start, $limit";
+                    $select_sql = "SELECT * FROM timbers ORDER BY $order limit $start, $limit";
                 }
             }
 
