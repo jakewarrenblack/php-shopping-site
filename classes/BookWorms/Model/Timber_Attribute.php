@@ -5,15 +5,11 @@ namespace BookWorms\Model;
 use Exception;
 use PDO;
 
-class Transaction_Timber
+class Timber_Attribute
 {
     public $id;
-    public $quantity;
-    public $profiling;
-    public $sqfootage;
-    public $fire_rated;
-    public $transaction_id;
     public $timber_id;
+    public $attribute_id;
 
     function __construct()
     {
@@ -28,17 +24,13 @@ class Transaction_Timber
             $conn = $db->get_connection();
 
             $params = [
-                ":quantity" => $this->quantity,
-                ":profiling" => $this->profiling,
-                ":sqfootage" => $this->sqfootage,
-                ":fire_rated" => $this->fire_rated,
-                ":transaction_id" => $this->transaction_id,
-                ":timber_id" => $this->timber_id
+                ":timber_id" => $this->timber_id,
+                ":attribute_id" => $this->attribute_id
             ];
             if ($this->id === null) {
-                $sql = "INSERT INTO transaction_timber (quantity, profiling, sqfootage, fire_rated, transaction_id, timber_id) VALUES (:quantity, :profiling, :sqfootage, :fire_rated, :transaction_id, :timber_id)";
+                $sql = "INSERT INTO timber_attribute (timber_id, attribute_id) VALUES (:timber_id, :attribute_id)";
             } else {
-                $sql = "UPDATE transaction_timber SET quantity = :quantity, profiling = :profiling, sqfootage = :sqfootage, fire_rated = :fire_rated, transaction_id = :transaction_id, timber_id = :timber_id WHERE id = :id";
+                $sql = "UPDATE timber_attribute SET timber_id = :timber_id, attribute_id = :attribute_id";
                 $params[":id"] = $this->id;
             }
             $stmt = $conn->prepare($sql);
@@ -99,14 +91,14 @@ class Transaction_Timber
 
     public static function findAll()
     {
-        $transactions = array();
+        $timber_attributes = array();
 
         try {
             $db = new DB();
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM transactions";
+            $select_sql = "SELECT * FROM timber_attributes";
             $select_stmt = $conn->prepare($select_sql);
             $select_status = $select_stmt->execute();
 
@@ -119,13 +111,11 @@ class Transaction_Timber
             if ($select_stmt->rowCount() !== 0) {
                 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
                 while ($row !== FALSE) {
-                    $transaction = new Transaction();
-                    $transaction->id = $row['id'];
-                    $transaction->customer_id = $row['customer_id'];
-                    $transaction->status = $row['status'];
-                    $transaction->date = $row['date'];
-                    $transactions[] = $transaction;
-
+                    $timber_attribute = new Timber_Attribute();
+                    $timber_attribute->id = $row['id'];
+                    $timber_attribute->timber_id = $row['timber_id'];
+                    $timber_attribute->attribute_id = $row['attribute_id'];
+                    $timber_attributes[] = $timber_attribute;
                     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
                 }
             }
@@ -135,19 +125,19 @@ class Transaction_Timber
             }
         }
 
-        return $transactions;
+        return $timber_attributes;
     }
 
     public static function findById($id)
     {
-        $transaction = null;
+        $timber_attribute = null;
 
         try {
             $db = new DB();
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM transactions WHERE id = :id";
+            $select_sql = "SELECT * FROM timber_attribute WHERE id = :id";
             $select_params = [
                 ":id" => $id
             ];
@@ -162,11 +152,10 @@ class Transaction_Timber
 
             if ($select_stmt->rowCount() !== 0) {
                 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
-                $transaction = new Transaction();
-                $transaction->id = $row['id'];
-                $transaction->customer_id = $row['customer_id'];
-                $transaction->status = $row['status'];
-                $transaction->date = $row['date'];
+                $timber_attribute = new Timber_Attribute();
+                $timber_attribute->id = $row['id'];
+                $timber_attribute->timber_id = $row['timber_id'];
+                $timber_attribute->attribute_id = $row['attribute_id'];
             }
         } finally {
             if ($db !== null && $db->is_open()) {
@@ -174,21 +163,21 @@ class Transaction_Timber
             }
         }
 
-        return $transaction;
+        return $timber_attribute;
     }
 
-    public static function findByTransactionId($transaction_id)
+    public static function findByTimberId($timber_id)
     {
-        $transaction_timbers = array();;
+        $timber_attributes = array();;
 
         try {
             $db = new DB();
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM transaction_timber WHERE transaction_id = :transaction_id";
+            $select_sql = "SELECT * FROM timber_attribute WHERE timber_id = :timber_id";
             $select_params = [
-                ":transaction_id" => $transaction_id
+                ":timber_id" => $timber_id
             ];
             $select_stmt = $conn->prepare($select_sql);
             $select_status = $select_stmt->execute($select_params);
@@ -202,16 +191,11 @@ class Transaction_Timber
             if ($select_stmt->rowCount() !== 0) {
                 $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
                 while ($row != FALSE) {
-                    $transaction_timber = new Transaction_Timber();
-                    $transaction_timber->id = $row['id'];
-                    $transaction_timber->quantity = $row['quantity'];
-                    $transaction_timber->profiling = $row['profiling'];
-                    $transaction_timber->sqfootage = $row['sqfootage'];
-                    $transaction_timber->fire_rated = $row['fire_rated'];
-                    $transaction_timber->transaction_id = $row['transaction_id'];
-                    $transaction_timber->timber_id = $row['timber_id'];
-                    $transaction_timbers[] = $transaction_timber;
-
+                    $timber_attribute = new Timber_Attribute();
+                    $timber_attribute->id = $row['id'];
+                    $timber_attribute->timber_id = $row['timber_id'];
+                    $timber_attribute->attribute_id = $row['attribute_id'];
+                    $timber_attributes[] = $timber_attribute;
                     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
                 }
             }
@@ -221,6 +205,6 @@ class Transaction_Timber
             }
         }
 
-        return $transaction_timbers;
+        return $timber_attributes;
     }
 }

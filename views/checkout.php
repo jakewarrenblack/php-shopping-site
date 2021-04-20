@@ -68,12 +68,14 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
                   }
                   ?>
                 </div>
-                <div class="product_info">
+                <div class="product_info d-flex d-row space-around w-100 align-items-center">
                   <h1 class="checkout_product_title">
+                    <strong class="d-flex d-column">Species:</strong>
                     <a href="timber-view.php?id=<?= $item->timber->id ?>"><?= $item->timber->title ?></a>
                   </h1>
-                  <p class="product__profile"><strong>Profile:</strong><?= $item->profiling ?></p>
-                  <p class="product__dimensions"><strong>Sq Footage:</strong><?= $item->sqfootage ?></p>
+                  <p class="product__profile d-flex d-column"><strong>Profile:</strong><?= $item->profiling ?></p>
+                  <p class="product__dimensions d-flex d-column"><strong>Sq Footage:</strong><?= $item->sqfootage ?></p>
+                  <p class="d-flex d-column"><b>Fire rated: </b><?php echo ($item->fire_rated === "on") ? "Yes" : 'No'; ?></p>
                 </div>
               </div>
               <div class="product__info__contain">
@@ -95,7 +97,6 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
               </div>
             </div>
           <?php }; ?>
-          <hr class="w-100">
           <p class="grand-total"><strong>Grand total: </strong>&euro;<?= $request->session()->get("subtotal") ?></p>
           <a href="<?= APP_URL ?>/views/basket.php"><button class="btn w-100">Back to basket</button></a>
         </div>
@@ -161,6 +162,7 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
     <script src="https://js.stripe.com/v3/"></script>
     <script src="<?= APP_URL ?>/assets/js/charge.js"></script>
     <script src="<?= APP_URL ?>/assets/js/accountCheckbox.js"></script>
+    <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 
   </body>
 

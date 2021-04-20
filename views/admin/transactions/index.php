@@ -40,8 +40,8 @@ $numPages = ceil($numProducts / $pageSize);
         </tbody>
     </table>
     <div class="row d-flex p-0 m-0 ml-2 mb-2">
-        <button class="btn home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php">Edit</button>
-        <button class="btn home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php">Delete</button>
+        <button class="btn w-100 mb-1 home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php">Edit</button>
+        <button class="btn w-100 mb-1 home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php">Delete</button>
     </div>
 </form>
 <nav id="nav-transactions">

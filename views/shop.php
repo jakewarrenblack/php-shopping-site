@@ -3,6 +3,8 @@
 
 use BookWorms\Model\Image;
 use BookWorms\Model\Timber;
+use BookWorms\Model\Attribute;
+use BookWorms\Model\Timber_Attribute;
 
 $per_page = 6;
 $page_counter = 0;
@@ -109,6 +111,24 @@ $paginations = ceil($timber_count / $per_page);
             <h3 class="container__inner__shop__product__title"><?= $timber->title ?></h3>
             <h3 class="container__inner__shop__product__title step--0">&euro;<?= $timber->price ?> per unit</h3>
             <h3 class="container__inner__shop__product__title step--0">Minimum order: <?= $timber->minimum_order ?></h3>
+            <h3 class="container__inner__shop__product__title attribute">
+              <?php
+              $timber_attributes = Timber_Attribute::findByTimberId($timber->id);
+
+              if ($timber_attributes != null) {
+                $attribute = array();
+                foreach ($timber_attributes as $timber_attribute) {
+                  $attribute[] = Attribute::findById($timber_attribute->attribute_id)->name;
+
+                  if (count($attribute) > 1) {
+                    echo implode(", ", $attribute);
+                  }
+                }
+              } else {
+                echo "No attributes set";
+              }
+              ?>
+            </h3>
             <a href="timber-view.php?id=<?php echo $timber->id; ?>" target="_new" class="w-50 mt-05"><button class="btn w-100">VIEW</button></a>
           </div>
         </div>

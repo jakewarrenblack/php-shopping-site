@@ -14,26 +14,38 @@ navBarToggle.addEventListener('click', function () {
     navContainer.classList.toggle('zeroShrink');
 });
 
+if(sign_in != null){
+    sign_in.addEventListener('click',function(){
+        for (i = 0; i < registerElement.length; i++) {
+            registerElement[i].classList.remove('visible');
+            sign_in.classList.add('form_btn_active');
+            register.classList.remove('form_btn_active');
+            form.action = APP_URL + "/actions/login.php";
+          } 
+    }); 
+}
 
-sign_in.addEventListener('click',function(){
-    for (i = 0; i < registerElement.length; i++) {
-        registerElement[i].classList.remove('visible');
-        sign_in.classList.add('form_btn_active');
-        register.classList.remove('form_btn_active');
-        form.action = APP_URL + "/actions/login.php";
-      } 
-}); 
+if(register != null){
+    register.addEventListener('click',function(){
+        for (i = 0; i < registerElement.length; i++) {
+            registerElement[i].classList.add('visible');
+            register.classList.add('form_btn_active');
+            sign_in.classList.remove('form_btn_active');
+            form.action = APP_URL + "/actions/register.php";
+          } 
+    });  
+}
 
-
-register.addEventListener('click',function(){
-    for (i = 0; i < registerElement.length; i++) {
-        registerElement[i].classList.add('visible');
-        register.classList.add('form_btn_active');
-        sign_in.classList.remove('form_btn_active');
-        form.action = APP_URL + "/actions/register.php";
-      } 
-
-});  
+window.addEventListener('scroll', function () {
+    if (document.documentElement.scrollTop > 400) {
+        document.getElementById("logo").style.width = "5rem";
+        document.getElementById("js-menu").style.fontSize = "1rem";
+    }
+    if(document.documentElement.scrollTop < 400){
+        document.getElementById("js-menu").style.fontSize = "var(--step--1)";
+        document.getElementById("logo").style.width = "8rem";
+    }
+});
 
 
 /*Form now handles both login and register, switch action depending on active button*/

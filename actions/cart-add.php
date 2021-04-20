@@ -23,15 +23,17 @@ try {
     $quantity = $request->input("quantity");
     $profiling = $request->input("profiling");
     $sqfootage = $request->input("sqfootage");
+    // will be either 'on' or null
+    $fire_rated = $request->input("fire_rated");
 
-    if ($timber_id === null || $quantity === null) {
+    if ($timber_id === null || $quantity === null || $sqfootage === null) {
         throw new Exception("Invalid argument!");
     }
 
     $timber = Timber::findById($timber_id);
 
     $cart = Cart::get($request);
-    $cart->add($timber, $quantity, $profiling, $sqfootage);
+    $cart->add($timber, $quantity, $profiling, $sqfootage, $fire_rated);
 
     $request->redirect("/views/basket.php");
 } catch (exception $ex) {

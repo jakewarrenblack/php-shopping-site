@@ -28,7 +28,7 @@
         <h3 class="hero__img__subtitle">
           Machined to <span class="underline">your</span> needs
         </h3>
-        <a class="d-contents" href="<?= APP_URL ?>/views/shop.php"><button class="btn shop__now">Shop Now</button></a>
+        <a class="testing-animate" href="<?= APP_URL ?>/views/shop.php">SHOP NOW</a>
       </div>
     </div>
   </div>
