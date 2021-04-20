@@ -28,7 +28,7 @@ class Cart
         $this->items = array();
     }
 
-    public function add($timber, $quantity, $profiling, $sqfootage)
+    public function add($timber, $quantity, $profiling, $sqfootage, $fire_rated)
     {
         if (!$timber instanceof Timber || $quantity <= 0) {
             throw new Exception("Illegal argument");
@@ -38,8 +38,9 @@ class Cart
             $item->quantity = ($item->quantity + $quantity);
             $item->profiling = $profiling;
             $item->sqfootage = $sqfootage;
+            $item->sqfootage = $fire_rated;
         } else {
-            $item = new CartItem($timber, $quantity, $profiling, $sqfootage);
+            $item = new CartItem($timber, $quantity, $profiling, $sqfootage, $fire_rated);
             $this->items[$timber->id] = $item;
         }
     }

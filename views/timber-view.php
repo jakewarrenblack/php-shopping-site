@@ -71,6 +71,8 @@ try {
             <label class="main__label">Profiling</label>
             <select select class="main__input" name="profiling">
               <option default value="Straight cut">Straight cut</option>
+              <option value="Architrave">Architrave</option>
+              <option value="Skirting">Skirting</option>
             </select>
           </div>
           <div class="main__footage">
@@ -84,7 +86,7 @@ try {
           </div>
           <div class="main__fireRated">
             <label class="main__fireRated__label">Fire Rated
-              <input type="checkbox" checked="checked">
+              <input name="fire_rated" type="checkbox" checked="checked">
               <span class="main__fireRated__label_span"></span>
             </label>
           </div>

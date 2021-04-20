@@ -77,6 +77,18 @@ if ($request->is_logged_in()) {
                 // transaction_timber table will store a record for each product involved in our transaction
                 $transaction_timber = new Transaction_Timber();
                 $transaction_timber->quantity = $item->quantity;
+                $transaction_timber->profiling = $item->profiling;
+                $transaction_timber->sqfootage = $item->sqfootage;
+
+                // Database needs a 0 or 1, our checkbox passes 'on' or null, so change it to suit:
+                $fire_rated = null;
+                if ($item->fire_rated === null) {
+                    $fire_rated = 0;
+                } else {
+                    $fire_rated = 1;
+                }
+
+                $transaction_timber->fire_rated = $fire_rated;
                 $transaction_timber->transaction_id = $charge->id;
                 $transaction_timber->timber_id = (Timber::findByTitle($item->timber->title))->id;
                 $transaction_timber->save();

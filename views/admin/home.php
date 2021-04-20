@@ -28,7 +28,7 @@ if ($role !== "admin") {
 <body class="body shop__body">
   <?php require 'include/navbar.php'; ?>
   <?php require 'include/flash.php'; ?>
-  <div class="container mb-20">
+  <div class="container">
     <h1>Admin home</h1>
     <ul class="nav nav-tabs" id="tab" role="tablist">
       <li class="nav-item">
@@ -79,6 +79,7 @@ if ($role !== "admin") {
   <script src="<?= APP_URL ?>/assets/js/products.js"></script>
   <script src="<?= APP_URL ?>/assets/js/customers.js"></script>
   <script src="<?= APP_URL ?>/assets/js/transactions.js"></script>
+  <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 </body>
 
 </html>

@@ -38,6 +38,7 @@ $subtotal = 0;
     <div class="basket__contain">
         <div class="basket__title">
             <h1>Your Basket</h1>
+            <hr>
         </div>
 
         <div class="table-contain">
@@ -79,6 +80,8 @@ $subtotal = 0;
                                 <?= $item->profiling; ?>
                                 <br>
                                 <?= $item->sqfootage; ?> square feet
+                                <br>
+                                Fire rated:<?php echo ($item->fire_rated === "on") ? "Yes" : 'No'; ?>
                             </td>
                             <td>
                                 &euro;<?= $item->timber->price; ?>
@@ -110,6 +113,7 @@ $subtotal = 0;
                     <?php }; ?>
                 <?php }; ?>
             </table>
+            <hr>
         </div>
         <div class="basket__bottom__contain">
             <div class="basket__bottom">
