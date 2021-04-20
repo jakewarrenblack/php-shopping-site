@@ -2014,12 +2014,9 @@ div.basket__top:nth-child(7) {
 }
 
 .attribute{
-  background: var(--highlight);
-  color: white;
-  padding: 0.5em;
-  border-radius: 1rem;
+  color: var(--highlight);
   font-size: var(--step--2);
-  margin: 0.5em;
+  margin: 0.5em 0;
 }
 
 @media all and (max-width: 1000px) {
