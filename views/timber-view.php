@@ -4,6 +4,8 @@
 use BookWorms\Model\Timber;
 use BookWorms\Model\Image;
 use BookWorms\Model\Category;
+use BookWorms\Model\Attribute;
+use BookWorms\Model\Timber_Attribute;
 
 try {
   $timber_id = $_GET['id'];
@@ -59,6 +61,24 @@ try {
         <div class="main__header">
           <h1 class="main__title"><?= $timber->title ?></h1>
           <h2 class="main__subtitle">Minimum Order: <?= $timber->minimum_order ?></h2>
+          <h3 class="attribute">
+            <?php
+            $timber_attributes = Timber_Attribute::findByTimberId($timber->id);
+
+            if ($timber_attributes != null) {
+              $attribute = array();
+              foreach ($timber_attributes as $timber_attribute) {
+                $attribute[] = Attribute::findById($timber_attribute->attribute_id)->name;
+
+                if (count($attribute) > 1) {
+                  echo implode(", ", $attribute);
+                }
+              }
+            } else {
+              echo "No attributes set";
+            }
+            ?>
+          </h3>
           <br>
         </div>
         <div class="main__copy">
