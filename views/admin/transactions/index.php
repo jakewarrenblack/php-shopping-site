@@ -18,6 +18,8 @@ $numPages = ceil($numProducts / $pageSize);
                 <th>Status</th>
                 <th>Date</th>
                 <th>Total</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -35,14 +37,12 @@ $numPages = ceil($numProducts / $pageSize);
                     <td><?= $transaction->status ?></td>
                     <td><?= $transaction->date ?></td>
                     <td><?= $transaction->total ?></td>
+                    <td><button formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php"><i class="fas fa-pen"></i></button></td>
+                    <td><button formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php"><i class="fas fa-trash"></i></button></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
-    <div class="row d-flex p-0 m-0 ml-2 mb-2">
-        <button class="btn w-100 mb-1 home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php">Edit</button>
-        <button class="btn w-100 mb-1 home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php">Delete</button>
-    </div>
 </form>
 <nav id="nav-transactions">
     <ul class="pagination justify-content-center">

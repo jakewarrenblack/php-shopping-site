@@ -37,13 +37,15 @@ if(register != null){
 }
 
 window.addEventListener('scroll', function () {
-    if (document.documentElement.scrollTop > 400) {
-        document.getElementById("logo").style.width = "4rem";
-        document.getElementById("js-menu").style.fontSize = "1rem";
-    }
-    if(document.documentElement.scrollTop < 400){
-        document.getElementById("js-menu").style.fontSize = "var(--step--1)";
-        document.getElementById("logo").style.width = "6rem";
+    if(window.innerWidth > 1400){
+        if (document.documentElement.scrollTop > 400) {
+            document.getElementById("logo").style.width = "4rem";
+            document.getElementById("js-menu").style.fontSize = "1rem";
+        }
+        if(document.documentElement.scrollTop < 400){
+            document.getElementById("js-menu").style.fontSize = "var(--step--1)";
+            document.getElementById("logo").style.width = "6rem";
+        }
     }
 });
 

@@ -19,6 +19,8 @@ $numPages = ceil($numCustomers / $pageSize);
                 <th>Phone</th>
                 <th>User ID</th>
                 <th>Image</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -54,14 +56,12 @@ $numPages = ceil($numCustomers / $pageSize);
                         }
                         ?>
                     </td>
+                    <td><button formaction="<?= APP_URL ?>/views/admin/customers/customer-edit.php"><i class="fas fa-pen"></i></button></td>
+                    <td><button formaction="<?= APP_URL ?>/actions/delete/customer-delete.php"><i class="fas fa-trash"></i></button></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
-    <div class="row d-flex p-0 m-0 ml-2 mb-2">
-        <button class="btn w-100 mb-1 home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/customers/customer-edit.php">Edit</button>
-        <button class="btn w-100 mb-1 home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/customer-delete.php">Delete</button>
-    </div>
 </form>
 <nav id="nav-customers">
     <ul class="pagination justify-content-center">

@@ -1,4 +1,10 @@
 <?php require_once '../../config.php'; ?>
+<?php
+
+use BookWorms\Model\Attribute;
+use BookWorms\Model\Timber_Attribute;
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -6,7 +12,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Create Timber</title>
-  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style_purged.css">
   <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
@@ -70,6 +76,23 @@
           <span class="error"><?= error("profile") ?></span>
         </div>
 
+        <div class="form-group">
+          <details>
+            <summary>Attributes (Select up to 2)</summary>
+            <?php
+            $attributes = Attribute::findAll();
+
+            foreach ($attributes as $attribute) {
+            ?>
+              <input type="checkbox" id="<?= $attribute->id ?>" name="attributes[]" value="<?= $attribute->name ?>">
+              <label for="<?= $attribute->id ?>"><?= $attribute->name ?></label><br>
+            <?php
+            }
+            ?>
+          </details>
+          <span class="error"><?= error("attributes") ?></span>
+        </div>
+
         <!-- Related images-->
 
         <label for="profile">Related images:</label>
@@ -89,8 +112,6 @@
             <span class="error"><?= error("related_image_3") ?></span>
           </div>
         </div>
-
-
 
         <div class="form-group">
           <a class="btn w-100 btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>

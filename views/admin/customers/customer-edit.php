@@ -35,29 +35,28 @@ try {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Edit Customer</title>
-    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
-    <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style_purged.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
 </head>
 
-<body>
+<body class="body">
     <?php require 'include/navbar.php'; ?>
     <div class="container-fluid p-0">
         <?php require 'include/flash.php'; ?>
-        <main role="main">
-            <div>
-                <div class="row d-flex justify-content-center">
-                    <h1>Edit Customer</h1>
+        <div>
+            <div class="row d-flex justify-content-center">
+                <h1>Edit Customer</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <?php require "include/flash.php"; ?>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <?php require "include/flash.php"; ?>
-                    </div>
-                </div>
-                <div class="row justify-content-center pt-4">
-                    <div class="col-lg-10">
-                        <form name='timber-create' action="<?= APP_URL . '/actions/customer-update.php' ?>" method="post" enctype="multipart/form-data">
+            </div>
+            <div class="row justify-content-center pt-4">
+                <div class="form__contain form__alt">
+                    <div class="container">
+                        <form class="form" name='timber-create' action="<?= APP_URL . '/actions/customer-update.php' ?>" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="customer_id" value="<?= $customer->id ?>" />
                             <div class="form-group">
                                 <label class="main__label" for="email">Email:</label>
@@ -85,15 +84,15 @@ try {
                                 <input type="file" name="profile" id="profile">
                                 <span class="error"><?= error("profile") ?></span>
                             </div>
-                            <div class="form-group">
-                                <a class="btn btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
-                                <button type="submit" class="btn btn-primary">Store</button>
+                            <div class="d-flex form-group">
+                                <a class="btn mb-1 w-100 d-flex justify-content-center align-items-center btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
+                                <button type="submit" class="btn w-100 d-flex justify-content-center align-items-center  btn-primary">Store</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
         <?php require 'include/footer.php'; ?>
     </div>
     <script src="<?= APP_URL ?>/assets/js/jquery-3.5.1.min.js"></script>
