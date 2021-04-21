@@ -6,11 +6,24 @@ use BookWorms\Model\Image;
 use BookWorms\Model\Related_Image;
 use BookWorms\Model\Timber_Related_Image;
 use BookWorms\Model\FileUpload;
+use BookWorms\Model\Attribute;
+use BookWorms\Model\Timber_Attribute;
 
 try {
     $categories = [
         "1", "2"
     ];
+
+    $attributes = array();
+
+    $attr = Attribute::findAll();
+    foreach ($attr as $at) {
+        $attributes[] = $at->name;
+    }
+
+    if ($request->is_logged_in()) {
+        $role = $request->session()->get("role");
+    }
 
     $rules = [
         "title" => "present|minlength:2|maxlength:64",
@@ -22,6 +35,23 @@ try {
 
     $request->validate($rules);
     if ($request->is_valid()) {
+        $attributes = null;
+        if ($request->input("attributes") != null) {
+            $attributes = $request->input("attributes");
+            if (count($attributes) > 2) {
+                $request->session()->set("flash_message", "Please select a maximum of 2 attributes.");
+                $request->session()->set("flash_message_class", "alert-warning");
+                $request->session()->set("flash_data", $request->all());
+                $request->session()->set("flash_errors", $request->errors());
+                $request->redirect("/views" . "/" . $role . "/timber-create.php");
+            }
+            $existing_attributes = Timber_Attribute::findByTimberId($request->input("timber_id"));
+            // our existing attributes are wiped clean, so we can insert the newly selected attributes
+            foreach ($existing_attributes as $existing_attribute) {
+                $existing_attribute->delete();
+            }
+        }
+
         $image = null;
         $relatedimage1 = null;
         $relatedimage2 = null;
@@ -86,6 +116,21 @@ try {
             $timber_related_image3->save();
         }
 
+        if ($attributes != null) {
+            $attributes_obj = array();
+
+            foreach ($attributes as $attribute) {
+                $attr = Attribute::findByName($attribute);
+                $attributes_obj[] = $attr;
+            }
+
+            foreach ($attributes_obj as $attribute_obj) {
+                $timber_attribute = new Timber_Attribute;
+                $timber_attribute->attribute_id = $attribute_obj->id;
+                $timber_attribute->timber_id = $timber->id;
+                $timber_attribute->save();
+            }
+        }
 
         $request->session()->set("flash_message", "The timber product was successfully updated in the database");
         $request->session()->set("flash_message_class", "alert-info");

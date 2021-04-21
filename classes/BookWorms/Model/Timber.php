@@ -50,9 +50,13 @@ class Timber
                 throw new Exception("Database error executing database query: " . $message);
             }
 
-            if ($stmt->rowCount() !== 1) {
-                throw new Exception("Failed to save timber.");
-            }
+            // Removed because this doesn't necessarily mean an update didn't work...
+            // A user might go to the timber-edit form and only change a related_image or attribute
+            // neither of which are directly linked to the timber object itself
+
+            // if ($stmt->rowCount() !== 1) {
+            //     throw new Exception("Failed to save timber.");
+            // }
 
             if ($this->id === null) {
                 $this->id = $conn->lastInsertId();

@@ -57,7 +57,7 @@ $numPages = ceil($numCustomers / $pageSize);
                         ?>
                     </td>
                     <td><button formaction="<?= APP_URL ?>/views/admin/customers/customer-edit.php"><i class="fas fa-pen"></i></button></td>
-                    <td><button formaction="<?= APP_URL ?>/actions/delete/customer-delete.php"><i class="fas fa-trash"></i></button></td>
+                    <td class="btn-customer-delete"><button class="btn-customer-delete" formaction="<?= APP_URL ?>/actions/delete/customer-delete.php"><i class="fas fa-trash"></i></button></td>
                 </tr>
             <?php } ?>
         </tbody>

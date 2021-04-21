@@ -85,7 +85,7 @@ try {
                                 <span class="error"><?= error("profile") ?></span>
                             </div>
                             <div class="d-flex form-group">
-                                <a class="btn mb-1 w-100 d-flex justify-content-center align-items-center btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
+                                <a class="btn mb-1 w-100 d-flex justify-content-center align-items-center btn-default" href="<?= APP_URL ?>/views/admin/home.php">Cancel</a>
                                 <button type="submit" class="btn w-100 d-flex justify-content-center align-items-center  btn-primary">Store</button>
                             </div>
                         </form>

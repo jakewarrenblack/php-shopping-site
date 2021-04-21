@@ -49,13 +49,13 @@ window.addEventListener('scroll', function () {
     }
 });
 
+window.addEventListener('load', function (event) {
+    const customer_delete_btn = document.getElementsByClassName('btn-customer-delete')[0];
+    customer_delete_btn.addEventListener("click", function (event) {
+    if (!confirm("Are you sure you want to delete this customer?")) {
+        event.preventDefault();
+    }
+    });
+});
 
-/*Form now handles both login and register, switch action depending on active button*/
 
-
-
-// if(register.classList.contains('form_btn_active')){
-//     sign_in.classList.remove('form_btn_active');
-// }else if(sign_in.classList.contains('form_btn_active')){
-//     register.classList.remove('form_btn_active');
-// }

@@ -2,6 +2,8 @@
 <?php
 
 use BookWorms\Model\Timber;
+use BookWorms\Model\Attribute;
+use BookWorms\Model\Timber_Attribute;
 
 try {
   $rules = [
@@ -32,49 +34,46 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Create Timber</title>
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style_purged.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
-  <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
-
 </head>
 
-<body>
+<body class="body">
   <?php require 'include/navbar.php'; ?>
   <div class="container-fluid p-0">
 
     <?php require 'include/flash.php'; ?>
-    <main role="main">
-      <div>
-        <div class="row d-flex justify-content-center">
-          <h1>Edit Timber</h1>
-        </div>
+    <div>
+      <div class="row d-flex justify-content-center">
+        <h1>Edit Timber</h1>
+      </div>
 
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <?php require "include/flash.php"; ?>
-          </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <?php require "include/flash.php"; ?>
         </div>
-
-        <div class="row justify-content-center pt-4">
-          <div class="col-lg-10">
-            <form name='timber-create' action="<?= APP_URL . '/actions/timber-update.php' ?>" method="post" enctype="multipart/form-data">
+      </div>
+      <div class="row justify-content-center pt-4">
+        <div class="form__contain form__alt">
+          <div class="container">
+            <form class="form" name='timber-create' action="<?= APP_URL . '/actions/timber-update.php' ?>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="timber_id" value="<?= $timber->id ?>" />
 
               <div class="form-group">
-                <label for="ticketPrice">Title</label>
-                <input placeholder="Title" name="title" type="text" id="title" class="form-control" value="<?= $timber->title ?>" />
+                <label class="main__label" for="ticketPrice">Title</label>
+                <input placeholder="Title" name="title" type="text" id="title" class="form__input" value="<?= $timber->title ?>" />
                 <span class="error"><?= error("title") ?></span>
               </div>
 
               <div class="form-group">
-                <label for="date">Description</label>
-                <textarea placeholder="Description" name="description" rows="3" id="description" class="form-control" value=""><?= $timber->description ?></textarea>
+                <label class="main__label" for="date">Description</label>
+                <textarea placeholder="Description" name="description" rows="3" id="description" class="form__input" value=""><?= $timber->description ?></textarea>
                 <span class="error"><?= error("description") ?></span>
               </div>
 
               <div class="form-group">
-                <label for="location">Category</label>
-                <select class="form-control" name="category_id" id="category_id">
+                <label class="main__label" for="location">Category</label>
+                <select class="form__input" name="category_id" id="category_id">
                   <option value="1" <?= chosen("category", "1") ? "selected" : "" ?>>Hardwood</option>
                   <option value="2" <?= chosen("category", "2") ? "selected" : "" ?>>Softwood</option>
                 </select>
@@ -82,24 +81,41 @@ try {
               </div>
 
               <div class="form-group">
-                <label class="labelHidden" for="price">Price</label>
-                <input placeholder="Price" type="number" step="0.01" name="price" class="form-control" id="price" value="<?= $timber->price ?>" />
+                <label class="main__label" class="labelHidden" for="price">Price</label>
+                <input placeholder="Price" type="number" step="0.01" name="price" class="form__input" id="price" value="<?= $timber->price ?>" />
                 <span class="error"><?= error("price") ?></span>
               </div>
 
               <div class="form-group">
-                <label class="labelHidden" for="minimum_order">Minimum Order</label>
-                <input placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form-control" id="minimum_order" value="<?= $timber->minimum_order ?>" />
+                <label class="main__label" class="labelHidden" for="minimum_order">Minimum Order</label>
+                <input placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form__input" id="minimum_order" value="<?= $timber->minimum_order ?>" />
                 <span class="error"><?= error("minimum_order") ?></span>
               </div>
 
               <div class="form-group">
-                <label for="profile">Image:</label>
+                <label class="main__label" for="profile">Image:</label>
                 <input type="file" name="profile" id="profile">
                 <span class="error"><?= error("profile") ?></span>
               </div>
 
-              <label for="profile">Related images:</label>
+              <div class="form-group">
+                <details>
+                  <summary>Attributes (Select up to 2)</summary>
+                  <?php
+                  $attributes = Attribute::findAll();
+
+                  foreach ($attributes as $attribute) {
+                  ?>
+                    <input type="checkbox" id="<?= $attribute->id ?>" name="attributes[]" value="<?= $attribute->name ?>">
+                    <label for="<?= $attribute->id ?>"><?= $attribute->name ?></label><br>
+                  <?php
+                  }
+                  ?>
+                </details>
+                <span class="error"><?= error("attributes") ?></span>
+              </div>
+
+              <label class="main__label" for="profile">Related images:</label>
               <div class="related_images d-flex">
                 <div class="form-group">
                   <input type="file" name="related_image_1" id="related_image_1">
@@ -117,15 +133,15 @@ try {
                 </div>
               </div>
 
-              <div class="form-group">
-                <a class="btn btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
-                <button type="submit" class="btn btn-primary">Store</button>
+              <div class="d-flex form-group">
+                <a class="btn mb-1 d-flex justify-content-center align-items-center w-100 btn-default" href="<?= APP_URL ?>/views/admin/home.php">Cancel</a>
+                <button type="submit" class="btn w-100 justify-content-center align-items-center btn-primary">Store</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </main>
+    </div>
     <?php require 'include/footer.php'; ?>
   </div>
   <script src="<?= APP_URL ?>/assets/js/jquery-3.5.1.min.js"></script>
