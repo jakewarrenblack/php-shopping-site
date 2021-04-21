@@ -5,6 +5,8 @@ use BookWorms\Model\Timber;
 use BookWorms\Model\Image;
 use BookWorms\Model\FileUpload;
 use BookWorms\Model\User;
+use BookWorms\Model\Related_Image;
+use BookWorms\Model\Timber_Related_Image;
 
 if ($request->is_logged_in()) {
   $role = $request->session()->get("role");
@@ -29,6 +31,27 @@ try {
     $image->filename = $filename;
     $image->save();
 
+    // now same as above but for related images
+    $related1 = new FileUpload("related_image_1");
+    $relatedfilename1 = $related1->get();
+    $relatedimage1 = new Related_Image();
+    $relatedimage1->filename = $relatedfilename1;
+    $relatedimage1->save();
+
+    $related2 = new FileUpload("related_image_2");
+    $relatedfilename2 = $related2->get();
+    $relatedimage2 = new Related_Image();
+    $relatedimage2->filename = $relatedfilename2;
+    $relatedimage2->save();
+
+    $related3 = new FileUpload("related_image_3");
+    $relatedfilename3 = $related3->get();
+    $relatedimage3 = new Related_Image();
+    $relatedimage3->filename = $relatedfilename3;
+    $relatedimage3->save();
+
+    // end saving related images
+
     $timber = new Timber();
     $timber->title = $request->input("title");
     $timber->description = $request->input("description");
@@ -39,6 +62,22 @@ try {
     /*Insert the value for the image object we've created above.*/
     $timber->image_id = $image->id;
     $timber->save();
+
+    $timber_related_image1 = new Timber_Related_Image;
+    $timber_related_image1->related_image_id = $relatedimage1->id;
+    $timber_related_image1->timber_id = $timber->id;
+    $timber_related_image1->save();
+
+    $timber_related_image2 = new Timber_Related_Image;
+    $timber_related_image2->related_image_id = $relatedimage2->id;
+    $timber_related_image2->timber_id = $timber->id;
+    $timber_related_image2->save();
+
+    $timber_related_image3 = new Timber_Related_Image;
+    $timber_related_image3->related_image_id = $relatedimage3->id;
+    $timber_related_image3->timber_id = $timber->id;
+    $timber_related_image3->save();
+
 
     $request->session()->set("flash_message", "The timber product was successfully added to the database");
     $request->session()->set("flash_message_class", "alert-info");
