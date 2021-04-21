@@ -34,37 +34,35 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Edit Transaction</title>
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style_purged.css">
-  <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
-  <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
-
 </head>
 
-<body>
+<body class="body">
   <?php require 'include/navbar.php'; ?>
   <div class="container-fluid p-0">
 
     <?php require 'include/flash.php'; ?>
-    <main role="main">
-      <div>
-        <div class="row d-flex justify-content-center">
-          <h1>Edit Transaction</h1>
-        </div>
+    <div>
+      <div class="row d-flex justify-content-center">
+        <h1>Edit Transaction</h1>
+      </div>
 
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <?php require "include/flash.php"; ?>
-          </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <?php require "include/flash.php"; ?>
         </div>
+      </div>
 
-        <div class="row justify-content-center pt-4">
-          <div class="col-lg-10">
-            <form name='timber-create' action="<?= APP_URL . '/actions/transaction-update.php' ?>" method="post" enctype="multipart/form-data">
+      <div class="row justify-content-center pt-4">
+        <div class="form__contain form__alt">
+          <div class="container">
+            <form class="form" name='timber-create' action="<?= APP_URL . '/actions/transaction-update.php' ?>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="transaction_id" value="<?= $transaction->id ?>" />
 
               <div class="form-group">
                 <label for="location">Customer</label>
-                <select class="form-control" name="customer_id" id="customer_id">
+                <select class="form__input" name="customer_id" id="customer_id">
                   <?php
                   $customers = Customer::findAll();
                   foreach ($customers as $customer) {
@@ -81,7 +79,7 @@ try {
               <div class="form-group">
 
                 <label for="location">Status</label>
-                <select class="form-control" name="status" id="status">
+                <select class="form__input" name="status" id="status">
                   <option value="succeeded" <?= chosen("status", "succeeded") ? "selected" : "" ?>>succeeded</option>
                   <option value="failed" <?= chosen("status", "failed") ? "selected" : "" ?>>failed</option>
                 </select>
@@ -89,26 +87,26 @@ try {
               </div>
 
               <div class="form-group">
-                <label class="labelHidden" for="startDate">Date</label>
-                <input placeholder="Start Date" type="date" name="date" class="form-control" id="date" value="<?= $transaction->date ?>" />
+                <label class="main__label" for="startDate">Date</label>
+                <input class="form__input" placeholder="Start Date" type="date" name="date" class="form__input" id="date" value="<?= $transaction->date ?>" />
                 <span class="error"><?= error("start_date") ?></span>
               </div>
 
               <div class="form-group">
-                <label class="labelHidden" for="total">Total</label>
-                <input placeholder="Total" type="number" step="0.01" name="total" class="form-control" id="total" value="<?= $transaction->total ?>" />
+                <label class="main__label" for="total">Total</label>
+                <input class="form__input" placeholder="Total" type="number" step="0.01" name="total" class="form__input" id="total" value="<?= $transaction->total ?>" />
                 <span class="error"><?= error("total") ?></span>
               </div>
 
-              <div class="form-group">
-                <a class="btn btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
-                <button type="submit" class="btn btn-primary">Store</button>
+              <div class="d-flex form-group">
+                <a class="btn w-100 mb-1 d-flex justify-content-center align-items-center btn-default" href="<?= APP_URL ?>/views/admin/home.php">Cancel</a>
+                <button type="submit" class="btn btn-primary w-100 d-flex justify-content-center align-items-center ">Store</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </main>
+    </div>
     <?php require 'include/footer.php'; ?>
   </div>
   <script src="<?= APP_URL ?>/assets/js/jquery-3.5.1.min.js"></script>

@@ -65,7 +65,7 @@ class Timber_Attribute
                 $db->open();
                 $conn = $db->get_connection();
 
-                $sql = "DELETE FROM transaction_timber WHERE id = :id";
+                $sql = "DELETE FROM timber_attribute WHERE id = :id";
                 $params = [
                     ":id" => $this->id
                 ];
@@ -79,7 +79,7 @@ class Timber_Attribute
                 }
 
                 if ($stmt->rowCount() !== 1) {
-                    throw new Exception("Failed to delete transaction_timber.");
+                    throw new Exception("Failed to delete timber_attribute.");
                 }
             }
         } finally {
