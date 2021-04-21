@@ -15,24 +15,23 @@ $numPages = ceil($numProducts / $pageSize);
                 <th>Species</th>
                 <th>description</th>
                 <th>Price</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($products as $product) { ?>
                 <tr class="d-none">
                     <td><input type="radio" name="timber_id" value="<?= $product->id ?>" /></td>
-                    <td><?= $product->id ?></td>
                     <td><?= $product->title ?></td>
                     <td><?= $product->description ?></td>
                     <td><?= $product->price ?></td>
+                    <td><button formaction="<?= APP_URL ?>/views/admin/products/timber-edit.php"><i class="fas fa-pen"></i></button></td>
+                    <td><button formaction="<?= APP_URL ?>/actions/delete/timber-delete.php"><i class="fas fa-trash"></i></button></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
-    <div class="row d-flex p-0 m-0 ml-2 mb-2">
-        <button class="btn w-100 mb-1 home-btn btn-warning mr-2" formaction="<?= APP_URL ?>/views/admin/products/timber-edit.php">Edit</button>
-        <button class="btn w-100 mb-1 home-btn btn-danger mr-2" formaction="<?= APP_URL ?>/actions/delete/timber-delete.php">Delete</button>
-    </div>
 </form>
 
 <nav id="nav-products">

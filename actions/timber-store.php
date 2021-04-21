@@ -7,6 +7,15 @@ use BookWorms\Model\FileUpload;
 use BookWorms\Model\User;
 use BookWorms\Model\Related_Image;
 use BookWorms\Model\Timber_Related_Image;
+use BookWorms\Model\Attribute;
+use BookWorms\Model\Timber_Attribute;
+
+$attributes = array();
+
+$attr = Attribute::findAll();
+foreach ($attr as $at) {
+  $attributes[] = $at->name;
+}
 
 if ($request->is_logged_in()) {
   $role = $request->session()->get("role");
@@ -20,11 +29,21 @@ try {
     "description" => "present|minlength:10|maxlength:2000",
     "price" => "present|minlength:1|maxlength:2000",
     "category_id" => "present|minlength:1|maxlength:1000",
-    "minimum_order" => "present|minlength:1|maxlength:2000"
+    "minimum_order" => "present|minlength:1|maxlength:2000",
+    "attributes" => "present|subset:" . implode(",", $attributes)
   ];
 
   $request->validate($rules);
   if ($request->is_valid()) {
+    $attributes = $request->input("attributes");
+    if (count($attributes) > 2) {
+      $request->session()->set("flash_message", "Please select a maximum of 2 attributes.");
+      $request->session()->set("flash_message_class", "alert-warning");
+      $request->session()->set("flash_data", $request->all());
+      $request->session()->set("flash_errors", $request->errors());
+      $request->redirect("/views" . "/" . $role . "/timber-create.php");
+    }
+
     $file = new FileUpload("profile");
     $filename = $file->get();
     $image = new Image();
@@ -78,6 +97,20 @@ try {
     $timber_related_image3->timber_id = $timber->id;
     $timber_related_image3->save();
 
+    $attributes_obj = array();
+
+    foreach ($attributes as $attribute) {
+      $attr = Attribute::findByName($attribute);
+      $attributes_obj[] = $attr;
+    }
+
+    foreach ($attributes_obj as $attribute_obj) {
+      $timber_attribute = new Timber_Attribute;
+      $timber_attribute->attribute_id = $attribute_obj->id;
+      $timber_attribute->timber_id = $timber->id;
+      $timber_attribute->save();
+    }
+
 
     $request->session()->set("flash_message", "The timber product was successfully added to the database");
     $request->session()->set("flash_message_class", "alert-info");
@@ -86,9 +119,11 @@ try {
 
     $request->redirect("/views" . "/" . $role . "/home.php");
   } else {
+    $request->session()->set("flash_message", "Please submit the form correctly.");
+    $request->session()->set("flash_message_class", "alert-warning");
     $request->session()->set("flash_data", $request->all());
     $request->session()->set("flash_errors", $request->errors());
-    $request->redirect("/views" . "/" . $role . "/home.php");
+    $request->redirect("/views" . "/" . $role . "/timber-create.php");
   }
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());

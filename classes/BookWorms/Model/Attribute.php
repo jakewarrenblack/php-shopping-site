@@ -88,7 +88,42 @@ class Attribute
                 $db->close();
             }
         }
+        return $attribute;
+    }
 
+    public static function findByName($name)
+    {
+        $attribute = null;
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            $select_sql = "SELECT * FROM attributes WHERE name = :name";
+            $select_params = [
+                ":name" => $name
+            ];
+            $select_stmt = $conn->prepare($select_sql);
+            $select_status = $select_stmt->execute($select_params);
+
+            if (!$select_status) {
+                $error_info = $select_stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            if ($select_stmt->rowCount() !== 0) {
+                $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                $attribute = new Attribute();
+                $attribute->id = $row['id'];
+                $attribute->name = $row['name'];
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
         return $attribute;
     }
 }

@@ -31,7 +31,7 @@ if ($user->role_id == 4) {
 
   <link href="<?= APP_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="<?= APP_URL ?>/assets/css/template.css" rel="stylesheet">
-  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
+  <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style_purged.css">
   <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
   <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
 </head>

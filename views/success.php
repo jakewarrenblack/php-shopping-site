@@ -20,7 +20,7 @@ if (!empty($_GET['tid'] && !empty($_GET['product']))) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style_purged.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/scale.css" media="screen">
     <script src="https://kit.fontawesome.com/fca6ae4c3f.js" crossorigin="anonymous"></script>
     <title>Success</title>
