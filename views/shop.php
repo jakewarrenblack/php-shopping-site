@@ -115,34 +115,24 @@ $paginations = ceil($timber_count / $per_page);
       <?php } ?>
       <div class="pagination__contain">
         <ul class="pagination">
+          <form method="post" action="shop.php">
+            <input type="hidden" name="start" value="<?= $previous ?>" />
+            <button><i class=" fas fa-caret-left"></i></button>
+          </form>
           <?php
-          for ($j = 1; $j < $paginations; $j++) {
+          for ($j = 0; $j < $paginations; $j++) {
           ?>
-            <form method="post" action="shop.php">
-              <input type="hidden" name="start" value="<?= $previous ?>" />
-              <button><i class=" fas fa-caret-left"></i></button>
-            </form>
-
-            <form method="post" action="shop.php">
-              <input type="hidden" name="start" value="0" />
-              <button>1</button>
-            </form>
-
             <form method="post" action="shop.php">
               <input type="hidden" name="start" value="<?= $j ?>" />
               <button><?= ($j + 1) ?></button>
             </form>
-            <?php
-            if ($j != $page_counter) {
-            ?>
-              <form method="post" action="shop.php">
-                <input type="hidden" name="start" value="<?= $next ?>" />
-                <button><i class=" fas fa-caret-right"></i></button>
-              </form>
           <?php
-            }
           }
           ?>
+          <form method="post" action="shop.php">
+            <input type="hidden" name="start" value="<?= $next ?>" />
+            <button><i class=" fas fa-caret-right"></i></button>
+          </form>
         </ul>
       </div>
     </div>

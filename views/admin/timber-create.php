@@ -70,6 +70,28 @@
           <span class="error"><?= error("profile") ?></span>
         </div>
 
+        <!-- Related images-->
+
+        <label for="profile">Related images:</label>
+        <div class="related_images d-flex">
+          <div class="form-group">
+            <input type="file" name="related_image_1" id="related_image_1">
+            <span class="error"><?= error("related_image_1") ?></span>
+          </div>
+
+          <div class="form-group">
+            <input type="file" name="related_image_2" id="related_image_2">
+            <span class="error"><?= error("related_image_2") ?></span>
+          </div>
+
+          <div class="form-group">
+            <input type="file" name="related_image_3" id="related_image_3">
+            <span class="error"><?= error("related_image_3") ?></span>
+          </div>
+        </div>
+
+
+
         <div class="form-group">
           <a class="btn w-100 btn-default" href="<?= APP_URL ?>/index.php">Cancel</a>
           <button type="submit" class="btn w-100 btn-primary">Store</button>

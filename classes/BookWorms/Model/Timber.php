@@ -51,7 +51,7 @@ class Timber
             }
 
             if ($stmt->rowCount() !== 1) {
-                throw new Exception("Failed to save user.");
+                throw new Exception("Failed to save timber.");
             }
 
             if ($this->id === null) {

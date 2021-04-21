@@ -6,6 +6,8 @@ use BookWorms\Model\Image;
 use BookWorms\Model\Category;
 use BookWorms\Model\Attribute;
 use BookWorms\Model\Timber_Attribute;
+use BookWorms\Model\Related_Image;
+use BookWorms\Model\Timber_Related_Image;
 
 try {
   $timber_id = $_GET['id'];
@@ -79,7 +81,6 @@ try {
             }
             ?>
           </h3>
-          <br>
         </div>
         <div class="main__copy">
           <p>
@@ -114,7 +115,7 @@ try {
           <input type="hidden" name="timber_id" value="<?= $timber_id ?>">
 
           <div class="buttons__contain">
-            <a class="btn btn-cart" href="<?= APP_URL ?>/index.php">Cancel</a>
+            <a class="btn btn-cart" href="<?= APP_URL ?>/views/shop.php">Cancel</a>
             <input class="btn btn-cart" type="submit" value="Add to Basket"></input>
 
           </div>
@@ -123,13 +124,36 @@ try {
 
       </article>
       <div class="carousel js-flickity" data-flickity='{ "setGallerySize": false }'>
-        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
-        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
-        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
-        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
-        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
-        <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <?php
+        $timber_related_images = null;
+        $related_images = array();
+        if (Timber_Related_Image::findByTimberId($timber->id) != null) {
+          $timber_related_images = Timber_Related_Image::findByTimberId($timber->id);
+          foreach ($timber_related_images as $timber_related_image) {
+            $id = $timber_related_image->related_image_id;
+            $related_images[] = Related_Image::findById($id)->filename;
+          }
+        }
+        if ($related_images != null) {
+          foreach ($related_images as $related_image) {
+        ?>
+            <div class="carousel-cell singleProduct__carousel">
+              <img class="carousel-cell-image related" src="<?= APP_URL . "/actions/" . $related_image ?>">
+            </div>
+          <?php
+          }
+        } else {
+          ?>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+        <?php
+        }
 
+        ?>
       </div>
 
       <div class="related__info">
