@@ -2021,6 +2021,8 @@ div.basket__top:nth-child(7) {
   margin: 0.5em 0;
 }
 
+
+
 @media all and (max-width: 1000px) {
   .body {
     display: flex !important;

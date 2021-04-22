@@ -16,6 +16,49 @@ try {
   if ($timber === null) {
     throw new Exception("Illegal request parameter");
   }
+
+  $timber = Timber::findById($timber_id);
+  $related_products = null;
+
+  if (Timber_Attribute::findByTimberId($timber_id, 4) != null) {
+    // method will use sql 'group by' on timber_id to return unique records
+    $related_products_attribute = Timber_Attribute::findByTimberId($timber_id);
+
+
+    $timber__attributes = null;
+    foreach ($related_products_attribute as $related_product_attribute) {
+      // if the timber product related by attribute is the same as the product currently being viewed,
+      // don't count it
+      if ($related_product_attribute->timber_id !== $timber_id) {
+        $timber_attributes[] = $related_product_attribute;
+      }
+    }
+
+    if ($timber__attributes != null) {
+      foreach ($timber_attributes as $timber_attribute) {
+        $related_products[] = Timber::findById($timber_attribute->timber_id);
+      }
+    }
+
+    // We want at least 4 to fill the row. So, if this product has less than 4
+    // other products with a common attribute, find more related by category.
+    if ($related_products != null) {
+      if (count($related_products) < 4) {
+        // now we make up the difference
+        $remainder = (4 - count($related_products));
+        $related_products = array_merge($related_products, Timber::findByCategoryId($timber->category_id, $remainder));
+      }
+      // if we didn't find any timber products related by attribute that aren't the product being currently viewed
+    } else {
+      $related_products = Timber::findByCategoryIdExcluding($timber->category_id, $timber_id, 4);
+    }
+  } else {
+    $related_products = Timber::findByCategoryIdExcluding($timber->category_id, $timber_id, 4);
+  }
+
+  if ($related_products != null) {
+    $related_products = array_unique($related_products, SORT_REGULAR);
+  }
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
@@ -74,6 +117,9 @@ try {
 
                 if (count($attribute) > 1) {
                   echo implode(", ", $attribute);
+                } else {
+                  // there is only one index, so echo that
+                  echo $attribute[0];
                 }
               }
             } else {
@@ -160,6 +206,43 @@ try {
         <ul>
           <li>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta numquam voluptates dolorum enim neque cumque fugit reiciendis maxime pariatur optio aut minima, corrupti deserunt architecto adipisci. Non molestiae laborum qui.</li>
         </ul>
+      </div>
+      <br>
+      <h2 class="d-flex justify-content-center related__products__header">You may also like</h2>
+      <hr class="w-100 related__products__hr">
+      <!------------------------------------------------------------------------------------------------------------------------->
+      <div class="related__products">
+        <div class="related__products__contain">
+          <?php
+          if ($related_products != null) {
+            foreach ($related_products as $related_product) {
+              if ($related_product->id !== $timber_id) {
+          ?>
+                <div class="container__inner__shop__product container__inner__shop__related__product related__product">
+                  <div class="container__inner__shop__link related__container__link">
+                    <?php
+                    $timber_image = Image::findById($related_product->image_id);
+                    if ($timber_image !== null) {
+                    ?>
+                      <img src="<?= APP_URL . "/actions/" . $timber_image->filename ?>" alt="Timber image">
+                    <?php
+                    }
+                    ?>
+                  </div>
+                  <div class="container__product__banner related__banner d-flex align-items-center flex-column p-1em">
+                    <h3 class="container__inner__shop__product__title"><?= $related_product->title ?></h3>
+                    <h3 class="container__inner__shop__product__title step--0">&euro;<?= $related_product->price ?> per unit</h3>
+                    <h3 class="container__inner__shop__product__title step--0">Minimum order: <?= $related_product->minimum_order ?></h3>
+                    <a class="related__product__view__button w-50" href="timber-view.php?id=<?php echo $related_product->id; ?>" target="_new" class="w-50 mt-05"><button class="btn w-100">VIEW</button></a>
+                  </div>
+                </div>
+          <?php
+              }
+            }
+          }
+          ?>
+        </div>
+        <!-------------------------------------------------------------------------------------------------------------------------------------->
       </div>
     </div>
   </div>
