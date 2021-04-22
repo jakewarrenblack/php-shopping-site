@@ -166,7 +166,7 @@ class Timber_Attribute
         return $timber_attribute;
     }
 
-    public static function findByTimberId($timber_id)
+    public static function findByTimberId($timber_id, $limit = null)
     {
         $timber_attributes = array();;
 
@@ -175,10 +175,15 @@ class Timber_Attribute
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM timber_attribute WHERE timber_id = :timber_id";
+            if ($limit === null) {
+                $select_sql = "SELECT DISTINCT id,timber_id,attribute_id FROM timber_attribute WHERE timber_id = :timber_id GROUP BY timber_id";
+            } else {
+                $select_sql = "SELECT DISTINCT id,timber_id,attribute_id FROM timber_attribute WHERE timber_id = :timber_id GROUP BY timber_id LIMIT $limit";
+            }
             $select_params = [
                 ":timber_id" => $timber_id
             ];
+
             $select_stmt = $conn->prepare($select_sql);
             $select_status = $select_stmt->execute($select_params);
 
