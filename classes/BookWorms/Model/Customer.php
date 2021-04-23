@@ -46,8 +46,14 @@ class Customer
                 throw new Exception("Database error executing database query: " . $message);
             }
 
-            if ($stmt->rowCount() !== 1) {
-                throw new Exception("Failed to save user.");
+            // this throws an error if the update was successful but nothing changed,
+            // doesn't make sense in the context of updating customer and user info at the same time, may not necessarily change at all
+            // added first if statement to make sure we only do this check on NEW customers
+            // same logic applies to users
+            if ($this->id === null) {
+                if ($stmt->rowCount() !== 1) {
+                    throw new Exception("Failed to save customer.");
+                }
             }
 
             if ($this->id === null) {

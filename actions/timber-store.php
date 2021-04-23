@@ -21,8 +21,6 @@ if ($request->is_logged_in()) {
   $role = $request->session()->get("role");
 }
 
-
-
 try {
   $rules = [
     "title" => "present|minlength:2|maxlength:64",

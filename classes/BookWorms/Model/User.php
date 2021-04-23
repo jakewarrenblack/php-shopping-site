@@ -1,21 +1,25 @@
 <?php
+
 namespace BookWorms\Model;
 
 use Exception;
 use PDO;
 
-class User {
+class User
+{
     public $id;
     public $email;
     public $password;
     public $name;
     public $role_id;
 
-    function __construct() {
+    function __construct()
+    {
         $this->id = null;
     }
 
-    public function save() {
+    public function save()
+    {
         try {
             $db = new DB();
             $db->open();
@@ -29,9 +33,13 @@ class User {
             ];
             if ($this->id === null) {
                 $sql = "INSERT INTO users (email, password, name, role_id) VALUES (:email, :password, :name, :role_id)";
-            }
-            else {
-                $sql = "UPDATE users SET email = :email, password = :password, name = :name, role_id = :role_id WHERE id = :id" ;
+            } else {
+                $params = [
+                    ":email" => $this->email,
+                    ":name" => $this->name,
+                ];
+
+                $sql = "UPDATE users SET email = :email, name = :name WHERE id = :id";
                 $params[":id"] = $this->id;
             }
             $stmt = $conn->prepare($sql);
@@ -39,26 +47,31 @@ class User {
 
             if (!$status) {
                 $error_info = $stmt->errorInfo();
-                $message = "SQLSTATE error code = ".$error_info[0]."; error message = ".$error_info[2];
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
                 throw new Exception("Database error executing database query: " . $message);
             }
 
-            if ($stmt->rowCount() !== 1) {
-                throw new Exception("Failed to save user.");
+            // this throws an error if the update was successful but nothing changed,
+            // doesn't make sense in the context of updating customer and user info at the same time, may not necessarily change at all
+            // added first if statement to make sure we only do this check on NEW users
+            if ($this->id === null) {
+                if ($stmt->rowCount() !== 1) {
+                    throw new Exception("Failed to save user.");
+                }
             }
 
             if ($this->id === null) {
                 $this->id = $conn->lastInsertId();
             }
-        }
-        finally {
+        } finally {
             if ($db !== null && $db->is_open()) {
                 $db->close();
             }
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         $db = null;
         try {
             if ($this->id !== null) {
@@ -66,7 +79,7 @@ class User {
                 $db->open();
                 $conn = $db->get_connection();
 
-                $sql = "DELETE FROM users WHERE id = :id" ;
+                $sql = "DELETE FROM users WHERE id = :id";
                 $params = [
                     ":id" => $this->id
                 ];
@@ -75,7 +88,7 @@ class User {
 
                 if (!$status) {
                     $error_info = $stmt->errorInfo();
-                    $message = "SQLSTATE error code = ".$error_info[0]."; error message = ".$error_info[2];
+                    $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
                     throw new Exception("Database error executing database query: " . $message);
                 }
 
@@ -83,15 +96,15 @@ class User {
                     throw new Exception("Failed to delete user.");
                 }
             }
-        }
-        finally {
+        } finally {
             if ($db !== null && $db->is_open()) {
                 $db->close();
             }
         }
     }
 
-    public static function findAll() {
+    public static function findAll()
+    {
         $users = array();
 
         try {
@@ -105,7 +118,7 @@ class User {
 
             if (!$select_status) {
                 $error_info = $select_stmt->errorInfo();
-                $message = "SQLSTATE error code = ".$error_info[0]."; error message = ".$error_info[2];
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
                 throw new Exception("Database error executing database query: " . $message);
             }
 
@@ -123,8 +136,7 @@ class User {
                     $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
                 }
             }
-        }
-        finally {
+        } finally {
             if ($db !== null && $db->is_open()) {
                 $db->close();
             }
@@ -133,7 +145,8 @@ class User {
         return $users;
     }
 
-    public static function findById($id) {
+    public static function findById($id)
+    {
         $user = null;
 
         try {
@@ -150,7 +163,7 @@ class User {
 
             if (!$select_status) {
                 $error_info = $select_stmt->errorInfo();
-                $message = "SQLSTATE error code = ".$error_info[0]."; error message = ".$error_info[2];
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
                 throw new Exception("Database error executing database query: " . $message);
             }
 
@@ -163,8 +176,7 @@ class User {
                 $user->name = $row['name'];
                 $user->role_id = $row['role_id'];
             }
-        }
-        finally {
+        } finally {
             if ($db !== null && $db->is_open()) {
                 $db->close();
             }
@@ -173,7 +185,8 @@ class User {
         return $user;
     }
 
-    public static function findByEmail($email) {
+    public static function findByEmail($email)
+    {
         $user = null;
 
         try {
@@ -190,7 +203,7 @@ class User {
 
             if (!$select_status) {
                 $error_info = $select_stmt->errorInfo();
-                $message = "SQLSTATE error code = ".$error_info[0]."; error message = ".$error_info[2];
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
                 throw new Exception("Database error executing database query: " . $message);
             }
 
@@ -203,8 +216,7 @@ class User {
                 $user->name = $row['name'];
                 $user->role_id = $row['role_id'];
             }
-        }
-        finally {
+        } finally {
             if ($db !== null && $db->is_open()) {
                 $db->close();
             }

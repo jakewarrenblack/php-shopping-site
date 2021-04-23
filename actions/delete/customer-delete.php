@@ -22,16 +22,27 @@ try {
 
     // We also delete existing transaction records for this customer
     if (Transaction::findByCustomerId($customer_id) != null) {
+        // find every transaction created by this customer
         $customer_transactions = Transaction::findByCustomerId($customer_id);
-        $transaction_timbers = null;
-        foreach ($customer_transactions as $customer_transaction) {
-            $transaction_timbers = Transaction_Timber::findByTransactionId($customer_transaction->id);
-        }
-        foreach ($transaction_timbers as $transaction_timber) {
-            $transaction_timber->delete();
-        }
-        foreach ($customer_transactions as $customer_transaction) {
-            $customer_transaction->delete();
+        if ($customer_transactions !== null) {
+            $transaction_timbers = array();
+            foreach ($customer_transactions as $customer_transaction) {
+                // find every product involved in each transaction
+                $transaction_timbers[] = Transaction_Timber::findByTransactionId($customer_transaction->id);
+            }
+
+            foreach ($transaction_timbers as $transaction_timber) {
+                // delete each product in each transaction
+                foreach ($transaction_timber as $transaction_timber_obj) {
+                    $transaction_timber_obj->delete();
+                }
+            }
+
+            foreach ($customer_transactions as $customer_transaction) {
+                // fk constraint will no longer fail, all children are gone
+                // delete each transaction itself
+                $customer_transaction->delete();
+            }
         }
     }
 
