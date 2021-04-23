@@ -1,7 +1,6 @@
 let mainNav = document.getElementById('js-menu');
 let navContainer = document.getElementById('nav');
 let navBarToggle = document.getElementById('js-navbar-toggle');
-let APP_URL = 'http://localhost/awdd/SWP-CA2';
 
 let registerElement = document.getElementsByClassName('register__element');
 
@@ -14,16 +13,30 @@ navBarToggle.addEventListener('click', function () {
     navContainer.classList.toggle('zeroShrink');
 });
 
+
+let loginAppend = "actions/login.php";
+let registerAppend = "actions/register.php";
+
 if(sign_in != null){
     sign_in.addEventListener('click',function(){
         for (i = 0; i < registerElement.length; i++) {
             registerElement[i].classList.remove('visible');
             sign_in.classList.add('form_btn_active');
             register.classList.remove('form_btn_active');
-            form.action = APP_URL + "/actions/login.php";
-          } 
+        } 
+
+        if(form.action.includes(registerAppend)){
+            let formaction = form.action.toString().replace(registerAppend,'');
+            form.action = formaction;
+        }
+
+
+        if(!form.action.includes(loginAppend)){
+        form.action += loginAppend;
+        }
     }); 
 }
+
 
 if(register != null){
     register.addEventListener('click',function(){
@@ -31,8 +44,16 @@ if(register != null){
             registerElement[i].classList.add('visible');
             register.classList.add('form_btn_active');
             sign_in.classList.remove('form_btn_active');
-            form.action = APP_URL + "/actions/register.php";
-          } 
+        } 
+
+        if(form.action.includes(loginAppend)){
+            let formaction = form.action.toString().replace(loginAppend,'');
+            form.action = formaction;
+        }
+
+        if(!form.action.includes(registerAppend)){
+            form.action += registerAppend;
+        }
     });  
 }
 

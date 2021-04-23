@@ -270,4 +270,52 @@ class Transaction_Timber
 
         return $transaction_timbers;
     }
+
+
+    public static function findByTimberId($timber_id)
+    {
+        $transaction_timbers = array();
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            $select_sql = "SELECT * FROM transaction_timber WHERE timber_id = :timber_id";
+            $select_params = [
+                ":timber_id" => $timber_id
+            ];
+            $select_stmt = $conn->prepare($select_sql);
+            $select_status = $select_stmt->execute($select_params);
+
+            if (!$select_status) {
+                $error_info = $select_stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            if ($select_stmt->rowCount() !== 0) {
+                $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                while ($row != FALSE) {
+                    $transaction_timber = new Transaction_Timber();
+                    $transaction_timber->id = $row['id'];
+                    $transaction_timber->quantity = $row['quantity'];
+                    $transaction_timber->profiling = $row['profiling'];
+                    $transaction_timber->sqfootage = $row['sqfootage'];
+                    $transaction_timber->fire_rated = $row['fire_rated'];
+                    $transaction_timber->transaction_id = $row['transaction_id'];
+                    $transaction_timber->timber_id = $row['timber_id'];
+                    $transaction_timbers[] = $transaction_timber;
+
+                    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
+
+        return $transaction_timbers;
+    }
 }

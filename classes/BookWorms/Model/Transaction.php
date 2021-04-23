@@ -217,6 +217,52 @@ class Transaction
         return $transaction;
     }
 
+
+    public static function findAllById($id)
+    {
+        $transactions = array();
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            $select_sql = "SELECT * FROM transactions WHERE id = :id";
+            $select_params = [
+                ":id" => $id
+            ];
+            $select_stmt = $conn->prepare($select_sql);
+            $select_status = $select_stmt->execute($select_params);
+
+            if (!$select_status) {
+                $error_info = $select_stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            if ($select_stmt->rowCount() !== 0) {
+                $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                while ($row !== FALSE) {
+                    $transaction = new Transaction();
+                    $transaction->id = $row['id'];
+                    $transaction->customer_id = $row['customer_id'];
+                    $transaction->status = $row['status'];
+                    $transaction->date = $row['date'];
+                    $transaction->total = $row['total'];
+                    $transactions[] = $transaction;
+
+                    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
+
+        return $transactions;
+    }
+
     public static function findByCustomerId($customer_id)
     {
         $transactions = array();

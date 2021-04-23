@@ -6,6 +6,7 @@ use BookWorms\Model\Customer;
 use BookWorms\Model\User;
 
 try {
+
   $rules = [
     'transaction_id' => 'present'
   ];
