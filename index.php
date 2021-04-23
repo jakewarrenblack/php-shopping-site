@@ -38,11 +38,9 @@
     </div>
     <div id="landing__carousel" class="carousel js-flickity landing__carousel" data-flickity='{ "setGallerySize": false }'>
       <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 1.png"></div>
+      <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 2.png"></div>
       <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 3.png"></div>
       <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 4.png"></div>
-      <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 5.png"></div>
-      <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 6.png"></div>
-      <div class="carousel-cell landing__carousel__cell"><img id="landing__flickity_img" class="carousel-cell-image related" src="assets/img/partners/1x/Asset 1.png"></div>
     </div>
 
 

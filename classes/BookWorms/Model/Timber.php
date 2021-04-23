@@ -243,7 +243,7 @@ class Timber
         return $timber;
     }
 
-    public static function findByCategoryId($category_id, $limit = null)
+    public static function findByCategoryId($category_id, $start = null, $limit = null)
     {
         $timbers = array();
 
@@ -252,7 +252,11 @@ class Timber
             $db->open();
             $conn = $db->get_connection();
 
-            $select_sql = "SELECT * FROM timbers WHERE category_id = :category_id LIMIT $limit";
+            if ($limit !== null && $start !== null) {
+                $select_sql = "SELECT * FROM timbers WHERE category_id = :category_id LIMIT $start,$limit";
+            } else {
+                $select_sql = "SELECT * FROM timbers WHERE category_id = :category_id";
+            }
             $select_params = [
                 ":category_id" => $category_id
             ];
