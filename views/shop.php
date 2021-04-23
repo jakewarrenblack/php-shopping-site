@@ -25,7 +25,7 @@ $start = $start *  $per_page;
 $sort = null;
 $order = null;
 
-if (isset($_POST['sort'])) {
+if (isset($_POST['sort']) && !isset($_POST['category'])) {
   $request->session()->set("flash_data", $request->all());
   $sort = $_POST['sort'];
   // check if default is selected
@@ -35,6 +35,21 @@ if (isset($_POST['sort'])) {
     $timbers = Timber::findAll($start, $per_page);
   }
 } else {
+  $timbers = Timber::findAll($start, $per_page);
+}
+
+if (isset($_POST['category']) && !isset($_POST['sort'])) {
+  $request->session()->set("flash_data", $request->all());
+  $category = $_POST['category'];
+  // check if default is selected
+  if ($category != "2 OR category_id = 1") {
+    $timbers = Timber::findByCategoryId($category, $start, $per_page);
+  } else {
+    $timbers = Timber::findAll($start, $per_page);
+  }
+}
+
+if (!isset($_POST['category']) && !isset($_POST['sort'])) {
   $timbers = Timber::findAll($start, $per_page);
 }
 
@@ -75,6 +90,18 @@ $paginations = ceil($timber_count / $per_page);
         <div class="page__list">
           <p>Showing Page <?= ($_POST['start'] + 1) ?> of <?= $paginations ?></p>
         </div>
+        <!------------->
+        <div class="sorting__dropdown">
+          <label for="sort">Showing:</label>
+          <form id="categoryForm" name="category" action="" method="post">
+            <select name="category" id="category" onchange='submitCategory();'>
+              <option value="2 OR category_id = 1" <?= chosen("category", "2 OR category_id = 1") ? "selected" : "" ?>>All</option>
+              <option value="2" <?= chosen("category", "2") ? "selected" : "" ?>>Softwoods</option>
+              <option value="1" <?= chosen("category", "1") ? "selected" : "" ?>>Hardwoods</option>
+            </select>
+          </form>
+        </div>
+        <!----------->
         <div class="sorting__dropdown">
           <label for="sort">Sort By</label>
           <form id="sortingForm" name="sort" action="" method="post">
@@ -90,6 +117,10 @@ $paginations = ceil($timber_count / $per_page);
         <script type='text/javascript'>
           function submitForm() {
             document.getElementById('sortingForm').submit();
+          }
+
+          function submitCategory() {
+            document.getElementById('categoryForm').submit();
           }
         </script>
       </div>
@@ -109,7 +140,7 @@ $paginations = ceil($timber_count / $per_page);
             <h3 class="container__inner__shop__product__title"><?= $timber->title ?></h3>
             <h3 class="container__inner__shop__product__title step--0">&euro;<?= $timber->price ?> per unit</h3>
             <h3 class="container__inner__shop__product__title step--0">Minimum order: <?= $timber->minimum_order ?></h3>
-            <a href="timber-view.php?id=<?php echo $timber->id; ?>" target="_new" class="w-50 mt-05"><button class="btn w-100">VIEW</button></a>
+            <a class="justify-self-center w-50" href="timber-view.php?id=<?php echo $timber->id; ?>" target="_new" class="w-50 mt-05"><button class="btn w-100">VIEW</button></a>
           </div>
         </div>
       <?php } ?>
