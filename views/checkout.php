@@ -43,6 +43,7 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
   <?php require 'include/navbar.php'; ?>
 
   <body class="body shop__body">
+    <?php require 'include/flash.php'; ?>
     <div class="basket__contain checkout__contain">
       <!--flickity product list, used for mobile-->
       <div class="top__bottom__contain">

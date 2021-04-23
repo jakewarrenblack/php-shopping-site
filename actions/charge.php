@@ -97,14 +97,14 @@ if ($request->is_logged_in()) {
             // if no customer exists for this user->id, this must be an admin. only customers can make purchases.
             $request->session()->set("flash_message", "Only customers may place orders. You are logged in as an administrator.");
             $request->session()->set("flash_message_class", "alert-warning");
-            $request->redirect("/index.php");
+            $request->redirect("/views/checkout.php");
         }
     }
 } else {
     // user must not be logged in, so ask them to log in first
     $request->session()->set("flash_message", "Please login to check out.");
     $request->session()->set("flash_message_class", "alert-warning");
-    $request->redirect("/index.php");
+    $request->redirect("/views/checkout.php");
 }
 
 // Always empty the cart after a transaction is completed
