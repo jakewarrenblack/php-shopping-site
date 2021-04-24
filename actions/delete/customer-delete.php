@@ -55,10 +55,10 @@ try {
 
     $request->session()->set("flash_message", "The customer was successfully deleted from the database");
     $request->session()->set("flash_message_class", "alert-info");
-    $request->redirect("/index.php");
+    $request->redirect("/views/admin/home.php");
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());
     $request->session()->set("flash_message_class", "alert-warning");
-    $request->redirect("/index.php");
+    $request->redirect("/views/admin/home.php");
 }
 ?>

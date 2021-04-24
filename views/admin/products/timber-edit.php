@@ -116,7 +116,7 @@ try {
               </div>
 
               <label class="main__label" for="profile">Related images:</label>
-              <div class="related_images d-flex">
+              <div class="related_images">
                 <div class="form-group">
                   <input type="file" name="related_image_1" id="related_image_1">
                   <span class="error"><?= error("related_image_1") ?></span>
@@ -130,6 +130,11 @@ try {
                 <div class="form-group">
                   <input type="file" name="related_image_3" id="related_image_3">
                   <span class="error"><?= error("related_image_3") ?></span>
+                </div>
+
+                <div class="form-group">
+                  <input type="file" name="related_image_4" id="related_image_4">
+                  <span class="error"><?= error("related_image_4") ?></span>
                 </div>
               </div>
 

@@ -6,6 +6,14 @@ $address = null;
 $phone = null;
 
 if ($request->is_logged_in()) {
+  $role = $request->session()->get("role");
+  if ($role === "admin") {
+    $request->session()->set("flash_message", "Only customers may place orders. You are logged in as an administrator.");
+    $request->session()->set("flash_message_class", "alert-warning");
+    $request->redirect("/views/basket.php");
+  }
+
+
   $email = $request->session()->get("email");
   $name = $request->session()->get("name");
   $address = $request->session()->get("address");

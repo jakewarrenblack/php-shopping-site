@@ -168,7 +168,7 @@ class Timber_Attribute
 
     public static function findByTimberId($timber_id, $limit = null)
     {
-        $timber_attributes = array();;
+        $timber_attributes = array();
 
         try {
             $db = new DB();
@@ -176,12 +176,59 @@ class Timber_Attribute
             $conn = $db->get_connection();
 
             if ($limit === null) {
-                $select_sql = "SELECT DISTINCT id,timber_id,attribute_id FROM timber_attribute WHERE timber_id = :timber_id GROUP BY timber_id";
+                $select_sql = "SELECT id,timber_id,attribute_id FROM timber_attribute WHERE timber_id = :timber_id";
             } else {
-                $select_sql = "SELECT DISTINCT id,timber_id,attribute_id FROM timber_attribute WHERE timber_id = :timber_id GROUP BY timber_id LIMIT $limit";
+                $select_sql = "SELECT id,timber_id,attribute_id FROM timber_attribute WHERE timber_id = :timber_id LIMIT $limit";
             }
             $select_params = [
                 ":timber_id" => $timber_id
+            ];
+
+            $select_stmt = $conn->prepare($select_sql);
+            $select_status = $select_stmt->execute($select_params);
+
+            if (!$select_status) {
+                $error_info = $select_stmt->errorInfo();
+                $message = "SQLSTATE error code = " . $error_info[0] . "; error message = " . $error_info[2];
+                throw new Exception("Database error executing database query: " . $message);
+            }
+
+            if ($select_stmt->rowCount() !== 0) {
+                $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                while ($row != FALSE) {
+                    $timber_attribute = new Timber_Attribute();
+                    $timber_attribute->id = $row['id'];
+                    $timber_attribute->timber_id = $row['timber_id'];
+                    $timber_attribute->attribute_id = $row['attribute_id'];
+                    $timber_attributes[] = $timber_attribute;
+                    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            }
+        } finally {
+            if ($db !== null && $db->is_open()) {
+                $db->close();
+            }
+        }
+
+        return $timber_attributes;
+    }
+
+    public static function findByAttributeId($attribute_id, $limit = null)
+    {
+        $timber_attributes = array();
+
+        try {
+            $db = new DB();
+            $db->open();
+            $conn = $db->get_connection();
+
+            if ($limit === null) {
+                $select_sql = "SELECT id,timber_id,attribute_id FROM timber_attribute WHERE attribute_id = :attribute_id";
+            } else {
+                $select_sql = "SELECT id,timber_id,attribute_id FROM timber_attribute WHERE attribute_id = :attribute_id LIMIT $limit";
+            }
+            $select_params = [
+                ":attribute_id" => $attribute_id
             ];
 
             $select_stmt = $conn->prepare($select_sql);

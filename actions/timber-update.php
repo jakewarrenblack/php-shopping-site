@@ -56,6 +56,7 @@ try {
         $relatedimage1 = null;
         $relatedimage2 = null;
         $relatedimage3 = null;
+        $relatedimage4 = null;
         if (FileUpload::exists('profile')) {
             $file = new FileUpload("profile");
             $filename = $file->get();
@@ -83,6 +84,13 @@ try {
             $relatedimage3 = new Related_Image();
             $relatedimage3->filename = $relatedfilename3;
             $relatedimage3->save();
+        }
+        if (FileUpload::exists('related_image_4')) {
+            $related4 = new FileUpload("related_image_4");
+            $relatedfilename4 = $related4->get();
+            $relatedimage4 = new Related_Image();
+            $relatedimage4->filename = $relatedfilename4;
+            $relatedimage4->save();
         }
 
         $timber = Timber::findById($request->input("timber_id"));
@@ -114,6 +122,12 @@ try {
             $timber_related_image3->related_image_id = $relatedimage3->id;
             $timber_related_image3->timber_id = $timber->id;
             $timber_related_image3->save();
+        }
+        if ($relatedimage4 != null) {
+            $timber_related_image4 = new Timber_Related_Image;
+            $timber_related_image4->related_image_id = $relatedimage4->id;
+            $timber_related_image4->timber_id = $timber->id;
+            $timber_related_image4->save();
         }
 
         if ($attributes != null) {
