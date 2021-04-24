@@ -4,6 +4,9 @@
 use BookWorms\Model\Timber;
 use BookWorms\Model\Attribute;
 use BookWorms\Model\Timber_Attribute;
+use BookWorms\Model\Image;
+use BookWorms\Model\Timber_Related_Image;
+use BookWorms\Model\Related_Image;
 
 try {
   $rules = [
@@ -11,18 +14,19 @@ try {
   ];
   $request->validate($rules);
   if (!$request->is_valid()) {
-    throw new Exception("Illegal request");
+    throw new Exception("Illegal request! Please select a record first!");
   }
   $timber_id = $request->input('timber_id');
   $timber = Timber::findById($timber_id);
   if ($timber === null) {
-    throw new Exception("Illegal request parameter");
+    throw new Exception("Illegal request parameter!");
   }
+  $timber_related_images = Timber_Related_Image::findByTimberId($timber_id);
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
 
-  $request->redirect("/index.php");
+  $request->redirect("/views/admin/home.php");
 }
 
 ?>
@@ -93,8 +97,16 @@ try {
               </div>
 
               <div class="form-group">
-                <label class="main__label" for="profile">Image:</label>
-                <input type="file" name="profile" id="profile">
+                <label class="main__label" for="profile">Main Image:</label>
+                <?php
+                    $image = Image::findById($timber->image_id);
+                    if ($image !== null){
+                    ?>
+                    <img src="<?= APP_URL . "/actions/". $image->filename ?>" height="150px" width="150px" />
+                    <?php
+                    }
+                    ?>
+                <input type="file" name="profile" id="profile" value="<?= $image->filename ?>">
                 <span class="error"><?= error("profile") ?></span>
               </div>
 
@@ -118,22 +130,54 @@ try {
               <label class="main__label" for="profile">Related images:</label>
               <div class="related_images">
                 <div class="form-group">
-                  <input type="file" name="related_image_1" id="related_image_1">
+                    <?php
+                      $related_image_1 = Related_Image::findById($timber_related_images[0]->related_image_id);
+                      if ($related_image_1 !== null){
+                      ?>
+                        <img src="<?= APP_URL . "/actions/" . $related_image_1->filename ?>" height="150px" width="150px" />
+                      <?php
+                      }
+                    ?>
+                  <input type="file" name="related_image_1" id="related_image_1" value="<?= $related_image_1->filename ?>">
                   <span class="error"><?= error("related_image_1") ?></span>
                 </div>
 
                 <div class="form-group">
-                  <input type="file" name="related_image_2" id="related_image_2">
+                    <?php
+                      $related_image_2 = Related_Image::findById($timber_related_images[1]->related_image_id);
+                      if ($related_image_2 !== null){
+                      ?>
+                        <img src="<?= APP_URL . "/actions/" . $related_image_2->filename ?>" height="150px" width="150px" />
+                      <?php
+                      }
+                    ?>
+                  <input type="file" name="related_image_2" id="related_image_2" value="<?= $related_image_2->filename ?>">
                   <span class="error"><?= error("related_image_2") ?></span>
                 </div>
 
                 <div class="form-group">
-                  <input type="file" name="related_image_3" id="related_image_3">
+                    <?php
+                      $related_image_3 = Related_Image::findById($timber_related_images[2]->related_image_id);
+                      if ($related_image_3 !== null){
+                      ?>
+                        <img src="<?= APP_URL . "/actions/" . $related_image_3->filename ?>" height="150px" width="150px" />
+                      <?php
+                      }
+                    ?>
+                  <input type="file" name="related_image_3" id="related_image_3" value="<?= $related_image_3->filename ?>">
                   <span class="error"><?= error("related_image_3") ?></span>
                 </div>
 
                 <div class="form-group">
-                  <input type="file" name="related_image_4" id="related_image_4">
+                    <?php
+                      $related_image_4 = Related_Image::findById($timber_related_images[3]->related_image_id);
+                      if ($related_image_4 !== null){
+                      ?>
+                        <img src="<?= APP_URL . "/actions/" . $related_image_4->filename ?>" height="150px" width="150px" />
+                      <?php
+                      }
+                    ?>
+                  <input type="file" name="related_image_4" id="related_image_4" value="<?= $related_image_4->filename ?>">
                   <span class="error"><?= error("related_image_4") ?></span>
                 </div>
               </div>

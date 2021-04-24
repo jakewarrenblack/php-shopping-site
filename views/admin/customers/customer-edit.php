@@ -3,6 +3,7 @@
 
 use BookWorms\Model\Customer;
 use BookWorms\Model\User;
+use BookWorms\Model\Image;
 
 try {
     $rules = [
@@ -10,22 +11,22 @@ try {
     ];
     $request->validate($rules);
     if (!$request->is_valid()) {
-        throw new Exception("Illegal request");
+        throw new Exception("Illegal request! Please select a record first!");
     }
     $customer_id = $request->input('customer_id');
     $customer = Customer::findById($customer_id);
     if ($customer === null) {
-        throw new Exception("Illegal request parameter");
+        throw new Exception("Illegal request parameter!");
     }
 
     $user = User::findById($customer->user_id);
     if ($user === null) {
-        throw new Exception("Illegal request parameter!");
+        throw new Exception("Illegal request parameter!!");
     }
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());
     $request->session()->set("flash_message_class", "alert-warning");
-    $request->redirect("/index.php");
+    $request->redirect("/views/admin/index.php");
 }
 ?>
 <!doctype html>
@@ -81,7 +82,15 @@ try {
                             <div class="form-group">
                                 <!--An uploaded file is moved into a temporary directory-->
                                 <label for="profile">Profile image:</label>
-                                <input type="file" name="profile" id="profile">
+                                <?php
+                                    $image = Image::findById($customer->image_id);
+                                    if ($image !== null){
+                                    ?>
+                                    <img src="<?= APP_URL . "/actions/". $image->filename ?>" height="150px" width="150px" />
+                                    <?php
+                                    }
+                                ?>
+                                <input type="file" name="profile" id="profile" value="<?= $image->filename ?>">
                                 <span class="error"><?= error("profile") ?></span>
                             </div>
                             <div class="d-flex form-group">

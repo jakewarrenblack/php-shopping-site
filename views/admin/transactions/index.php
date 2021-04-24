@@ -38,11 +38,12 @@ $numPages = ceil($numProducts / $pageSize);
                     <td><?= $transaction->date ?></td>
                     <td><?= $transaction->total ?></td>
                     <td><button formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php"><i class="fas fa-pen"></i></button></td>
-                    <td><button formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php"><i class="fas fa-trash"></i></button></td>
+                    <td class="btn-transaction-delete" ><button  class="btn-transaction-delete" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php"><i class="fas fa-trash"></i></button></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
+    <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 </form>
 <nav id="nav-transactions">
     <ul class="pagination justify-content-center">

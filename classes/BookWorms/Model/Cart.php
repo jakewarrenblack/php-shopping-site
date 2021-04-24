@@ -38,7 +38,7 @@ class Cart
             $item->quantity = ($item->quantity + $quantity);
             $item->profiling = $profiling;
             $item->sqfootage = $sqfootage;
-            $item->sqfootage = $fire_rated;
+            $item->fire_rated = $fire_rated;
         } else {
             $item = new CartItem($timber, $quantity, $profiling, $sqfootage, $fire_rated);
             $this->items[$timber->id] = $item;

@@ -11,12 +11,12 @@ try {
     ];
     $request->validate($rules);
     if (!$request->is_valid()) {
-        throw new Exception("Illegal request!");
+        throw new Exception("Illegal request! Please select a record first!");
     }
     $timber_id = $request->input('timber_id');
     $timber = Timber::findById($timber_id);
     if ($timber === null) {
-        throw new Exception("Illegal request parameter");
+        throw new Exception("Illegal request parameter!");
     }
 
     // To avoid fk constraint failure, also delete all transaction_timber records

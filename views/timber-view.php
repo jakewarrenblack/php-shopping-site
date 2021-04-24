@@ -49,7 +49,7 @@ try {
       if (count($related_products) < 4) {
         // now we make up the difference
         $remainder = (4 - count($related_products));
-        $related_products = array_merge($related_products, Timber::findByCategoryId($timber->category_id, $remainder));
+        $related_products = array_merge($related_products, Timber::findByCategoryId($timber->category_id,null,$remainder));
       }
       // if we didn't find any timber products related by attribute that aren't the product being currently viewed
     } else {
@@ -63,8 +63,16 @@ try {
     // just make sure we strip out duplicates
     $related_products = array_unique($related_products, SORT_REGULAR);
     foreach($related_products as $related_product){
-      $timber_obj = Timber::findById($related_product->timber_id);
-      array_push($related_products_final,$timber_obj);
+      // If not enough products were found related only by attribute, we will have made up the difference by searching based on Category.
+      // In this case, we will have $related_products which are of type Timber_Attribute and $related_products which are of type Timber.
+      if($related_product instanceof Timber_Attribute){
+        $timber_obj = Timber::findById($related_product->timber_id);
+        array_push($related_products_final,$timber_obj);
+      }
+      else if($related_product instanceof Timber){
+        $timber_obj = Timber::findById($related_product->id);
+        array_push($related_products_final,$timber_obj);
+      }
     }
   }
 } catch (Exception $ex) {

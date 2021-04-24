@@ -62,6 +62,7 @@ $numPages = ceil($numCustomers / $pageSize);
             <?php } ?>
         </tbody>
     </table>
+    <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 </form>
 <nav id="nav-customers">
     <ul class="pagination justify-content-center">

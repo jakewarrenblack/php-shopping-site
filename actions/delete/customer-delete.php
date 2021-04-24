@@ -12,12 +12,12 @@ try {
     ];
     $request->validate($rules);
     if (!$request->is_valid()) {
-        throw new Exception("Illegal request");
+        throw new Exception("Illegal request! Please select a record first!");
     }
     $customer_id = $request->input('customer_id');
     $customer = Customer::findById($customer_id);
     if ($customer === null) {
-        throw new Exception("Illegal request parameter");
+        throw new Exception("Illegal request parameter!");
     }
 
     // We also delete existing transaction records for this customer
