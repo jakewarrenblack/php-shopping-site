@@ -34,6 +34,15 @@ class Transaction
                 ":total" => $this->total
             ];
 
+            $date2 = null;
+
+            if(isset($_POST['date2'])){
+                $date = explode("-",$this->date);
+                $time = explode(":",$_POST['date2']);
+                $mysqltime = ($date[0]).'-'.($date[1]).'-'.($date[2]).' '.($time[0]).':'.($time[1]).':'.($time[2]);
+                $params[":date"] = $mysqltime;
+            }
+
             // this function returns true if this id does not exist in the db
             if ($this->checkExists($this->id)) {
                 $sql = "INSERT INTO transactions (id, customer_id, status, date, total) VALUES (:id, :customer_id, :status, :date, :total)";

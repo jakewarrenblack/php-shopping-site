@@ -31,7 +31,7 @@ try {
         /*Forget any data that's already been stored in the session.*/
         $request->session()->forget("flash_data");
         $request->session()->forget("flash_errors");
-        $request->redirect("/index.php");
+        $request->redirect("/views/admin/home.php");
     } else {
         $transaction_id = $request->input("transaction_id");
         $request->session()->set("flash_data", $request->all());
