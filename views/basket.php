@@ -83,6 +83,7 @@ $subtotal = 0;
                                 <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
                                 <input type="hidden" name="profiling" value="<?= $item->profiling ?>" />
                                 <input type="hidden" name="sqfootage" value="<?= $item->sqfootage ?>" />
+                                <input type="hidden" name="fire_rated" value="<?= $item->fire_rated ?>" />
                                 <input type="hidden" name="quantity" value="1" />
                                 <div class="quantity-contain d-flex d-row align-items-center">
                                     <button class="btn btn-light" type="submit" formaction="<?= APP_URL ?>/actions/cart-remove.php">&lt;</button>

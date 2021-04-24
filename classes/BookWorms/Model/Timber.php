@@ -254,7 +254,11 @@ class Timber
 
             if ($limit !== null && $start !== null) {
                 $select_sql = "SELECT * FROM timbers WHERE category_id = :category_id LIMIT $start,$limit";
-            } else {
+            } 
+            else if($limit !== null && $start === null){
+                $select_sql = "SELECT * FROM timbers WHERE category_id = :category_id LIMIT $limit";
+            }
+            else {
                 $select_sql = "SELECT * FROM timbers WHERE category_id = :category_id";
             }
             $select_params = [

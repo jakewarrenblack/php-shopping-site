@@ -12,18 +12,18 @@ try {
   ];
   $request->validate($rules);
   if (!$request->is_valid()) {
-    throw new Exception("Illegal request");
+    throw new Exception("Illegal request! Please select a record first!");
   }
   $transaction_id = $request->input('transaction_id');
   $transaction = Transaction::findById($transaction_id);
   if ($transaction === null) {
-    throw new Exception("Illegal request parameter");
+    throw new Exception("Illegal request parameter!");
   }
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
 
-  $request->redirect("/index.php");
+  $request->redirect("/views/admin/home.php");
 }
 
 ?>

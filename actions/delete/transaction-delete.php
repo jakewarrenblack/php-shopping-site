@@ -10,12 +10,12 @@ try {
     ];
     $request->validate($rules);
     if (!$request->is_valid()) {
-        throw new Exception("Illegal request");
+        throw new Exception("Illegal request! Please select a record first!");
     }
     $transaction_id = $request->input('transaction_id');
     $transaction = Transaction::findById($transaction_id);
     if ($transaction === null) {
-        throw new Exception("Illegal request parameter");
+        throw new Exception("Illegal request parameter!");
     }
 
     // Have to delete the transaction_timber record first, or a foreign key constraint would fail!

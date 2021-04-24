@@ -10,7 +10,8 @@ try {
 
     //validate the product being sent
     $rules = [
-        "timber_id" => "present|integer|min:1"
+        "timber_id" => "present|integer|min:1",
+        "quantity" => "present|integer|min:1"
     ];
 
     $request->validate($rules);

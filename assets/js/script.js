@@ -77,6 +77,20 @@ window.addEventListener('load', function (event) {
         event.preventDefault();
     }
     });
+
+    const product_delete_btn = document.getElementsByClassName('btn-product-delete')[0];
+    product_delete_btn.addEventListener("click", function (event) {
+    if (!confirm("Are you sure you want to delete this product?")) {
+        event.preventDefault();
+    }
+    });
+
+    const transaction_delete_btn = document.getElementsByClassName('btn-transaction-delete')[0];
+    transaction_delete_btn.addEventListener("click", function (event) {
+    if (!confirm("Are you sure you want to delete this transaction?")) {
+        event.preventDefault();
+    }
+    });
 });
 
 

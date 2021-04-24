@@ -27,11 +27,12 @@ $numPages = ceil($numProducts / $pageSize);
                     <td><?= $product->description ?></td>
                     <td><?= $product->price ?></td>
                     <td><button formaction="<?= APP_URL ?>/views/admin/products/timber-edit.php"><i class="fas fa-pen"></i></button></td>
-                    <td><button formaction="<?= APP_URL ?>/actions/delete/timber-delete.php"><i class="fas fa-trash"></i></button></td>
+                    <td class="btn-product-delete" ><button  class="btn-product-delete" formaction="<?= APP_URL ?>/actions/delete/timber-delete.php"><i class="fas fa-trash"></i></button></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
+    <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 </form>
 
 <nav id="nav-products">
