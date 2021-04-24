@@ -417,11 +417,7 @@ input {
     gap: 10rem 10rem;*/
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-<<<<<<< HEAD
     grid-template-rows: auto;
-=======
-    grid-template-rows: 2rem auto;
->>>>>>> c86273f62a35d5cd271652ccd10dfb4aaf8d31e5
     gap: 2rem 2rem;
     padding: 2rem;
 }
@@ -1390,7 +1386,6 @@ p.product__dimensions:nth-child(2) {
         flex-direction: column !important;
     }
 
-<<<<<<< HEAD
     #nav{
         max-height: min-content;
     }
@@ -1412,8 +1407,6 @@ p.product__dimensions:nth-child(2) {
         height:auto!important;
     }
 
-=======
->>>>>>> c86273f62a35d5cd271652ccd10dfb4aaf8d31e5
     /* shrink card image on mobile */
     .container__inner__shop__link{
         height:15rem;
