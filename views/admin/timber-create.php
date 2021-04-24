@@ -96,7 +96,7 @@ use BookWorms\Model\Timber_Attribute;
         <!-- Related images-->
 
         <label for="profile">Related images:</label>
-        <div class="related_images d-flex">
+        <div class="related_images">
           <div class="form-group">
             <input type="file" name="related_image_1" id="related_image_1">
             <span class="error"><?= error("related_image_1") ?></span>
@@ -110,6 +110,11 @@ use BookWorms\Model\Timber_Attribute;
           <div class="form-group">
             <input type="file" name="related_image_3" id="related_image_3">
             <span class="error"><?= error("related_image_3") ?></span>
+          </div>
+
+          <div class="form-group">
+            <input type="file" name="related_image_4" id="related_image_4">
+            <span class="error"><?= error("related_image_4") ?></span>
           </div>
         </div>
 

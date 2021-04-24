@@ -11,6 +11,7 @@ use BookWorms\Model\Timber_Related_Image;
 
 try {
   $timber_id = $_GET['id'];
+  $related_products_final = array();
 
   $timber = Timber::findById($timber_id);
   if ($timber === null) {
@@ -21,23 +22,25 @@ try {
   $related_products = null;
 
   if (Timber_Attribute::findByTimberId($timber_id, 4) != null) {
-    // method will use sql 'group by' on timber_id to return unique records
-    $related_products_attribute = Timber_Attribute::findByTimberId($timber_id);
+    // find the attributes of *this* timber product
+    $this_product_attributes = Timber_Attribute::findByTimberId($timber_id);
 
 
-    $timber__attributes = null;
-    foreach ($related_products_attribute as $related_product_attribute) {
-      // if the timber product related by attribute is the same as the product currently being viewed,
-      // don't count it
-      if ($related_product_attribute->timber_id !== $timber_id) {
-        $timber_attributes[] = $related_product_attribute;
+    foreach($this_product_attributes as $this_product_attribute){
+      $related_products = Timber_Attribute::findByAttributeId($this_product_attribute->attribute_id);
+    }
+
+    foreach($related_products as $related_product){
+      // the current product will be found in here, so loop through and remove it from the array
+      // we don't want to display the product the user is currently viewing in the related products
+      if($related_product->timber_id === $timber_id){
+        $key = array_search($related_product, $related_products); 
+        unset($related_products[$key]);
       }
     }
 
-    if ($timber__attributes != null) {
-      foreach ($timber_attributes as $timber_attribute) {
-        $related_products[] = Timber::findById($timber_attribute->timber_id);
-      }
+    if(count($related_products)>4){
+      $related_products = array_slice($related_products, 0, 4);
     }
 
     // We want at least 4 to fill the row. So, if this product has less than 4
@@ -57,7 +60,12 @@ try {
   }
 
   if ($related_products != null) {
+    // just make sure we strip out duplicates
     $related_products = array_unique($related_products, SORT_REGULAR);
+    foreach($related_products as $related_product){
+      $timber_obj = Timber::findById($related_product->timber_id);
+      array_push($related_products_final,$timber_obj);
+    }
   }
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
@@ -114,13 +122,12 @@ try {
               $attribute = array();
               foreach ($timber_attributes as $timber_attribute) {
                 $attribute[] = Attribute::findById($timber_attribute->attribute_id)->name;
-
-                if (count($attribute) > 1) {
-                  echo implode(", ", $attribute);
-                } else {
-                  // there is only one index, so echo that
-                  echo $attribute[0];
-                }
+              }
+              if (count($attribute) > 1) {
+                echo implode(", ", $attribute);
+              } else {
+                // there is only one index, so echo that
+                echo $attribute[0];
               }
             } else {
               echo "No attributes set";
@@ -190,6 +197,7 @@ try {
           }
         } else {
           ?>
+          <!-- Show these placeholders if no related images found (shouldn't be the case as you have to upload them) -->
           <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
           <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
           <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
@@ -214,8 +222,9 @@ try {
       <div class="related__products">
         <div class="related__products__contain">
           <?php
-          if ($related_products != null) {
-            foreach ($related_products as $related_product) {
+          if ($related_products_final != null) {
+            foreach ($related_products_final as $related_product) {
+              /* This should not be the case, but just doing a final check to make sure none of these are the same as the main product */
               if ($related_product->id !== $timber_id) {
           ?>
                 <div class="container__inner__shop__product container__inner__shop__related__product related__product">

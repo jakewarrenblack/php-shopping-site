@@ -67,6 +67,12 @@ try {
     $relatedimage3->filename = $relatedfilename3;
     $relatedimage3->save();
 
+    $related4 = new FileUpload("related_image_4");
+    $relatedfilename4 = $related4->get();
+    $relatedimage4 = new Related_Image();
+    $relatedimage4->filename = $relatedfilename4;
+    $relatedimage4->save();
+
     // end saving related images
 
     $timber = new Timber();
@@ -94,6 +100,11 @@ try {
     $timber_related_image3->related_image_id = $relatedimage3->id;
     $timber_related_image3->timber_id = $timber->id;
     $timber_related_image3->save();
+
+    $timber_related_image4 = new Timber_Related_Image;
+    $timber_related_image4->related_image_id = $relatedimage4->id;
+    $timber_related_image4->timber_id = $timber->id;
+    $timber_related_image4->save();
 
     $attributes_obj = array();
 
