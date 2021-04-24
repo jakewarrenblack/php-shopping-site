@@ -22,6 +22,12 @@ try {
     throw new Exception("Illegal request parameter!");
   }
   $timber_related_images = Timber_Related_Image::findByTimberId($timber_id);
+  $timber_attributes = Timber_Attribute::findByTimberId($timber_id);
+  $timber_attributes_obj = array();
+  foreach($timber_attributes as $timber_attribute){
+    array_push($timber_attributes_obj,Attribute::findById($timber_attribute->attribute_id)->name);
+  }
+  
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
@@ -118,7 +124,15 @@ try {
 
                   foreach ($attributes as $attribute) {
                   ?>
-                    <input type="checkbox" id="<?= $attribute->id ?>" name="attributes[]" value="<?= $attribute->name ?>">
+                    <input 
+                    <?php
+                      foreach($timber_attributes_obj as $timber_attribute_obj){
+                        if($attribute->name === $timber_attribute_obj){
+                    ?>
+                    <?php
+                    echo "checked='checked'";}}
+                    ?>
+                    type="checkbox" id="<?= $attribute->id ?>" name="attributes[]" value="<?= $attribute->name ?>">
                     <label for="<?= $attribute->id ?>"><?= $attribute->name ?></label><br>
                   <?php
                   }
