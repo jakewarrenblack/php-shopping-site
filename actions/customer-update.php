@@ -51,13 +51,13 @@ try {
         /*Forget any data that's already been stored in the session.*/
         $request->session()->forget("flash_data");
         $request->session()->forget("flash_errors");
-        $request->redirect("/index.php");
+        $request->redirect("/views/admin/home.php");
     } 
     else {
         $customer_id = $request->input("customer_id");
         $request->session()->set("flash_data", $request->all());
         $request->session()->set("flash_errors", $request->errors());
-        $request->redirect("../views/admin/customers/customer-edit.php?customer_id=" . $customer_id);
+        $request->redirect("/views/admin/home.php");
         
     }
 } catch (Exception $ex) {
@@ -66,5 +66,5 @@ try {
     $request->session()->set("flash_data", $request->all());
     $request->session()->set("flash_errors", $request->errors());
 
-    $request->redirect("/index.php");
+    $request->redirect("/views/admin/home.php");
 }

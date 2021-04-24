@@ -25,16 +25,16 @@ if ($request->session()->has("email")) {
     </span>
   </div>
   <ul class="nav__links" id="js-menu">
-    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/index.php">Home</a>
-    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/about.php">About</a>
-    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/contact.php">Contact</a>
-    <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/shop.php">Shop</a>
+    <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/index.php">Home</a>
+    <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/about.php">About</a>
+    <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/contact.php">Contact</a>
+    <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/shop.php">Shop</a>
     <?php if (!$request->session()->has("email")) {
     ?>
       <a class="register" href="<?= APP_URL ?>/views/auth/register-login-form.php">Login/Register</a>
     <?php } else { ?>
 
-      <a id="nav__link" class="nav__link" href="<?= APP_URL ?>/views/<?= $role ?>/home.php">Profile</a>
+      <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/views/<?= $role ?>/home.php">Profile</a>
 
       <a id="nav__link" class="nav-link" href="<?= APP_URL ?>/actions/logout.php">Logout</a>
 

@@ -159,12 +159,12 @@ try {
           </div>
           <div class="main__footage">
             <label class="main__label">Square Footage</label>
-            <input class="main__input" name="sqfootage" type="number" placeholder="Square Footage" required></input>
+            <input class="main__input" name="sqfootage" type="number" min="1" placeholder="Square Footage" required></input>
           </div>
           <div class="main__footage">
             <label class="main__label" for="">Quantity (Minimum Order <?= $timber->minimum_order ?>)
             </label>
-            <input placeholder="Quantity" type="number" name="quantity" step="1" class="main__input" id="endDate" value="<?= $timber->minimum_order ?>" />
+            <input placeholder="Quantity" type="number" name="quantity" min="<?= $timber->minimum_order ?>" step="1" class="main__input" id="endDate" value="<?= $timber->minimum_order ?>" />
           </div>
           <div class="main__fireRated">
             <label class="main__fireRated__label">Fire Rated

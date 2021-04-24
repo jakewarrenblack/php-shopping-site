@@ -19,6 +19,9 @@ try {
   if ($transaction === null) {
     throw new Exception("Illegal request parameter!");
   }
+
+  $transaction_date_temp = explode(" ", $transaction->date);
+  $transaction_date = $transaction_date_temp[0];
 } catch (Exception $ex) {
   $request->session()->set("flash_message", $ex->getMessage());
   $request->session()->set("flash_message_class", "alert-warning");
@@ -89,7 +92,8 @@ try {
 
               <div class="form-group">
                 <label class="main__label" for="startDate">Date</label>
-                <input class="form__input" placeholder="Start Date" type="date" name="date" class="form__input" id="date" value="<?= $transaction->date ?>" />
+                <input type="hidden" name="date2" value="<?= $transaction_date_temp[1] ?>">
+                <input class="form__input" placeholder="Start Date" type="date" name="date" class="form__input" id="date" value="<?= $transaction_date ?>" />
                 <span class="error"><?= error("start_date") ?></span>
               </div>
 
