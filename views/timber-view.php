@@ -113,7 +113,7 @@ try {
         }
         if ($image !== null) {
         ?>
-          <img src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" alt="Timber image">
+          <img src="<?= APP_URL . "/actions/" . $image->filename ?>" class="" id="main-img" alt="Timber image">
         <?php
         }
         ?>
@@ -199,19 +199,34 @@ try {
           foreach ($related_images as $related_image) {
         ?>
             <div class="carousel-cell singleProduct__carousel">
-              <img class="carousel-cell-image related" src="<?= APP_URL . "/actions/" . $related_image ?>">
+              <img class="carousel-cell-image related related-changer" src="<?= APP_URL . "/actions/" . $related_image ?>">
             </div>
           <?php
           }
+          ?>
+          <div id="main-related" class="carousel-cell singleProduct__carousel d-none">
+            <?php
+              try {
+                $image = Image::findById($timber->image_id);
+              } catch (Exception $e) {
+              }
+              if ($image !== null) {
+            ?>
+              <img src="<?= APP_URL . "/actions/" . $image->filename ?>" class="carousel-cell-image related related-changer" alt="Timber image">
+            <?php
+              }
+            ?>
+            </div>
+            <?php
         } else {
           ?>
           <!-- Show these placeholders if no related images found (shouldn't be the case as you have to upload them) -->
-          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
-          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
-          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
-          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
-          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
-          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related related-changer" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related related-changer" src="<?= APP_URL ?>../assets/img/timber7.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related related-changer" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related related-changer" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related related-changer" src="<?= APP_URL ?>../assets/img/timber-panels.jpg"></div>
+          <div class="carousel-cell singleProduct__carousel"><img class="carousel-cell-image related related-changer" src="<?= APP_URL ?>../assets/img/timber6.jpg"></div>
         <?php
         }
 
@@ -277,6 +292,7 @@ try {
     });
   </script>
   <script src="<?= APP_URL ?>/assets/js/script.js"></script>
+  <script src="<?= APP_URL ?>/assets/js/image_changer.js"></script>
 
 </body>
 
