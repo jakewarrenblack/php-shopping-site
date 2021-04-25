@@ -1,7 +1,6 @@
 let mainNav = document.getElementById('js-menu');
 let navContainer = document.getElementById('nav');
 let navBarToggle = document.getElementById('js-navbar-toggle');
-
 let registerElement = document.getElementsByClassName('register__element');
 
 let sign_in = document.getElementById('sign_in');
@@ -71,26 +70,31 @@ window.addEventListener('scroll', function () {
 });
 
 window.addEventListener('load', function (event) {
-    const customer_delete_btn = document.getElementsByClassName('btn-customer-delete')[0];
-    customer_delete_btn.addEventListener("click", function (event) {
-    if (!confirm("Are you sure you want to delete this customer?")) {
-        event.preventDefault();
+    let customer_delete_btn = document.getElementsByClassName('btn-customer-delete')[0];
+    if(customer_delete_btn !=undefined){
+        customer_delete_btn.addEventListener("click", function (event) {
+            if (!confirm("Are you sure you want to delete this customer?")) {
+                event.preventDefault();
+            }
+        });
     }
-    });
 
-    const product_delete_btn = document.getElementsByClassName('btn-product-delete')[0];
-    product_delete_btn.addEventListener("click", function (event) {
-    if (!confirm("Are you sure you want to delete this product?")) {
-        event.preventDefault();
+    let product_delete_btn = document.getElementsByClassName('btn-product-delete')[0];
+    if(product_delete_btn != undefined){
+        product_delete_btn.addEventListener("click", function (event) {
+            if (!confirm("Are you sure you want to delete this product?")) {
+                event.preventDefault();
+            }
+        });
     }
-    });
 
-    const transaction_delete_btn = document.getElementsByClassName('btn-transaction-delete')[0];
-    transaction_delete_btn.addEventListener("click", function (event) {
-    if (!confirm("Are you sure you want to delete this transaction?")) {
-        event.preventDefault();
+    let transaction_delete_btn = document.getElementsByClassName('btn-transaction-delete')[0];
+    if(transaction_delete_btn != undefined){
+        transaction_delete_btn.addEventListener("click", function (event) {
+            if (!confirm("Are you sure you want to delete this transaction?")) {
+                event.preventDefault();
+            }
+        });
     }
-    });
 });
-
 
