@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2021 at 09:01 PM
+-- Generation Time: Apr 25, 2021 at 02:58 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -378,7 +378,12 @@ INSERT INTO `related_images` (`id`, `filename`) VALUES
 (176, 'UPLOAD_DIR/161922413160836643afe60.jpg'),
 (177, 'UPLOAD_DIR/161922413160836643b0aa4.jpg'),
 (178, 'UPLOAD_DIR/161922413160836643b14cd.jpg'),
-(179, 'UPLOAD_DIR/161927990460844020591c0.jpg');
+(179, 'UPLOAD_DIR/161927990460844020591c0.jpg'),
+(180, 'UPLOAD_DIR/16193086116084b0438c839.jpg'),
+(181, 'UPLOAD_DIR/16193086116084b0438d47e.jpg'),
+(182, 'UPLOAD_DIR/16193086116084b0438dde2.jpg'),
+(183, 'UPLOAD_DIR/16193086116084b0438e815.jpg'),
+(184, 'UPLOAD_DIR/16193086916084b09353c27.jpg');
 
 -- --------------------------------------------------------
 
@@ -422,7 +427,7 @@ CREATE TABLE `timbers` (
 --
 
 INSERT INTO `timbers` (`id`, `title`, `description`, `price`, `category_id`, `minimum_order`, `image_id`) VALUES
-(2, 'American Alder', 'Alder is a hardwood which is slowly gaining a rising popularity due to its natural beauty, workability and versatility. It is more frequently found in the Northwest regions of California and Southwestern parts of Canada. It is in the same family as the birch tree, so it often shares similar applications.', '40.00', 1, 22, 75),
+(2, 'American Alder', 'Alder is a hardwood which is slowly gaining a rising popularity due to its natural beauty, workability and versatility. It is more frequently found in the Northwest regions of California and Southwestern parts of Canada. It is in the same family as the birch tree, so it often shares similar applications.', '40.00', 1, 25, 75),
 (4, 'Cherry', 'Cherry is a beautiful wood which comes from the American Black Cherry fruit tree. This wood often starts as a light pink color that darkens and changes to a reddish hue over time. Cherry wood can sometimes have black flecking, which occurs naturally from mineral deposits over time.', '88.00', 1, 22, 76),
 (5, 'Red Oak', 'Perhaps one of the most loved hardwoods, oak is a very popular choice for woodworkers, especially in building furniture and high quality heirloom pieces that can last for generations.', '102.00', 1, 50, 77),
 (6, 'Yellow Birch', 'Birch is a hardwood which is easy to find and often one of the more affordable hardwood species at local lumberyards and home centers.', '28.00', 1, 22, 74),
@@ -477,8 +482,6 @@ CREATE TABLE `timber_attribute` (
 INSERT INTO `timber_attribute` (`id`, `timber_id`, `attribute_id`) VALUES
 (5, 8, 5),
 (6, 8, 1),
-(7, 9, 11),
-(8, 9, 8),
 (11, 10, 4),
 (12, 10, 5),
 (27, 22, 1),
@@ -531,8 +534,6 @@ INSERT INTO `timber_attribute` (`id`, `timber_id`, `attribute_id`) VALUES
 (74, 45, 8),
 (75, 46, 10),
 (76, 46, 11),
-(90, 2, 1),
-(91, 2, 2),
 (92, 4, 3),
 (93, 4, 4),
 (94, 5, 5),
@@ -540,7 +541,11 @@ INSERT INTO `timber_attribute` (`id`, `timber_id`, `attribute_id`) VALUES
 (96, 6, 7),
 (97, 6, 8),
 (98, 7, 8),
-(99, 7, 9);
+(99, 7, 9),
+(102, 9, 8),
+(103, 9, 11),
+(106, 2, 1),
+(107, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -681,7 +686,12 @@ INSERT INTO `timber_related_image` (`id`, `related_image_id`, `timber_id`) VALUE
 (142, 176, 6),
 (143, 177, 6),
 (144, 178, 6),
-(145, 179, 4);
+(145, 179, 4),
+(146, 180, 9),
+(147, 181, 9),
+(148, 182, 9),
+(149, 183, 9),
+(150, 184, 2);
 
 -- --------------------------------------------------------
 
@@ -702,11 +712,12 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `customer_id`, `status`, `date`, `total`) VALUES
-('ch_1IjoKKLBrNI420twKiTFuAMF', 16, 'succeeded', '2021-04-24 17:27:28', 1210),
+('ch_1IjoKKLBrNI420twKiTFuAMF', 16, 'succeeded', '2021-04-12 00:00:00', 1212),
 ('ch_1IjoN2LBrNI420twmPXDhMgs', 17, 'succeeded', '2021-04-24 17:30:16', 6700),
 ('ch_1IjoQhLBrNI420twBuP15K0c', 18, 'succeeded', '2021-04-24 17:34:03', 3820),
 ('ch_1IjoYALBrNI420twTTlLeb9Q', 19, 'succeeded', '2021-04-24 17:41:46', 1575),
-('ch_1Ijp2DLBrNI420twLFh9vYDN', 20, 'succeeded', '2021-04-24 18:12:49', 714);
+('ch_1Ijp2DLBrNI420twLFh9vYDN', 20, 'succeeded', '2021-04-24 18:12:49', 714),
+('ch_1IjuHcLBrNI420twIFZ5yMVZ', 17, 'succeeded', '2021-04-24 23:49:04', 7036);
 
 -- --------------------------------------------------------
 
@@ -736,7 +747,9 @@ INSERT INTO `transaction_timber` (`id`, `quantity`, `profiling`, `sqfootage`, `f
 (38, 70, 'Architrave', 55, 1, 'ch_1IjoQhLBrNI420twBuP15K0c', 33),
 (39, 35, 'Architrave', 60, 0, 'ch_1IjoYALBrNI420twTTlLeb9Q', 30),
 (40, 14, 'Straight cut', 55, 1, 'ch_1Ijp2DLBrNI420twLFh9vYDN', 10),
-(41, 14, 'Architrave', 60, 1, 'ch_1Ijp2DLBrNI420twLFh9vYDN', 22);
+(41, 14, 'Architrave', 60, 1, 'ch_1Ijp2DLBrNI420twLFh9vYDN', 22),
+(42, 50, 'Straight cut', 55, 1, 'ch_1IjuHcLBrNI420twIFZ5yMVZ', 5),
+(43, 22, 'Straight cut', 50, 1, 'ch_1IjuHcLBrNI420twIFZ5yMVZ', 4);
 
 -- --------------------------------------------------------
 
@@ -887,7 +900,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `related_images`
 --
 ALTER TABLE `related_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -905,19 +918,19 @@ ALTER TABLE `timbers`
 -- AUTO_INCREMENT for table `timber_attribute`
 --
 ALTER TABLE `timber_attribute`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `timber_related_image`
 --
 ALTER TABLE `timber_related_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `transaction_timber`
 --
 ALTER TABLE `transaction_timber`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `users`
