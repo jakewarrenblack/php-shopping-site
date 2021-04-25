@@ -14,6 +14,16 @@ require 'vendor/autoload.php';
 $mail = new PHPMailer(true);
 
 try {
+    $rules = [
+        "email" => "present|email|minlength:7|maxlength:64",
+        "subject" => "present|minlength:2|maxlength:64",
+        "name" => "present|minlength:3|maxlength:64",
+        "message" => "present|minlength:2|maxlength:256",
+    ];
+    $request->validate($rules);
+    if (!$request->is_valid()) {
+    throw new Exception("Please complete the form correctly.");
+    }
 
     $request->session()->forget("flash_data");
     $request->session()->forget("flash_errors");

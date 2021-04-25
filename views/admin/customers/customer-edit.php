@@ -11,7 +11,7 @@ try {
     ];
     $request->validate($rules);
     if (!$request->is_valid()) {
-        throw new Exception("Illegal request! Please select a record first!");
+        throw new Exception("Illegal request!");
     }
     $customer_id = $request->input('customer_id');
     $customer = Customer::findById($customer_id);
@@ -21,7 +21,7 @@ try {
 
     $user = User::findById($customer->user_id);
     if ($user === null) {
-        throw new Exception("Illegal request parameter!!");
+        throw new Exception("Illegal request parameter!");
     }
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());
@@ -61,22 +61,22 @@ try {
                             <input type="hidden" name="customer_id" value="<?= $customer->id ?>" />
                             <div class="form-group">
                                 <label class="main__label" for="email">Email:</label>
-                                <input placeholder="Email" class="form__input" type="text" name="email" id="email" value="<?= $user->email ?>" />
+                                <input placeholder="Email" required class="form__input" type="text" name="email" id="email" value="<?= $user->email ?>" />
                                 <span class="error"><?= error("email") ?></span>
                             </div>
                             <div class="form-group">
                                 <label class="main__label" for="name">Name:</label>
-                                <input placeholder="Name" class="form__input" type="text" name="name" id="name" value="<?= $user->name ?>" />
+                                <input placeholder="Name" required class="form__input" type="text" name="name" id="name" value="<?= $user->name ?>" />
                                 <span class="error"><?= error("name") ?></span>
                             </div>
                             <div class="form-group">
                                 <label class="main__label" for="address">Address:</label>
-                                <textarea placeholder="Address" class="form__input" type="text" name="address" id="address" value=""><?= $customer->address ?></textarea>
+                                <textarea placeholder="Address" required class="form__input" type="text" name="address" id="address" value=""><?= $customer->address ?></textarea>
                                 <span class="error"><?= error("address") ?></span>
                             </div>
                             <div class="form-group">
                                 <label class="main__label" for="phone">Phone:</label>
-                                <input placeholder="Phone" class="form__input" type="text" name="phone" id="phone" value="<?= $customer->phone ?>" />
+                                <input placeholder="Phone" required class="form__input" type="text" name="phone" id="phone" value="<?= $customer->phone ?>" />
                                 <span class="error"><?= error("phone") ?></span>
                             </div>
                             <div class="form-group">

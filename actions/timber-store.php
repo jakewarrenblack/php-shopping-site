@@ -34,12 +34,12 @@ try {
   $request->validate($rules);
   if ($request->is_valid()) {
     $attributes = $request->input("attributes");
-    if (count($attributes) > 2) {
-      $request->session()->set("flash_message", "Please select a maximum of 2 attributes.");
+    if (count($attributes) !== 2) {
+      $request->session()->set("flash_message", "Please select 2 attributes.");
       $request->session()->set("flash_message_class", "alert-warning");
       $request->session()->set("flash_data", $request->all());
       $request->session()->set("flash_errors", $request->errors());
-      $request->redirect("/views" . "/" . $role . "/timber-create.php");
+      $request->redirect("/views/admin/timber-create.php");
     }
 
     $file = new FileUpload("profile");

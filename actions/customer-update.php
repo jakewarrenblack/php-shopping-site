@@ -57,7 +57,7 @@ try {
         $customer_id = $request->input("customer_id");
         $request->session()->set("flash_data", $request->all());
         $request->session()->set("flash_errors", $request->errors());
-        $request->redirect("/views/admin/home.php");
+        $request->redirect("/views/admin/customers/customer-edit.php?customer_id=$customer_id");
         
     }
 } catch (Exception $ex) {

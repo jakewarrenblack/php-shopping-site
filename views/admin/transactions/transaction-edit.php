@@ -62,7 +62,7 @@ try {
         <div class="form__contain form__alt">
           <div class="container">
             <form class="form" name='timber-create' action="<?= APP_URL . '/actions/transaction-update.php' ?>" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="transaction_id" value="<?= $transaction->id ?>" />
+              <input required type="hidden" name="transaction_id" value="<?= $transaction->id ?>" />
 
               <div class="form-group">
                 <label for="location">Customer</label>
@@ -92,14 +92,14 @@ try {
 
               <div class="form-group">
                 <label class="main__label" for="startDate">Date</label>
-                <input type="hidden" name="date2" value="<?= $transaction_date_temp[1] ?>">
-                <input class="form__input" placeholder="Start Date" type="date" name="date" class="form__input" id="date" value="<?= $transaction_date ?>" />
+                <input required type="hidden" name="date2" value="<?= $transaction_date_temp[1] ?>">
+                <input required class="form__input" placeholder="Start Date" type="date" name="date" class="form__input" id="date" value="<?= $transaction_date ?>" />
                 <span class="error"><?= error("start_date") ?></span>
               </div>
 
               <div class="form-group">
                 <label class="main__label" for="total">Total</label>
-                <input class="form__input" placeholder="Total" type="number" step="0.01" name="total" class="form__input" id="total" value="<?= $transaction->total ?>" />
+                <input required  class="form__input" placeholder="Total" type="number" step="0.01" name="total" class="form__input" id="total" value="<?= $transaction->total ?>" />
                 <span class="error"><?= error("total") ?></span>
               </div>
 

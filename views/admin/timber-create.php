@@ -39,13 +39,13 @@ use BookWorms\Model\Timber_Attribute;
       <form class="form" name='timber-create' action="<?= APP_URL . '/actions/timber-store.php' ?>" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="ticketPrice">Title</label>
-          <input placeholder="Title" name="title" type="text" id="title" class="form-control" value="<?= old("title") ?>" />
+          <input required placeholder="Title" name="title" type="text" id="title" class="form-control" value="<?= old("title") ?>" />
           <span class="error"><?= error("title") ?></span>
         </div>
 
         <div class="form-group">
           <label for="date">Description</label>
-          <textarea placeholder="Description" name="description" rows="3" id="description" class="form-control" value=""><?= old("description") ?></textarea>
+          <textarea required placeholder="Description" name="description" rows="3" id="description" class="form-control" value=""><?= old("description") ?></textarea>
           <span class="error"><?= error("description") ?></span>
         </div>
 
@@ -60,19 +60,19 @@ use BookWorms\Model\Timber_Attribute;
 
         <div class="form-group">
           <label class="labelHidden" for="price">Price</label>
-          <input placeholder="Price" type="number" step="0.01" name="price" class="form-control" id="price" value="<?= old("price") ?>" />
+          <input required placeholder="Price" type="number" step="0.01" name="price" class="form-control" id="price" value="<?= old("price") ?>" />
           <span class="error"><?= error("price") ?></span>
         </div>
 
         <div class="form-group">
           <label class="labelHidden" for="minimum_order">Minimum Order</label>
-          <input placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form-control" id="minimum_order" value="<?= old("minimum_order") ?>" />
+          <input required placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form-control" id="minimum_order" value="<?= old("minimum_order") ?>" />
           <span class="error"><?= error("minimum_order") ?></span>
         </div>
 
         <div class="form-group">
           <label for="profile">Image:</label>
-          <input type="file" name="profile" id="profile">
+          <input required type="file" name="profile" id="profile">
           <span class="error"><?= error("profile") ?></span>
         </div>
 
@@ -98,22 +98,22 @@ use BookWorms\Model\Timber_Attribute;
         <label for="profile">Related images:</label>
         <div class="related_images">
           <div class="form-group">
-            <input type="file" name="related_image_1" id="related_image_1">
+            <input required type="file" name="related_image_1" id="related_image_1">
             <span class="error"><?= error("related_image_1") ?></span>
           </div>
 
           <div class="form-group">
-            <input type="file" name="related_image_2" id="related_image_2">
+            <input required type="file" name="related_image_2" id="related_image_2">
             <span class="error"><?= error("related_image_2") ?></span>
           </div>
 
           <div class="form-group">
-            <input type="file" name="related_image_3" id="related_image_3">
+            <input required type="file" name="related_image_3" id="related_image_3">
             <span class="error"><?= error("related_image_3") ?></span>
           </div>
 
           <div class="form-group">
-            <input type="file" name="related_image_4" id="related_image_4">
+            <input required type="file" name="related_image_4" id="related_image_4">
             <span class="error"><?= error("related_image_4") ?></span>
           </div>
         </div>

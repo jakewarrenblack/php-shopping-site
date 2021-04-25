@@ -16,7 +16,7 @@ try {
   ];
   $request->validate($rules);
   if (!$request->is_valid()) {
-    throw new Exception("Please complete the form");
+    throw new Exception("Please complete the form correctly.");
   }
   $email = $request->input("email");
   $password = $request->input("password");

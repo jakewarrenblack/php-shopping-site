@@ -36,13 +36,13 @@ if ($request->is_logged_in()) {
 
         <div class="form-group">
           <label class="main__label" for="email">Email:</label>
-          <input placeholder="Email" class="form__input" type="text" name="email" id="email" value="<?= old("email") ?>" />
+          <input required placeholder="Email" class="form__input" type="text" name="email" id="email" value="<?= old("email") ?>" />
           <span class="error"><?= error("email") ?></span>
         </div>
 
         <div class="form-group">
           <label class="main__label" for="password">Password:</label>
-          <input placeholder="Password" class="form__input" type="password" name="password" id="password" />
+          <input required placeholder="Password" class="form__input" type="password" name="password" id="password" />
           <span class="error"><?= error("password") ?></span>
         </div>
 
@@ -72,18 +72,6 @@ if ($request->is_logged_in()) {
     </div>
   </div>
   <?php require 'include/footer.php'; ?>
-  <script src="js/flickity.pkgd.min.js"></script>
-  <script>
-    var flkty = new Flickity('.carousel', {
-      // options
-      cellAlign: 'left',
-      contain: true,
-      cellSelector: '.carousel-cell',
-      wrapAround: true,
-      pageDots: false,
-      groupCells: true
-    });
-  </script>
   <script src="<?= APP_URL ?>/assets/js/script.js"></script>
 </body>
 

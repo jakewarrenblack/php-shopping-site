@@ -79,13 +79,13 @@ try {
 
               <div class="form-group">
                 <label class="main__label" for="ticketPrice">Title</label>
-                <input placeholder="Title" name="title" type="text" id="title" class="form__input" value="<?= $timber->title ?>" />
+                <input required placeholder="Title" name="title" type="text" id="title" class="form__input" value="<?= $timber->title ?>" />
                 <span class="error"><?= error("title") ?></span>
               </div>
 
               <div class="form-group">
                 <label class="main__label" for="date">Description</label>
-                <textarea placeholder="Description" name="description" rows="3" id="description" class="form__input" value=""><?= $timber->description ?></textarea>
+                <textarea required placeholder="Description" name="description" rows="3" id="description" class="form__input" value=""><?= $timber->description ?></textarea>
                 <span class="error"><?= error("description") ?></span>
               </div>
 
@@ -100,13 +100,13 @@ try {
 
               <div class="form-group">
                 <label class="main__label" class="labelHidden" for="price">Price</label>
-                <input placeholder="Price" type="number" step="0.01" name="price" class="form__input" id="price" value="<?= $timber->price ?>" />
+                <input required placeholder="Price" type="number" step="0.01" name="price" class="form__input" id="price" value="<?= $timber->price ?>" />
                 <span class="error"><?= error("price") ?></span>
               </div>
 
               <div class="form-group">
                 <label class="main__label" class="labelHidden" for="minimum_order">Minimum Order</label>
-                <input placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form__input" id="minimum_order" value="<?= $timber->minimum_order ?>" />
+                <input required placeholder="Minimum Order" type="number" step="0.01" name="minimum_order" class="form__input" id="minimum_order" value="<?= $timber->minimum_order ?>" />
                 <span class="error"><?= error("minimum_order") ?></span>
               </div>
 

@@ -90,18 +90,13 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
               <div class="product__info__contain">
                 <div class="product_info">
                   <p class="product__profile checkout__profile"><strong>Price: </strong>&euro;<?= $item->timber->price ?></p>
-
                   <p class="product__profile"><strong>Quantity:<span class="spanpad"></strong><?= $item->quantity ?></span></p>
-
-
-
                   <p class="product__subtotal"><strong>Subtotal: </strong>&euro;<?= $item->timber->price * $item->quantity ?></p>
                   <form class="deleteBtn" method="post" action="<?= APP_URL . '/actions/cart-remove.php' ?>">
                     <input type="hidden" name="timber_id" value="<?= $item->timber->id ?>" />
                     <input type="hidden" name="quantity" value="<?= $item->quantity ?>" />
                     <button><i class="fas fa-trash"></i></button>
                   </form>
-
                 </div>
               </div>
             </div>
@@ -119,20 +114,24 @@ $subtotal = intval($request->session()->get("subtotal") . "00");
           <form id="payment-form" name="paymentform" action="<?= APP_URL . '/actions/charge.php' ?>" method="post">
             <div class="form-group">
               <label class="main__label" for="email">Email:</label>
-              <input placeholder="name@example.com" class="form__input StripeElement StripeElement--empty" type="email" name="email" id="email" value="<?= $email ?>" />
+              <input placeholder="name@example.com" class="form__input StripeElement StripeElement--empty" type="email" name="email" id="email" required value="<?= $email ?>" />
+              <span class="error"><?= error("email") ?></span>
             </div>
             <div class="form-group">
               <label class="main__label" for="email">Full name</label>
-              <input placeholder="Full name" class="form__input StripeElement StripeElement--empty" type="text" name="name" id="name" value="<?= $name ?>" />
+              <input placeholder="Full name" class="form__input StripeElement StripeElement--empty" type="text" name="name" id="name" required value="<?= $name ?>" />
+              <span class="error"><?= error("name") ?></span>
             </div>
             <div class="form-group">
               <label class="main__label" for="phone">Phone</label>
-              <input placeholder="Phone number" class="form__input StripeElement StripeElement--empty" type="text" name="phone" id="phone" value="<?= $phone ?>" />
+              <input placeholder="Phone number" class="form__input StripeElement StripeElement--empty" type="text" name="phone" id="phone" required value="<?= $phone ?>" />
+              <span class="error"><?= error("phone") ?></span>
             </div>
             <div class="form-group">
               <label class="main__label" for="">Street Address:</label>
               <div class="form-group">
-                <input placeholder="Address" class="form__input StripeElement StripeElement--empty" type="text" name="address" id="address" value="<?= $address ?>" />
+                <input placeholder="Address" class="form__input StripeElement StripeElement--empty" type="text" name="address" id="address" required value="<?= $address ?>" />
+                <span class="error"><?= error("address") ?></span>
               </div>
             </div>
             <div class="form-row">

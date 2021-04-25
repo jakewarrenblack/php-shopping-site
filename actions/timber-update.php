@@ -30,7 +30,8 @@ try {
         "description" => "present|minlength:10|maxlength:2000",
         "price" => "present|minlength:1|maxlength:2000",
         "category_id" => "present|minlength:1|maxlength:1000",
-        "minimum_order" => "present|minlength:1|maxlength:2000"
+        "minimum_order" => "present|minlength:1|maxlength:2000",
+        "attributes" => "present|subset:" . implode(",", $attributes)
     ];
 
     $request->validate($rules);
@@ -38,12 +39,13 @@ try {
         $attributes = null;
         if ($request->input("attributes") != null) {
             $attributes = $request->input("attributes");
-            if (count($attributes) > 2) {
-                $request->session()->set("flash_message", "Please select a maximum of 2 attributes.");
+            if (count($attributes) !== 2) {
+                $timber_id = $request->input("timber_id");
+                $request->session()->set("flash_message", "Please select 2 attributes.");
                 $request->session()->set("flash_message_class", "alert-warning");
                 $request->session()->set("flash_data", $request->all());
                 $request->session()->set("flash_errors", $request->errors());
-                $request->redirect("/views" . "/" . $role . "/timber-create.php");
+                $request->redirect("/views/admin/products/timber-edit.php?timber_id=$timber_id");
             }
             $existing_attributes = Timber_Attribute::findByTimberId($request->input("timber_id"));
             // our existing attributes are wiped clean, so we can insert the newly selected attributes
@@ -156,7 +158,7 @@ try {
         $timber_id = $request->input("timber_id");
         $request->session()->set("flash_data", $request->all());
         $request->session()->set("flash_errors", $request->errors());
-        $request->redirect("../views/admin/products/timber-edit.php?timber_id=" . $timber_id);
+        $request->redirect("/views/admin/products/timber-edit.php?timber_id=$timber_id");
     }
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());
