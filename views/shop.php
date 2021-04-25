@@ -53,6 +53,18 @@ if (!isset($_POST['category']) && !isset($_POST['sort'])) {
   $timbers = Timber::findAll($start, $per_page);
 }
 
+$searched_timbers = array();
+if(isset($_SESSION['search_results'])){
+  $results = $_SESSION['search_results'];
+  foreach($results as $result){
+    array_push($searched_timbers,Timber::findById($result));
+  }
+}
+
+if(count($searched_timbers)!==0){
+  $timbers = $searched_timbers;
+}
+
 
 // select timbers, start at $start, limit to $per_page;
 
@@ -87,7 +99,7 @@ $paginations = ceil($timber_count / $per_page);
     <h1 class="d-flex justify-content-center step-3">Our products</h1>
     <div class="container__inner__shop">
       <div class="container__inner__shop__sorting">
-        <div class="page__list">
+        <div id="scroll-here" class="page__list">
           <p>Showing Page <?= ($_POST['start'] + 1) ?> of <?= $paginations ?></p>
         </div>
         <!------------->
@@ -112,6 +124,14 @@ $paginations = ceil($timber_count / $per_page);
               <option value="minimum_order ASC" <?= chosen("sort", "minimum_order ASC") ? "selected" : "" ?>>Minimum Order (Low to high)</option>
               <option value="minimum_order DESC" <?= chosen("sort", "minimum_order DESC") ? "selected" : "" ?>>Minimum Order (High to low)</option>
             </select>
+          </form>
+        </div>
+
+        <div class="sorting__dropdown">
+          <label for="sort">Search</label>
+          <form id="sortingForm" name="search" action="<?= APP_URL . '/actions/search.php' ?>" value="<?= old('search') ?>" method="post">
+            <input type="text" name="searchQuery">
+            <a href="<?= APP_URL . '/actions/search.php?clear=true'?>">Clear</a>
           </form>
         </div>
         <script type='text/javascript'>
