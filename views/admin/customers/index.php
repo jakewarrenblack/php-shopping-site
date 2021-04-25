@@ -9,11 +9,9 @@ $numCustomers = count($customers);
 $pageSize = 10;
 $numPages = ceil($numCustomers / $pageSize);
 ?>
-<form class="d-contents" method="get">
     <table class="table" id="table-customers">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Phone</th>
@@ -26,7 +24,6 @@ $numPages = ceil($numCustomers / $pageSize);
         <tbody>
             <?php foreach ($customers as $customer) { ?>
                 <tr class="d-none">
-                    <td><input type="radio" name="customer_id" value="<?= $customer->id ?>" /></td>
                     <td>
                         <?php
                         try {
@@ -56,14 +53,13 @@ $numPages = ceil($numCustomers / $pageSize);
                         }
                         ?>
                     </td>
-                    <td><button formaction="<?= APP_URL ?>/views/admin/customers/customer-edit.php"><i class="fas fa-pen"></i></button></td>
-                    <td class="btn-customer-delete"><button class="btn-customer-delete" formaction="<?= APP_URL ?>/actions/delete/customer-delete.php"><i class="fas fa-trash"></i></button></td>
+                    <td><a href="<?= APP_URL ?>/views/admin/customers/customer-edit.php?customer_id=<?= $customer->id ?>"><i class="fas fa-pen"></i></a></td>
+                    <td class="btn-customer-delete"><a class="btn-customer-delete" href="<?= APP_URL ?>/actions/delete/customer-delete.php?customer_id=<?= $customer->id ?>"><i class="fas fa-trash"></i></a></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
     <script src="<?= APP_URL ?>/assets/js/script.js"></script>
-</form>
 <nav id="nav-customers">
     <ul class="pagination justify-content-center">
         <li class="page-item">
