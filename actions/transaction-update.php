@@ -36,7 +36,7 @@ try {
         $transaction_id = $request->input("transaction_id");
         $request->session()->set("flash_data", $request->all());
         $request->session()->set("flash_errors", $request->errors());
-        $request->redirect("../views/admin/transactions/transaction-edit.php?transaction_id=" . $transaction_id);
+        $request->redirect("/views/admin/transactions/transaction-edit.php?transaction_id=$transaction_id");
     }
 } catch (Exception $ex) {
     $request->session()->set("flash_message", $ex->getMessage());

@@ -31,19 +31,19 @@
 
         <div class="form-group">
           <label class="main__label" for="email">Email:</label>
-          <input placeholder="Email" class="form__input" type="text" name="email" id="email" value="<?= old("email") ?>" />
+          <input required placeholder="Email" class="form__input" type="text" name="email" id="email" value="<?= old("email") ?>" />
           <span class="error"><?= error("email") ?></span>
         </div>
 
         <div class="form-group">
           <label class="main__label" for="subject">Subject:</label>
-          <input class="form__input" type="subject" name="subject" id="subject" />
+          <input required class="form__input" type="subject" name="subject" id="subject" />
           <span class="error"><?= error("subject") ?></span>
         </div>
 
         <div class="form-group">
           <label class="main__label" for="name">Name:</label>
-          <input placeholder="Name" class="form__input" type="text" name="name" id="name" value="<?= old("name") ?>" />
+          <input required placeholder="Name" class="form__input" type="text" name="name" id="name" value="<?= old("name") ?>" />
           <span class="error"><?= error("name") ?></span>
         </div>
 
@@ -51,7 +51,7 @@
 
         <div class="form-group">
           <label class="main__label" for="message">Message:</label>
-          <textarea name="message" id="message" rows="5"><?= old("message") ?></textarea>
+          <textarea required name="message" id="message" rows="5"><?= old("message") ?></textarea>
           <span class="error"><?= error("message") ?></span>
         </div>
 

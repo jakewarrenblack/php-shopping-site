@@ -9,6 +9,19 @@ use BookWorms\Model\Transaction_Timber;
 use BookWorms\Model\User;
 use BookWorms\Model\Timber;
 
+
+$rules = [
+    "email" => "present|email|minlength:7|maxlength:64",
+    "customer_id" => "present|integer|minlength:1",
+    "fullname" => "present|minlength:4|maxlength:64",
+    "address" => "present|minlength:8|maxlength:64",
+    "phone" => "present|match:/\A[0-9]{2,3}[-][0-9]{5,7}\Z/",
+    "subtotal" => "present|integer"
+];
+
+$request->validate($rules);
+if ($request->is_valid()) {
+
 $cart = Cart::get($request);
 
 // create StripeClient instance using my API key
@@ -107,12 +120,18 @@ if ($request->is_logged_in()) {
     $request->redirect("/views/checkout.php");
 }
 
+
 // Always empty the cart after a transaction is completed
 $cart->empty();
 unset($_SESSION['cart']);
 //Redirect to success page, passing charge_id and description to be retrieved via $_GET
 $request->redirect("/views/success.php?tid=" . $charge->id . "&product=" . $charge->description);
-
+}
+else{
+    $request->session()->set("flash_data", $request->all());
+    $request->session()->set("flash_errors", $request->errors());
+    $request->redirect("/views/checkout.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
