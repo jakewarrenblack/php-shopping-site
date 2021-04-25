@@ -7,11 +7,9 @@ $numProducts = count($products);
 $pageSize = 10;
 $numPages = ceil($numProducts / $pageSize);
 ?>
-<form class="d-contents" method="get">
     <table class="table" id="table-products">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Species</th>
                 <th>description</th>
                 <th>Price</th>
@@ -22,18 +20,16 @@ $numPages = ceil($numProducts / $pageSize);
         <tbody>
             <?php foreach ($products as $product) { ?>
                 <tr class="d-none">
-                    <td><input type="radio" name="timber_id" value="<?= $product->id ?>" /></td>
                     <td><?= $product->title ?></td>
                     <td><?= $product->description ?></td>
                     <td><?= $product->price ?></td>
-                    <td><button formaction="<?= APP_URL ?>/views/admin/products/timber-edit.php"><i class="fas fa-pen"></i></button></td>
-                    <td class="btn-product-delete" ><button  class="btn-product-delete" formaction="<?= APP_URL ?>/actions/delete/timber-delete.php"><i class="fas fa-trash"></i></button></td>
+                    <td><a href="<?= APP_URL ?>/views/admin/products/timber-edit.php?timber_id=<?= $product->id ?>"><i class="fas fa-pen"></i></a></td>
+                    <td class="btn-product-delete" ><a  class="btn-product-delete" href="<?= APP_URL ?>/actions/delete/timber-delete.php?timber_id=<?= $product->id ?>"><i class="fas fa-trash"></i></a></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
     <script src="<?= APP_URL ?>/assets/js/script.js"></script>
-</form>
 
 <nav id="nav-products">
     <ul class="pagination justify-content-center">

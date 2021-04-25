@@ -9,11 +9,9 @@ $numProducts = count($transactions);
 $pageSize = 10;
 $numPages = ceil($numProducts / $pageSize);
 ?>
-<form class="d-contents" method="get">
     <table class="table" id="table-transactions">
         <thead>
-            <tr>
-                <th>ID</th>
+            <tr>                
                 <th>Customer Name</th>
                 <th>Status</th>
                 <th>Date</th>
@@ -24,8 +22,7 @@ $numPages = ceil($numProducts / $pageSize);
         </thead>
         <tbody>
             <?php foreach ($transactions as $transaction) { ?>
-                <tr class="d-none">
-                    <td><input type="radio" name="transaction_id" value="<?= $transaction->id ?>" /></td>
+                <tr class="d-none">            
                     <td>
                         <?php
                         $customer = Customer::findById($transaction->customer_id);
@@ -37,14 +34,13 @@ $numPages = ceil($numProducts / $pageSize);
                     <td><?= $transaction->status ?></td>
                     <td><?= $transaction->date ?></td>
                     <td><?= $transaction->total ?></td>
-                    <td><button formaction="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php"><i class="fas fa-pen"></i></button></td>
-                    <td class="btn-transaction-delete" ><button  class="btn-transaction-delete" formaction="<?= APP_URL ?>/actions/delete/transaction-delete.php"><i class="fas fa-trash"></i></button></td>
+                    <td><a href="<?= APP_URL ?>/views/admin/transactions/transaction-edit.php?transaction_id=<?= $transaction->id ?>"><i class="fas fa-pen"></i></a></td>
+                    <td class="btn-transaction-delete" ><a  class="btn-transaction-delete" href="<?= APP_URL ?>/actions/delete/transaction-delete.php?transaction_id=<?= $transaction->id ?>"><i class="fas fa-trash"></i></a></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
     <script src="<?= APP_URL ?>/assets/js/script.js"></script>
-</form>
 <nav id="nav-transactions">
     <ul class="pagination justify-content-center">
         <li class="page-item">

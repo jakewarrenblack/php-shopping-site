@@ -83,7 +83,10 @@ try {
                                 <!--An uploaded file is moved into a temporary directory-->
                                 <label for="profile">Profile image:</label>
                                 <?php
-                                    $image = Image::findById($customer->image_id);
+                                    try {
+                                        $image = Image::findById($customer->image_id);
+                                    } catch (Exception $e) {
+                                    }
                                     if ($image !== null){
                                     ?>
                                     <img src="<?= APP_URL . "/actions/". $image->filename ?>" height="150px" width="150px" />

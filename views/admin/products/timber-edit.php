@@ -21,7 +21,15 @@ try {
   if ($timber === null) {
     throw new Exception("Illegal request parameter!");
   }
-  $timber_related_images = Timber_Related_Image::findByTimberId($timber_id);
+  $timber_related_images = null;
+  $related_image_1 = null;
+  $related_image_2 = null;
+  $related_image_3 = null;
+  $related_image_4 = null;
+
+  if(count(Timber_Related_Image::findByTimberId($timber_id))!==0){
+    $timber_related_images = Timber_Related_Image::findByTimberId($timber_id);
+  }
   $timber_attributes = Timber_Attribute::findByTimberId($timber_id);
   $timber_attributes_obj = array();
   foreach($timber_attributes as $timber_attribute){
@@ -145,53 +153,121 @@ try {
               <div class="related_images">
                 <div class="form-group">
                     <?php
-                      $related_image_1 = Related_Image::findById($timber_related_images[0]->related_image_id);
+                    if($timber_related_images!==null && count($timber_related_images)>0){
+                      if(Related_Image::findById($timber_related_images[0]->related_image_id)!==null){
+                        $related_image_1 = Related_Image::findById($timber_related_images[0]->related_image_id);
+                      }
+                    }
+                    else{
+                      echo "Related image 1: No existing image found.";
+                    }
                       if ($related_image_1 !== null){
                       ?>
                         <img src="<?= APP_URL . "/actions/" . $related_image_1->filename ?>" height="150px" width="150px" />
                       <?php
                       }
                     ?>
-                  <input type="file" name="related_image_1" id="related_image_1" value="<?= $related_image_1->filename ?>">
+                    <?php
+                    if($related_image_1 instanceof Related_Image){
+                      ?>
+                      <input type="file" name="related_image_1" id="related_image_1" value="<?= $related_image_1->filename ?>">
+                      <?php
+                    }else{
+                        ?>
+                        <input type="file" name="related_image_1" id="related_image_1" value="">
+                        <?php
+                      }
+                    ?>
                   <span class="error"><?= error("related_image_1") ?></span>
                 </div>
 
                 <div class="form-group">
                     <?php
-                      $related_image_2 = Related_Image::findById($timber_related_images[1]->related_image_id);
+                    if($timber_related_images!==null && count($timber_related_images)>1){
+                      if(Related_Image::findById($timber_related_images[1]->related_image_id)!==null){
+                        $related_image_2 = Related_Image::findById($timber_related_images[1]->related_image_id);
+                      }
+                    }
+                    else{
+                      echo "Related image 2: No existing image found.";
+                    }
                       if ($related_image_2 !== null){
                       ?>
                         <img src="<?= APP_URL . "/actions/" . $related_image_2->filename ?>" height="150px" width="150px" />
                       <?php
                       }
                     ?>
-                  <input type="file" name="related_image_2" id="related_image_2" value="<?= $related_image_2->filename ?>">
+                    <?php
+                    if($related_image_2 instanceof Related_Image){
+                      ?>
+                      <input type="file" name="related_image_2" id="related_image_2" value="<?= $related_image_2->filename ?>">
+                      <?php
+                    }else{
+                        ?>
+                        <input type="file" name="related_image_2" id="related_image_2" value="">
+                        <?php
+                      }
+                    ?>
                   <span class="error"><?= error("related_image_2") ?></span>
                 </div>
 
                 <div class="form-group">
                     <?php
-                      $related_image_3 = Related_Image::findById($timber_related_images[2]->related_image_id);
+                    if($timber_related_images!==null && count($timber_related_images)>2){
+                      if(Related_Image::findById($timber_related_images[2]->related_image_id)!==null){
+                        $related_image_3 = Related_Image::findById($timber_related_images[2]->related_image_id);
+                      }
+                    }
+                    else{
+                      echo "Related image 3: No existing image found.";
+                    }
                       if ($related_image_3 !== null){
                       ?>
                         <img src="<?= APP_URL . "/actions/" . $related_image_3->filename ?>" height="150px" width="150px" />
                       <?php
                       }
                     ?>
-                  <input type="file" name="related_image_3" id="related_image_3" value="<?= $related_image_3->filename ?>">
+                    <?php
+                    if($related_image_3 instanceof Related_Image){
+                      ?>
+                      <input type="file" name="related_image_3" id="related_image_3" value="<?= $related_image_3->filename ?>">
+                      <?php
+                    }else{
+                        ?>
+                        <input type="file" name="related_image_3" id="related_image_3" value="">
+                        <?php
+                      }
+                    ?>
                   <span class="error"><?= error("related_image_3") ?></span>
                 </div>
 
                 <div class="form-group">
                     <?php
-                      $related_image_4 = Related_Image::findById($timber_related_images[3]->related_image_id);
+                    if($timber_related_images!==null && count($timber_related_images)>3){
+                      if(Related_Image::findById($timber_related_images[3]->related_image_id)!==null){
+                        $related_image_4 = Related_Image::findById($timber_related_images[3]->related_image_id);
+                      }
+                    }
+                    else{
+                      echo "Related image 4: No existing image found.";
+                    }
                       if ($related_image_4 !== null){
                       ?>
                         <img src="<?= APP_URL . "/actions/" . $related_image_4->filename ?>" height="150px" width="150px" />
                       <?php
                       }
                     ?>
-                  <input type="file" name="related_image_4" id="related_image_4" value="<?= $related_image_4->filename ?>">
+                    <?php
+                    if($related_image_4 instanceof Related_Image){
+                      ?>
+                      <input type="file" name="related_image_4" id="related_image_4" value="<?= $related_image_4->filename ?>">
+                      <?php
+                    }else{
+                        ?>
+                        <input type="file" name="related_image_4" id="related_image_4" value="">
+                        <?php
+                      }
+                    ?>
                   <span class="error"><?= error("related_image_4") ?></span>
                 </div>
               </div>
