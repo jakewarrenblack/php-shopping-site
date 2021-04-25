@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2021 at 02:58 AM
+-- Generation Time: Apr 25, 2021 at 07:06 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -38,7 +38,7 @@ CREATE TABLE `attributes` (
 
 INSERT INTO `attributes` (`id`, `name`) VALUES
 (1, 'Suitable for furniture'),
-(2, 'Straight-grained.'),
+(2, 'Straight-grained'),
 (3, 'Kiln dried'),
 (4, 'Easy to work'),
 (5, 'Versatile'),
@@ -770,7 +770,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `name`, `role_id`) VALUES
-(1, 'admin@bookworms.com', '$2y$10$9DwoD.YVzCMleCri1pRRyeRewrPbNXgG0539GiTYyQD41HwQOWYoK', 'admin', 1),
+(1, 'admin@itc.com', '$2y$10$9DwoD.YVzCMleCri1pRRyeRewrPbNXgG0539GiTYyQD41HwQOWYoK', 'ITC Admin', 1),
 (29, 'jdoherty@gmail.com', '$2y$10$FKf60EaTnxMa2JBMNjnFTeRczv/CsAbux3h3LUkbjMu5i1jyXG/jS', 'John Doherty', 4),
 (30, 'eric@email.com', '$2y$10$Gc9xKKc3w.BqvMVUgFivw.SufL69ZOEw/lLgyDetGBu7oynBpVoSm', 'Eric Reilly', 4),
 (31, 'mary@email.com', '$2y$10$VfLAg15J7nvASgnj/2MYKefUG3hdSZaDLiFyh5A9W98h0qhRR8aCK', 'Mary Connors', 4),
