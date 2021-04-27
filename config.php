@@ -1,5 +1,5 @@
 <?php
-define('APP_URL', 'http://localhost/awdd/SWP-CA2');
+define('APP_URL', 'http://localhost/awdd/shopping-cart-website-jakewarrenblack');
 define("UPLOAD_DIR", "uploads");
 
 define('DB_SERVER', 'localhost');
