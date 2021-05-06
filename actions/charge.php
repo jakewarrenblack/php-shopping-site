@@ -24,7 +24,7 @@ if ($request->is_valid()) {
     $cart = Cart::get($request);
 
     // create StripeClient instance using my API key
-    $stripe = new \Stripe\StripeClient('***REMOVED***');
+    $stripe = new \Stripe\StripeClient('sk_test_your_key_here');
 
     // retrieve data from checkout form
     $email = $request->input("email");
